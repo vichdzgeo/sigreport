@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'bootstrap4',
     'cap2',
+    'formulario',
 ]
 
 MIDDLEWARE = [

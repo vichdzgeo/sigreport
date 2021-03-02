@@ -1,2 +1,4 @@
 *~
 *.pyc
+pangea/db.sqlite3
+pangea/pangea/wsgi.py

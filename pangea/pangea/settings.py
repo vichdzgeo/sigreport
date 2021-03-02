@@ -29,7 +29,7 @@ SECRET_KEY = 'u6r!^3mmxi1r%ctxxs@=4!3--05*^qfotn2k9oagdf%xudk6vi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pangea.mastop',]
+ALLOWED_HOSTS = ['pangea.mastop','localhost',]
 
 
 # Application definition

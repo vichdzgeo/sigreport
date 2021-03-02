@@ -3,6 +3,7 @@ from cap2.models import Etapa,Fase,Componente
 from django.contrib.auth.models import User
 from django.utils import timezone
 from ckeditor.fields import RichTextField
+from miscelanea.models import EdificacionProvicional,ActividadProvicional
 # Create your models here.
 
 
@@ -11,7 +12,7 @@ class SuperficieObras(models.Model):
     componente = models.ForeignKey(Componente, on_delete=models.CASCADE,default="")
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default="")
-    edificaciones =  models.CharField(max_length=500,verbose_name = "Edificaciones en obras provicionales")
+    edificaciones = models.ForeignKey(EdificacionProvicional, on_delete=models.CASCADE,default="")#models.CharField(max_length=500,verbose_name = "Edificaciones en obras provicionales") #
     superficie = models.IntegerField(verbose_name = "Superficie m²")
     
     #published = models.DateTimeField(verbose_name = "Fecha de publicación",default = timezone.now)
@@ -24,4 +25,4 @@ class SuperficieObras(models.Model):
         ordering = ["-created"]
     
     def __str__(self):
-        return self.edificaciones
+        return str(self.edificaciones)

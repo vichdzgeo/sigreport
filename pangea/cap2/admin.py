@@ -17,9 +17,11 @@ class ComponenteAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
     list_display = ('title','etapa','fase')
     search_fields = ('title',)
+    list_filter=('etapa','fase')
 class ImagenAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
-    list_display = ('id','title','componente','etapa','fase')
+    list_display = ('title','componente','etapa','fase')
+    list_filter=('etapa','fase','componente')
     search_fields = ('title',)
 
 admin.site.register(Etapa,EtapaAdmin)

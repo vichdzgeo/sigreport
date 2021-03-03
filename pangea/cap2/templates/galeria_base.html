@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Formularios - Pängea</title>
+        <title>Formularios - Pangea</title>
         <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
@@ -19,24 +19,42 @@
     </head>
     <body id="page-top">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <nav class="navbar navbar-dark bg-dark fixed-top" id="catNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Pangea - Capitulo II</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Catálogo de figuras - Capitulo II</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Acerca de</a></li>
+                    <ul class="navbar-nav ml-auto>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/admin">Admintrador</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#signup">Contacto</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <section class="apps-section bg-white">
-            <h2>Hola México</h2>
+        <section class="projects-section" id="projects">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="text-black mb-4">Catálogo de Figuras</h2>
+                        <p class="text-black mb-50">
+                         Figuras e imágenes del proyecto
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% comment %} Inicia  el div {% endcomment %}
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Gallery item -->
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            {% comment %} Finaliza el div {% endcomment %}
+            </div>
+            
         </section>
 
         <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright © Your Website 2020</div></footer>
@@ -50,3 +68,5 @@
     
     </body>
 </html>
+
+

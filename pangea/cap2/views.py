@@ -7,7 +7,12 @@ from cap2.models import Imagen
 def index(request):
     return render(request,"cap2/index.html")
 
-
+def formularios(request):
+    return render(request,"cap2/formularios.html")
 
 class ImagenList(ListView):
     model = Imagen
+
+def FigurasList(request):
+    figuras = Imagen.objects.all()
+    return render(request,"cap2/galeria_list.html",{'figuras':figuras})

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Imágenes</h2>
+    <ul>
+        {% for imagen in object_list %}
+            <li>{{ imagen.id }}
+            <img src="{{ imagen.image.url }}" /></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

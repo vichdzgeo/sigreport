@@ -15,9 +15,8 @@ class FaseAdmin(admin.ModelAdmin):
 
 class ComponenteAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
-    list_display = ('title','etapa','fase')
+    list_display = ('title',)
     search_fields = ('title',)
-    list_filter=('etapa','fase')
 class ImagenAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
     list_display = ('title','componente','etapa','fase')

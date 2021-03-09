@@ -37,14 +37,10 @@ class Fase(models.Model):
 
 class Componente(models.Model):
     
-    title = models.CharField(max_length=350,verbose_name="Nombre")
-    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
-    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default="")
-    # etapa = models.ManyToManyField(Etapa, verbose_name = "Etapa")
-    # fase = models.ManyToManyField(Fase, verbose_name = "Fase")
-    # etapa = models.OneToOneField(Etapa,on_delete=models.CASCADE, verbose_name = "Etapa")
-    # fase = models.OneToOneField(Fase,on_delete=models.CASCADE, verbose_name = "Fase")
-    content =  RichTextField(verbose_name = "Descripción general del componente para esta fase")
+    title = models.CharField(max_length=500,verbose_name="Nombre")
+    pie = models.TextField(max_length=2500,verbose_name="Descripción",blank=True,default='')
+
+
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
     #user = models.ForeignKey(User,verbose_name='usuario', on_delete=models.CASCADE)

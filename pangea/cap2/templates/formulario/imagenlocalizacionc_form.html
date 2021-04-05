@@ -1,0 +1,18 @@
+{% extends "html_base.html" %}
+{% load static %}
+{% block content %}
+
+   <section class="projects-section" id="projects">
+    <div class="col-lg-8 mx-auto form-group">
+        <form action="" method="post" enctype="multipart/form-data/">
+          {% csrf_token %}
+          <table>
+              {{ form.as_table}}
+          </table>
+          <br>
+          <input  class="btn btn-primary" type="submit" value="Guardar"/>
+        </form>        
+
+    </div>
+  </section>
+{% endblock %}

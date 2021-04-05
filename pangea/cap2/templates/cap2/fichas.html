@@ -1,0 +1,157 @@
+{% extends "html_base.html" %}
+
+{% block content %}
+    
+    <section class="projects-section" id="projects">
+        <div class="col-lg-8 mx-auto"><h2>Fichas</h2></div>
+        <div class="col-lg-8 mx-auto">
+            <h3>{{completados}}  de {{totales}}</h3>
+            {% for componente in componentes %}
+                <h2>{{componente}}</h2>
+                    {%for fase in fases %}  <!-- INICIA FOR DE FASES-->
+                        {%for etapa in etapas %}  <!-- INICIA FOR DE ETAPAS-->
+                            <h3>{{fase}} - Etapa {{etapa}}</h3>
+                            {% for avance in avances %}
+                                {%if avance.fase == fase and etapa == avance.etapa and componente == avance.componente %}
+                                    {% if not avance.completo %}
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="id_"+{{avance}}>
+                                        <label class="form-check-label" for="id"+{{avance}}>
+                                            <a href={{avance.url}}/{{avance.componente.id}}/{{avance.fase.id}}/{{avance.etapa.id}}>{{avance}}</a>
+                                        </label>
+                                        </div>
+                                    {% else %}
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="id_c"+{{avance}} checked>
+                                        <label class="form-check-label" for="id_c"+{{avance}}>
+                                            {{avance}}
+                                        </label>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}   <!-- TERMMINA FOR DE ETAPAS-->
+                    {% endfor %}   <!-- TERMMINA FOR DE FASES-->
+
+            {% endfor %}
+        </div>
+        <br></br>
+        <br></br>
+        <div class = "col-lg-8 mx-auto text-center"><h2>Progreso total</h2></div>
+        <div class="progress col-lg-8 mx-auto">
+            
+            <div class="progress-bar" role="progressbar" style="width: {{porcentaje}}%;" aria-valuenow="{{porcentaje}}" aria-valuemin="0" aria-valuemax="100">{{porcentaje}}%</div>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% comment %} <div class="container">
+    
+    <div class="row">
+        
+        <div class="col-lg-8 mx-auto">
+            {% for modulo in modulos %}
+                <h3>{{modulo}}</h3>
+                    {%for ficha in fichas %}
+                        {%if modulo == ficha.modulo%}
+                            <h4>{{ficha.etapa}}</h4>
+                        {% endif %}
+                    {% endfor %}
+
+            {% endfor %}
+        </div>
+    </div>
+</div> {% endcomment %}
+
+    {% comment %} <section class="projects-section" id="projects">
+        <div class="container">
+            <div class="row">
+                <h1>{{title}}</h1>
+            </div>
+            <div class="mx-auto text-right">
+                <p>{{user.email}}</p>
+                
+            </div>
+        <div>
+   
+        {% for modulo in modulos %}
+            <div class="container">
+             
+                <div class="row">
+                    <div id="left" class="span3">
+                        <ul id="menu-group-1" class="nav menu">  
+                            <li class="item-1 deeper parent active">
+                                <a class="" href="#">
+                                    <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-1" class="sign"><i class="icon-plus icon-white"></i></span>
+                                    <span class="lbl">{{modulo}}</span>                      
+                                </a>
+                                <ul class="children nav-child unstyled small collapse" id="sub-item-1">
+                                    <li class="item-2 deeper parent active">
+                                    {%for ficha in fichas %}
+                                        {%if modulo == ficha.modulo%}
+                                            <a class="" href="#">
+                                                <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-2" class="sign"><i class="icon-plus icon-white"></i></span>
+                                                <span class="lb2">{{ficha.fase}}</span> 
+                                            </a>
+                                            <ul class="children nav-child unstyled small collapse" id="sub-item-2">
+                                                <li class="item-3 current active">
+                                                    <a class="" href="#">
+                                                        <span class="sign"><i class="icon-play"></i></span>
+                                                        <span class="lb3">Etapa: {{ficha.etapa}}</span>
+                                                    </a>
+                                                </li>                          
+                                            </ul>
+                                        {% endif %}
+                                    {% endfor %}                                   
+                                </ul>
+                            </li>   			
+                        </ul>          
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section> {% endcomment %}
+
+{% comment %} ESTA ESTRUCTURA YA FUNCIONA 
+<section class="projects-section" id="projects">
+        <div class="col-lg-8 mx-auto"><h2>Fichas</h2></div>
+        <div class="col-lg-8 mx-auto">
+            <h3>{{completados}}  de {{totales}}</h3>
+            {% for componente in componentes %}
+                <h2>{{componente}}</h2>
+                    {%for ficha in fichas %}
+                        {%if componente == ficha.componente %}
+                            <h3>{{ficha.fase}} - Etapa: {{ficha.etapa}}</h3>
+                            {% for avance in avances %}
+                                {%if avance.fase == ficha.fase and ficha.etapa == avance.etapa %}
+                                    {% if not avance.completo %}
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="id_"+{{avance}}>
+                                        <label class="form-check-label" for="id"+{{avance}}>
+                                            <a href={{avance.url}}>{{avance}}</a>
+                                        </label>
+                                        </div>
+                                    {% else %}
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="id_c"+{{avance}} checked>
+                                        <label class="form-check-label" for="id_c"+{{avance}}>
+                                            {{avance}}
+                                        </label>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+
+            {% endfor %}
+        </div>
+        <br></br>
+        <br></br>
+        <div class = "col-lg-8 mx-auto text-center"><h2>Progreso total</h2></div>
+        <div class="progress col-lg-8 mx-auto">
+            
+            <div class="progress-bar" role="progressbar" style="width: {{porcentaje}}%;" aria-valuenow="{{porcentaje}}" aria-valuemin="0" aria-valuemax="100">{{porcentaje}}%</div>
+        </div>
+    </section> {% endcomment %}

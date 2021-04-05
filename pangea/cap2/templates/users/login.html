@@ -1,0 +1,42 @@
+{% extends "html_base.html" %}
+
+{% block content %}
+    
+    <h2>{{title}}</h2>
+
+    <section class=login-section id="login">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <form method="post" class="form-signin" action="">
+                        {% csrf_token %}
+                        {% comment %} <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> {% endcomment %}
+                        <h1 class="h3 mb-3 font-weight-normal">Ingrese su usuario y contraseña</h1>
+                        <label for="inputUser" class="sr-only">Usuario</label>
+                        <input type="text" id="inputUser" class="form-control" name=username placeholder="usuario" required autofocus>
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" id="inputPassword" class="form-control" name = password placeholder="Password" required>
+                        <div class="checkbox mb-3">
+                            <label>
+                            <input type="checkbox" value="remember-me"> Mantener sesión iniciada
+                            </label>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
+                        <p class="mt-5 mb-3 text-muted">&copy; 2021</p>
+                    </form>
+                </div>
+                <div class="col-lg-8 mx-auto text-center">
+                    <br></br>
+                    {% if messages %}
+                        {% for message in messages %}
+                        
+                            <div div class="alert alert-primary" role="alert-warning">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>    
+{% endblock %}

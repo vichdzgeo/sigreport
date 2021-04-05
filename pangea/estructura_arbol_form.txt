@@ -1,0 +1,23 @@
+nombre	tipo	tipo_c	fase			
+Imagen de localización y tipos de aprovechamiento	1	1	Construcción			
+Datos generales del componente 	5	1	Construcción			
+Descripción general del componente	7	1	Construcción			
+Lista de tipos de cobertura y abreviaturas	3	1	Construcción			
+Lista de zonificación y abreviaturas	3	1	Construcción			
+Tipos de aprovechamiento por tipo de cobertura y zonificación	6	1	Construcción			
+"Desmonte, despalme, excavación y relleno por tipo de cobertura y zonificación"	6	1	Construcción			
+Procesos constructivos por tipo de cobertura	6	1	Construcción			
+Descripción de procesos constructivos 	7	1	Construcción			
+Insumos requeridos	5	1	Construcción			
+Uso de sustancias químicas peligrosas por cobertura y zonificación	6	1	Construcción			
+Maquinaria por cobertura y zonificación 	6	1	Construcción			
+Personal requerido	6	1	Construcción			
+Generación de residuos por zonificación 	6	1	Construcción			
+Consumo de agua 	5	1	Construcción			
+Generación de aguas residuales	5	1	Construcción			
+Tipos de construcción-edificación por tipo de cobertura	6	2	Construcción			
+Descripción de sistemas constructivos 	7	2	Construcción			
+Superficie de obras provisionales temporales	5	3	Construcción			
+Frecuencia de actividades de obras provisionales	5	3	Construcción			
+Listado florístico en el módulo	5	4	Construcción			
+Longitud de obra de obras lineales	5	5	Construcción			

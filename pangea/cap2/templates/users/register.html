@@ -1,0 +1,17 @@
+{% extends "html_base.html" %}
+
+{% block content %}
+    <h1>{{title}}</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        {% comment %} {{register_form.as_p}} {% endcomment %}
+        {% for field in register_form %}
+            <label>{{field.label}}</label>
+            {{field}}
+            <br></br>
+        {% endfor %}
+        <input type="submit" value="Resigrarse" />
+
+    </form>
+
+{% endblock %}

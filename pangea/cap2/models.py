@@ -6,45 +6,16 @@ from django.conf import settings
 # Create your models here.
 
 
-class Etapa(models.Model):
-    title = models.CharField(max_length=100,verbose_name="Nombre")
+class Modulo(models.Model):
+    title = models.CharField(max_length=2500,verbose_name="Componente")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
-    
-    class Meta:
-        verbose_name = "Etapa"
-        verbose_name_plural = "Etapas"
-        ordering = ["-created"]
-    
-    def __str__(self):
-        return self.title
+    t_base = models.BooleanField(default=True,verbose_name="Base")
+    t_aprov_edificable = models.BooleanField(default=False,verbose_name="Incluye aprovechamiento edificable")
+    t_obras = models.BooleanField(default=False,verbose_name="Incluye obras provisionales temporales")
+    t_areas_verdes = models.BooleanField(default=False,verbose_name="Incluye áreas verdes ornamentales")
+    t_aprov_lineal = models.BooleanField(default=False,verbose_name="Incluye aprovechamiento líneal")
 
-class Fase(models.Model):
-
-    title = models.CharField(max_length=100,verbose_name="Fase")
-    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
-    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
-
-    class Meta:
-        verbose_name = "Fase"
-        verbose_name_plural = "Fases"
-        ordering = ["-created"]
-    
-    def __str__(self):
-        return self.title
-
-
-
-class Componente(models.Model):
-    
-    title = models.CharField(max_length=500,verbose_name="Nombre")
-    pie = models.TextField(max_length=2500,verbose_name="Descripción",blank=True,default='')
-
-
-    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
-    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
-    #user = models.ForeignKey(User,verbose_name='usuario', on_delete=models.CASCADE)
-    #imagen = models.ManyToManyField(Imagen,verbose_name = "Agregar imagen")
     class Meta:
         verbose_name = "Componente"
         verbose_name_plural = "Componentes"
@@ -55,22 +26,33 @@ class Componente(models.Model):
 
 
 
-class Imagen(models.Model):
-    componente = models.ForeignKey(Componente, on_delete=models.CASCADE,default="")
-    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
-    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default="")
-    title = models.CharField(max_length=300,verbose_name="Nombre")
-    pie = models.TextField(max_length=1500,verbose_name="Pie de página")
-    image = models.ImageField(default = 'null', verbose_name="Figura",upload_to="figuras")
+class Fase(models.Model):
+    title = models.CharField(max_length=300,verbose_name="Fase")
+    descripcion = models.TextField(max_length=1500,verbose_name="Descripción",blank=True,null=True)
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
     
     class Meta:
-        verbose_name = "Imagen"
-        verbose_name_plural = "Imágenes"
+        verbose_name = "Fase"
+        verbose_name_plural = "Fases"
         ordering = ["-created"]
-
-
+    
     def __str__(self):
         return self.title
+
+class Etapa(models.Model):
+    title = models.CharField(max_length=100,verbose_name="Etapa")
+    inicio = models.PositiveIntegerField(verbose_name='Inicio',default=1)
+    fin = models.PositiveIntegerField(verbose_name='fin',default=99)
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+    class Meta:
+        verbose_name = "Etapa"
+        verbose_name_plural = "Etapas"
+        ordering = ["-created"]
+    
+    def __str__(self):
+        return self.title
+
+
 

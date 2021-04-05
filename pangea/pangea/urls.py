@@ -17,14 +17,24 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from cap2 import views
+from ficha import views as fichas_views
+from formulario import views as forms_views
 from django.conf import settings
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index),
-    path('formularios/',views.FigurasList),
-    path('imagenes/', views.ImagenList.as_view()),
+    path('login/',views.login_page),
+    path('logout/',views.logout_user,name='logout'),
+    path('fichas/',fichas_views.fichascap2),
+    path('crear-estructura/',forms_views.agregar_estructura),
+    path('formlocalizacion/',forms_views.LocalizacionCreate.as_view()),
+    path('pages/<str:componente>/<str:fase>/<str:etapa>/', forms_views.page),
+    
+    
+    #path('formularios/',views.FigurasList),
+    #path('imagenes/', views.ImagenList.as_view()),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

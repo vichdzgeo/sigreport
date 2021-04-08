@@ -15,9 +15,9 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-# STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR,'static'),
-# )
+STATICFILES_DIRS = (
+   os.path.join(BASE_DIR,'static'),
+)
 
 
 # Quick-start development settings - unsuitable for production
@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['pangea.mastop','localhost','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -113,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'es-es'
 
 TIME_ZONE = 'UTC'
 
@@ -128,7 +129,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+# STATIC_ROOT = os.path.join(BASE_DIR,'static')
+
+LOGIN_REDIRECT_URL ='forms:fichas'
+LOGOUT_REDIRECT_URL ='home'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')

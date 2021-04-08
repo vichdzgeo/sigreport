@@ -1,0 +1,18 @@
+{% extends 'cap2/base_mx.html' %}
+{% load static %}
+{% block title %}Catálogo de conceptos{% endblock %}
+{% block content %}
+{% comment %} {% include 'pages/includes/pages_menu.html'%} {% endcomment %}
+<main role="main">
+  
+    <div class="container mb-4">
+        <h2 class="mt-3">Catálogo de conceptos</h2>
+    <div class="list-group">
+        <a href="{% url 'catalogos:maquinas' %}" class="list-group-item list-group-item-action">Lista de maquinaria <span class="badge badge-light">{{num_macquina}}</span></a>
+        <a href="{% url 'catalogos:unidades' %}" class="list-group-item list-group-item-action">Lista de unidades</a>
+
+    </div>
+  </div>
+</main>
+
+{% endblock %}

@@ -1,22 +1,20 @@
+from django.views.generic.edit import CreateView,UpdateView,DeleteView, FormMixin
+from django.contrib.admin.views.decorators import staff_member_required 
 from django.shortcuts import render, HttpResponse, redirect
-from cap2.models import Modulo,Fase,Etapa
-from django.views.generic.list import ListView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from django.views.generic.list import ListView
+from django.views.generic import TemplateView
+from cap2.models import Modulo,Fase,Etapa
+from .forms import FormLocalizacionC
+from django.urls import reverse_lazy
+from django import forms 
 from .models import * 
 import pandas as pd 
-from .forms import FormLocalizacionC
 
-class LocalizacionListView(ListView):
-    model = FormLocalizacionC
 
-class LocalizacionDetailView(DetailView):
-    model = FormLocalizacionC
 
-class LocalizacionCreate(CreateView):
-    model = ImagenLocalizacionC
-    form_class = FormLocalizacionC
-    
 
 def regresa_instancia_id(key,modelo):
     objetos = modelo.objects.all()
@@ -25,6 +23,62 @@ def regresa_instancia_id(key,modelo):
         if i.id == int(key):
             return i
 
+
+#@method_decorator(staff_member_required,name='dispatch')
+class LocalizacionCreate(CreateView):
+    model = ImagenLocalizacionC
+    form_class = FormLocalizacionC
+    success_url = reverse_lazy('forms:fichas')
+
+class LocalizacionCListView(ListView):
+    model = ImagenLocalizacionC
+    template_name = "formulario/imagenlocalizacionc_list.html"
+    #paginate_by = 1
+class LocalizacionCUpdate(UpdateView):
+    model = ImagenLocalizacionC
+    form_class = FormLocalizacionC
+    template_name_suffix = '_update_form'
+    
+    def get_success_url(self):
+        return reverse_lazy('forms:fig-update',args=[self.object.id]) + '?ok'
+
+@method_decorator(staff_member_required,name='dispatch')
+class EstructuraView(TemplateView):
+    template_name = "formulario/fichas.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['componentes'] = Modulo.objects.all()
+        context['fases'] = Fase.objects.all()
+        context['etapas'] = Etapa.objects.all()
+        context['avances'] = CatForm.objects.all().order_by('title')
+        context['completados'] = len(CatForm.objects.filter(completo=True))
+        context['totales'] = len(CatForm.objects.values_list('title',))
+        context['porcentaje'] = str((context['completados']/ context['totales'])*100)
+        return context
+
+def fichascap2(request):
+
+    componentes = Modulo.objects.all()
+    fases = Fase.objects.all()
+    etapas = Etapa.objects.all().order_by('id')
+    avances = CatForm.objects.all().order_by('title')
+    total_formularios = len(CatForm.objects.values_list('title',))
+    total_confirmados = len(CatForm.objects.filter(completo=True))
+    porcentaje = str(int(((total_confirmados/total_formularios)*100)))
+
+    return render(request,"formulario/fichas.html",{
+                'title':'Fichas',
+                'componentes':componentes,
+                'fases':fases,
+                'etapas':etapas,
+                'avances':avances,
+                'completados': total_confirmados,
+                'totales':total_formularios,
+                'porcentaje':porcentaje,
+    })
+
+
+
 def regresa(key,objetos):
 
     for i in objetos:
@@ -32,17 +86,6 @@ def regresa(key,objetos):
             return i
 
 
-def page(request,componente,fase,etapa):
-
-    agrega_form = ImagenLocalizacionC(
-    title = "Prueba con fidel en código",
-    componente= regresa_instancia_id(componente,Modulo),
-    fase= regresa_instancia_id(fase,Fase),
-    etapa= regresa_instancia_id(etapa,Etapa),
-    )
-    agrega_form.save()
-    #return HttpResponse(LocalizacionCreate.as_view())
-    return HttpResponse("estructura creada"+componente+", "+fase+", "+str(etapa))
 
 def agregar_estructura(request):
     
@@ -169,3 +212,14 @@ def agregar_estructura(request):
 # Create your views here.
 
 
+# def page(request,componente,fase,etapa):
+
+#     agrega_form = ImagenLocalizacionC(
+#     title = "Prueba con fidel en código",
+#     componente= regresa_instancia_id(componente,Modulo),
+#     fase= regresa_instancia_id(fase,Fase),
+#     etapa= regresa_instancia_id(etapa,Etapa),
+#     )
+#     agrega_form.save()
+#     #return HttpResponse(LocalizacionCreate.as_view())
+#     return HttpResponse("estructura creada"+componente+", "+fase+", "+str(etapa))

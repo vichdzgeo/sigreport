@@ -15,8 +15,10 @@ class Maquina(models.Model):
     )
     opt_comb_order = sorted(OPT_COMBUSTIBLES)
 
-    tipo =  models.CharField(max_length=1500,verbose_name = "Tipo")
-    combustible = models.CharField(max_length=200, choices=opt_comb_order,verbose_name='Combustible/energía')
+    tipo =  models.CharField(max_length=1500,verbose_name = "Tipo",default='')
+    combustible = models.CharField(max_length=200, choices=opt_comb_order,verbose_name='Combustible/energía',default='Gasolina')
+    hp = models.FloatField(verbose_name="hp",default=0.0)
+    kwh = models.FloatField(verbose_name="KW-h",default=0.0)
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 
@@ -35,8 +37,8 @@ class Unidad(models.Model):
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 
     class Meta:
-        verbose_name = "Unidad"
-        verbose_name_plural = "Unidades"
+        verbose_name = "Lista de unidades"
+        verbose_name_plural = "Lista de unidades"
         ordering = ["title"]
     
     def __str__(self):

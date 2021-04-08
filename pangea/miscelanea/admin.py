@@ -12,7 +12,7 @@ class MaquinaAdmin(admin.ModelAdmin):
 class UnidadAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
     list_display = ('title',)
-    search_fields = ('tittle',)
+    search_fields = ('title',)
 
 class EdificacionProvicionalAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')

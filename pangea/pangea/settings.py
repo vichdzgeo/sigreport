@@ -15,10 +15,12 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
+
+''' Descomentar para entorno en casa 
 STATICFILES_DIRS = (
    os.path.join(BASE_DIR,'static'),
 )
-
+'''
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -129,7 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR,'static') ### COMENTAR PARA ENTORNO EN CASA 
 
 LOGIN_REDIRECT_URL ='forms:fichas'
 LOGOUT_REDIRECT_URL ='home'

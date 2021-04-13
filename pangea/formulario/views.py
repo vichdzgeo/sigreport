@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.views.generic.edit import CreateView,UpdateView,DeleteView, FormMixin
 from django.contrib.admin.views.decorators import staff_member_required 
 from django.shortcuts import render, HttpResponse, redirect
@@ -14,6 +15,11 @@ from .models import *
 import pandas as pd 
 
 
+def regresa(key,modelo):
+    for i in objetos:
+        if i.title == key:
+            return i.id
+        
 
 
 def regresa_instancia_id(key,modelo):
@@ -24,11 +30,21 @@ def regresa_instancia_id(key,modelo):
             return i
 
 
-#@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(staff_member_required,name='dispatch')
 class LocalizacionCreate(CreateView):
+    
     model = ImagenLocalizacionC
-    form_class = FormLocalizacionC
-    success_url = reverse_lazy('forms:fichas')
+    #form_class = FormLocalizacionC
+    fields = '__all__'
+    success_url = reverse_lazy('forms:fig-loc')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+ 
+        initial_data = {'componente':"1",'fase':"6","etapa":"6"}
+        context['form']=FormLocalizacionC(initial=initial_data)
+        return context
+    
 
 class LocalizacionCListView(ListView):
     model = ImagenLocalizacionC

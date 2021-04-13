@@ -14,12 +14,12 @@ class UnidadAdmin(admin.ModelAdmin):
     list_display = ('title',)
     search_fields = ('title',)
 
-class EdificacionProvicionalAdmin(admin.ModelAdmin):
+class EdificacionProvisionalAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
     list_display = ('title',)
     search_fields = ('tittle',)
 
-class ActividadProvicionalAdmin(admin.ModelAdmin):
+class ActividadProvisionalAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
     list_display = ('title',)
     search_fields = ('tittle',)
@@ -59,8 +59,8 @@ class ListaSisConstructivoAdmin(admin.ModelAdmin):
 
 admin.site.register(Maquina,MaquinaAdmin)
 admin.site.register(Unidad,UnidadAdmin)
-admin.site.register(EdificacionProvicional,EdificacionProvicionalAdmin)
-admin.site.register(ActividadProvicional,ActividadProvicionalAdmin)
+admin.site.register(EdificacionProvisional,EdificacionProvisionalAdmin)
+admin.site.register(ActividadProvisional,ActividadProvisionalAdmin)
 
 admin.site.register(TipoAgua,TipoAguaAdmin)
 admin.site.register(InsumosLista,InsumosListaAdmin)

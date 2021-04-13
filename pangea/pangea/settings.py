@@ -16,7 +16,7 @@ import os
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 
-''' Descomentar para entorno en casa 
+'''#Descomentar para entorno en casa 
 STATICFILES_DIRS = (
    os.path.join(BASE_DIR,'static'),
 )
@@ -133,7 +133,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static') ### COMENTAR PARA ENTORNO EN CASA 
 
-LOGIN_REDIRECT_URL ='forms:fichas'
+LOGIN_REDIRECT_URL ='catalogos:catalogos'
 LOGOUT_REDIRECT_URL ='home'
 
 

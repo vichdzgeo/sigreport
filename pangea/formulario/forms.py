@@ -1,6 +1,7 @@
 from django import forms 
 from .models import ImagenLocalizacionC
 from cap2.models import Modulo,Fase,Etapa
+
 def regresa_instancia_title(key,modelo):
     objetos = modelo.objects.all()
 

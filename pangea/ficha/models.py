@@ -3,7 +3,7 @@ from cap2.models import Modulo,Etapa,Fase
 from django.contrib.auth.models import User
 from django.utils import timezone
 from ckeditor.fields import RichTextField
-from miscelanea.models import EdificacionProvicional,ActividadProvicional
+from miscelanea.models import *
 # Create your models here.
 
 

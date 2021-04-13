@@ -6,7 +6,7 @@ from ficha.models import CrearFicha
 from django.contrib.auth.models import User
 from django.utils import timezone
 from ckeditor.fields import RichTextField
-from miscelanea.models import EdificacionProvicional,ActividadProvicional,TipoAgua
+from miscelanea.models import *
 
 
 def regresa(key,modelo):
@@ -64,7 +64,7 @@ class CatForm(models.Model):
 
 class ImagenLocalizacionC(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
-    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default=regresa("Construcción",Fase))
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')#regresa("Construcción",Fase))
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     title = models.CharField(max_length=300,verbose_name="Nombre")
     image = models.ImageField(default = 'null', verbose_name="Figura",upload_to="figuras")
@@ -85,7 +85,7 @@ class SuperficieObrasC(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default=regresa("Construcción",Fase))
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
-    edificaciones = models.ForeignKey(EdificacionProvicional, on_delete=models.CASCADE,default="")
+    edificaciones = models.ForeignKey(EdificacionProvisional, on_delete=models.CASCADE,default="")
     superficie = models.IntegerField(verbose_name = "Superficie m²")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
@@ -103,7 +103,7 @@ class FrecuenciaActividadesC(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default=regresa("Construcción",Fase))
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")   
-    actividades = models.ForeignKey(ActividadProvicional, on_delete=models.CASCADE,default="")
+    actividades = models.ForeignKey(ActividadProvisional, on_delete=models.CASCADE,default="")
     horas = models.IntegerField(verbose_name = "Jornadas/fase")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
@@ -159,7 +159,7 @@ class AguasResidualesC(models.Model):
 # #     componente = models.ForeignKey(Componente, on_delete=models.CASCADE,default="")
 # #     etapa = models.CharField(max_length=20,default="Construcción")
 # #     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default="")
-# #     actividades = models.ForeignKey(ActividadProvicional, on_delete=models.CASCADE,default="")
+# #     actividades = models.ForeignKey(ActividadProvisional, on_delete=models.CASCADE,default="")
 # #     horas = models.IntegerField(verbose_name = "Jornadas/fase")
 # #     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
 # #     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")

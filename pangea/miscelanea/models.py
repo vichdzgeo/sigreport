@@ -44,7 +44,7 @@ class Unidad(models.Model):
     def __str__(self):
         return self.title
 
-class EdificacionProvicional(models.Model):
+class EdificacionProvisional(models.Model):
     title =  models.CharField(max_length=1500,verbose_name = "Edificación en obras provisionales")
     description = models.TextField(max_length=1500,verbose_name="Descripción",blank = True)
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
@@ -58,14 +58,15 @@ class EdificacionProvicional(models.Model):
     def __str__(self):
         return self.title
 
-class ActividadProvicional(models.Model):
+class ActividadProvisional(models.Model):
     title =  models.CharField(max_length=1500,verbose_name = "Actividad")
+    
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 
     class Meta:
-        verbose_name = "Actividad provisional"
-        verbose_name_plural = "Actividades provisionales"
+        verbose_name = "Lista de actividades provisionales"
+        verbose_name_plural = "Lista de actividades provisionales"
         ordering = ["title"]
     
     def __str__(self):

@@ -1,5 +1,15 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from .models import *
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView,DeleteView
+from django.views.generic import TemplateView
+from .forms import *
+from django.urls import reverse_lazy
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.decorators import method_decorator
+
 
 # from django.shortcuts import render, redirect
 # from django.views.generic import ListView
@@ -25,6 +35,9 @@ class HomePageView(TemplateView):
 #     return render(request,"cap2/index.html")
 
 
+
+
+### PARA EL ACCESO DE USUARIOS ######
 def register_page(request):
 
     register_form = RegisterForm()

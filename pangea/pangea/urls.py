@@ -33,6 +33,7 @@ urlpatterns = [
                 path('',include('cap2.urls')),
                 path('forms/',include(formulario_patterns)),
                 path('catalogos/',include(catalogos_patterns)),
+                
                 #pathhs de Auth
                 path('accounts/',include('django.contrib.auth.urls')),
                 path('accounts/',include('registration.urls')),

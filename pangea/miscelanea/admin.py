@@ -27,8 +27,8 @@ class ActividadProvisionalAdmin(admin.ModelAdmin):
 
 class TipoAguaAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
-    list_display = ('title',)
-    search_fields = ('tittle',)
+    list_display = ('tipo',)
+    search_fields = ('tipo',)
 
 class InsumosListaAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')

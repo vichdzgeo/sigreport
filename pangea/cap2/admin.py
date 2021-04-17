@@ -17,7 +17,7 @@ class FaseAdmin(admin.ModelAdmin):
 class ModuloAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
     list_display = ('title',)
-    search_fields = ('title',)
+
 
 
 

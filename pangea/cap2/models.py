@@ -7,7 +7,8 @@ from django.conf import settings
 
 
 class Modulo(models.Model):
-    title = models.CharField(max_length=2500,verbose_name="Componente")
+    title = models.CharField(max_length=150,verbose_name="Componente")
+    abreviatura = models.CharField(max_length=10,verbose_name="Abreviatura",default="")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
     t_base = models.BooleanField(default=True,verbose_name="Base")
@@ -22,7 +23,7 @@ class Modulo(models.Model):
         ordering = ["-created"]
     
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 
@@ -38,10 +39,10 @@ class Fase(models.Model):
         ordering = ["-created"]
     
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 class Etapa(models.Model):
-    title = models.CharField(max_length=100,verbose_name="Etapa")
+    title = models.CharField(max_length=2,verbose_name="Etapa")
     inicio = models.PositiveIntegerField(verbose_name='Inicio',default=1)
     fin = models.PositiveIntegerField(verbose_name='fin',default=99)
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
@@ -52,7 +53,7 @@ class Etapa(models.Model):
         ordering = ["-created"]
     
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 

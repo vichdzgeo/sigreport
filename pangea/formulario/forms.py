@@ -1,5 +1,5 @@
 from django import forms 
-from .models import ImagenLocalizacionC
+from .models import *
 from cap2.models import Modulo,Fase,Etapa
 
 def regresa_instancia_title(key,modelo):
@@ -13,12 +13,149 @@ class FormLocalizacionC(forms.ModelForm):
 
     class Meta:
         model = ImagenLocalizacionC
-        fields = ['title','componente','fase','etapa','image']
+        fields = ['componente','fase','etapa','image']
         
         widgets = {
-            'title': forms.TextInput(attrs={'class':'form-control'}),
             'componente': forms.Select(attrs={'class':'form-control'}),
             'fase': forms.Select(attrs={'class':'form-control'}),
             'etapa': forms.Select(attrs={'class':'form-control'}),
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),           
+        }
+
+class FormCatForm(forms.ModelForm):
+
+    class Meta:
+        model = CatForm
+        fields = ['title','completo']
+        #fields = ['title','componente','fase','etapa','completo']
+        
+        widgets = {
+            'title':forms.TextInput(attrs={'class': 'form-control','readonly':'readonly',}),
+            # 'componente': forms.Select(attrs={'class':'form-control','readonly':'readonly','disabled':'disabled'}),
+            # 'fase': forms.Select(attrs={'class':'form-control','readonly':'readonly','disabled':'disabled'}),
+            # 'etapa': forms.Select(attrs={'class':'form-control','readonly':'readonly','disabled':'disabled'}),
+            'completo': forms.CheckboxInput(attrs={'class':'form-control ml-2'}),
+            }
+
+        labels = {
+            'completo':'Activa/desactiva la casilla para marcar como completo/pendiente'
+
+        }
+
+class FrecuenciaActividadesCForm(forms.ModelForm):
+
+    class Meta:
+        model = FrecuenciaActividadesC
+        fields = ['componente','fase','etapa','actividades','horas']
+        #fields = ['actividades','horas']
+        
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'actividades': forms.Select(attrs={'class':'form-control'}),
+            'horas': forms.NumberInput(attrs={'class':'form-control'}),           
+        }
+
+class DescripcionGeneralForm(forms.ModelForm):
+    class Meta:
+        model = DescripcionGeneral
+        fields = ['componente','fase','etapa','content']
+     
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'content': forms.Select(attrs={'class':'form-control'}),        
+        }
+
+        labels={
+            'content':'Agregar la descripción'
+        }
+
+class DescripcionGeneralFigurasForm(forms.ModelForm):
+
+    class Meta:
+        model = DescripcionGeneralFiguras
+        fields = ['componente','fase','etapa','image','pie']
+        
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control'}),
+            'fase': forms.Select(attrs={'class':'form-control'}),
+            'etapa': forms.Select(attrs={'class':'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
+            'pie': forms.TextInput(attrs={'class':'form-control'}),         
+        }
+class SuperficieObrasCForm(forms.ModelForm):
+    class Meta:
+        model = SuperficieObrasC
+        fields = ['componente','fase','etapa','edificaciones','superficie']
+     
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'edificaciones': forms.Select(attrs={'class':'form-control'}),
+            'superfice': forms.NumberInput(attrs={'class':'form-control'}),                   
+        }
+
+        labels={
+            'edificaciones':'Seleccionar obra o edificación provisional temporal',
+            'superficie':'Agregar la superficie en m²'
+        }
+
+class ConsumoAguaCForm(forms.ModelForm):
+    class Meta:
+        model = ConsumoAguaC
+        fields = ['componente','fase','etapa','tipo','cantidad']
+     
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'tipo': forms.Select(attrs={'class':'form-control'}),
+            'cantidad': forms.NumberInput(attrs={'class':'form-control'}),                   
+        }
+
+        labels={
+            'tipo':'Seleccionar el tipo de agua',
+            'superficie':'Agrege la cantidad en m³'
+        }
+
+class AguasResidualesCForm(forms.ModelForm):
+    class Meta:
+        model = AguasResidualesC
+        fields = ['componente','fase','etapa','tipo','cantidad']
+     
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'tipo': forms.Select(attrs={'class':'form-control'}),
+            'cantidad': forms.NumberInput(attrs={'class':'form-control'}),                   
+        }
+
+        labels={
+            'tipo':'Seleccionar el tipo de agua',
+            'cantidad':'Agrege la cantidad en m³'
+        }
+
+
+
+class ListadoFloristicoCForm(forms.ModelForm):
+    class Meta:
+        model = ListadoFloristicoC
+        fields = ['componente','fase','etapa','flor']
+     
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'flor': forms.Select(attrs={'class':'form-control'}),
+            
+        }
+
+        labels={
+            'flor':'Seleccionar el tipo de especie',
+
         }

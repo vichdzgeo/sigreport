@@ -1,7 +1,22 @@
 from django.db import models
 from cap2.models import Fase
+from ckeditor.fields import RichTextField
 # Create your models here.
 
+
+
+class ObrasLineales(models.Model):
+    tipo =  models.CharField(max_length=10,verbose_name = "Tipo de obra lineal")
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+
+    class Meta:
+        verbose_name = "Lista de obras lineales"
+        verbose_name_plural = "Lista de obras lineales"
+        ordering = ["tipo"]
+    
+    def __str__(self):
+        return self.tipo
 
 class Maquina(models.Model):
     OPT_COMBUSTIBLES = (
@@ -151,6 +166,36 @@ class ListaSisConstructivo(models.Model):
         ordering = ["sistema"]
     def __str__(self):
         return self.sistema
+
+class DescripcionSisConstructivo(models.Model):
+    
+    sistema = models.ForeignKey(ListaSisConstructivo,on_delete=models.CASCADE,default="")
+    content = RichTextField(verbose_name="Descipción del sistema constructivo", default="")
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+    class Meta:
+        verbose_name = "Descripción de sistemas constructivos"
+        verbose_name_plural = "Descripción de sistemas constructivos"
+        ordering = ["sistema"]
+    def __str__(self):
+        return self.sistema
+
+
+class ListaSisConstructivoFiguras(models.Model):
+    sistema = models.ForeignKey(ListaSisConstructivo,on_delete=models.CASCADE,default="")
+    image = models.ImageField(default = 'null', verbose_name="Figura",upload_to="sistemasconstructivos-fig")
+    pie = models.CharField(max_length=300,verbose_name="pie de figura")
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+    
+    class Meta:
+        verbose_name = "Figuras - Descripción del sistema constructivo"
+        verbose_name_plural = "Figuras - Descripción del sistema constructivo"
+        ordering = ["-created"]
+
+
+    def __str__(self):
+        return self.pie        
 
 class ListaProcesoConstructivo(models.Model):
     proceso = models.CharField(max_length=280,verbose_name = "Proceso constructivo")

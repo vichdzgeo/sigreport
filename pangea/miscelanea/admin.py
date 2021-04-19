@@ -55,7 +55,8 @@ class ListaSisConstructivoAdmin(admin.ModelAdmin):
     list_display = ('sistema',)
     search_fields = ('sistema',)
 
-
+class ListaSisConstructivoFigurasAdmin(admin.ModelAdmin):
+    list_display = ('sistema',)
 
 admin.site.register(Maquina,MaquinaAdmin)
 admin.site.register(Unidad,UnidadAdmin)
@@ -68,5 +69,6 @@ admin.site.register(SustanciasQuimicasP,SustanciasQuimicasPAdmin)
 admin.site.register(ListadoFloristico,ListadoFloristicoAdmin)
 admin.site.register(ListaTipoPersonal,ListaTipoPersonalAdmin)
 admin.site.register(ListaSisConstructivo,ListaSisConstructivoAdmin)
+admin.site.register(ListaSisConstructivoFiguras,ListaSisConstructivoFigurasAdmin)
 
 admin.site.site_header = 'Administrador Pangea'

@@ -7,20 +7,27 @@
   
   <div class="container mb-4">
     <h2 class="mt-3">{{p_title}}</h2>
-    <div class="agregar mb-4 text-right"><a href="{% url 'catalogos:cobertura-create' %}">Agregar</a></div>
+    <p class="mt-3">{{p_componente}} - {{p_fase}} - {{p_etapa}}</p>
+    <div class="agregar mb-4 text-right">
+      <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
+      <a class='ml-2' href="{% url 'forms:obrastemporales' id_f %}">Agregar</a>
+    </div>
+    
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col" class="text-center">Tipo de cobertura</th>
-          <th>Abreviatura</th>
+          <th scope="col">Construcción / Edificación</th>
+          <th scope="col">Superficie</th>
+
         </tr>
       </thead>
       <tbody>
-      {% for i in listatiposcobertura_list %}
+      {% for i in superficieobrasc_list %}
+        {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
           <tr>
-            <th scope="row"><a href="{% url 'catalogos:cobertura-update' i.id %}">{{i.tipo}} </a></th>
-            <td>{{i.abreviatura}}</td>
-          </tr>
+            <th scope="row"><a href="{% url 'forms:obrastemporales-update' i.id %}">{{ i.edificaciones }} </a></th>
+            <td>{{i.superficie}}</td>
+        {% endif %}
       {% endfor %}
       </tbody>
     </table>

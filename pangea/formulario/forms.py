@@ -1,6 +1,7 @@
 from django import forms 
 from .models import *
 from cap2.models import Modulo,Fase,Etapa
+from ckeditor.widgets import CKEditorWidget
 
 def regresa_instancia_title(key,modelo):
     objetos = modelo.objects.all()
@@ -38,8 +39,7 @@ class FormCatForm(forms.ModelForm):
             }
 
         labels = {
-            'completo':'Activa/desactiva la casilla para marcar como completo/pendiente'
-
+            'completo':'Marcar como completo y verificado / Desactivar para pendiente'
         }
 
 class FrecuenciaActividadesCForm(forms.ModelForm):
@@ -66,7 +66,7 @@ class DescripcionGeneralForm(forms.ModelForm):
             'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'content': forms.Select(attrs={'class':'form-control'}),        
+            'content': forms.TextInput(attrs={'class':'form-control',}),        
         }
 
         labels={
@@ -86,6 +86,7 @@ class DescripcionGeneralFigurasForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
             'pie': forms.TextInput(attrs={'class':'form-control'}),         
         }
+
 class SuperficieObrasCForm(forms.ModelForm):
     class Meta:
         model = SuperficieObrasC
@@ -107,39 +108,42 @@ class SuperficieObrasCForm(forms.ModelForm):
 class ConsumoAguaCForm(forms.ModelForm):
     class Meta:
         model = ConsumoAguaC
-        fields = ['componente','fase','etapa','tipo','cantidad']
+        fields = ['componente','fase','etapa','tipo','unidad','cantidad']
      
         widgets = {
             'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            
             'tipo': forms.Select(attrs={'class':'form-control'}),
+            'unidad': forms.TextInput(attrs={'class':'form-control','readonly':'True'}),
             'cantidad': forms.NumberInput(attrs={'class':'form-control'}),                   
         }
 
         labels={
             'tipo':'Seleccionar el tipo de agua',
-            'superficie':'Agrege la cantidad en m³'
+            'cantidad':'Agregar la cantidad en m³'
         }
 
 class AguasResidualesCForm(forms.ModelForm):
     class Meta:
         model = AguasResidualesC
-        fields = ['componente','fase','etapa','tipo','cantidad']
+        fields = ['componente','fase','etapa','tipo','unidad','cantidad']
      
         widgets = {
             'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            
             'tipo': forms.Select(attrs={'class':'form-control'}),
+            'unidad': forms.TextInput(attrs={'class':'form-control','readonly':'True'}),
             'cantidad': forms.NumberInput(attrs={'class':'form-control'}),                   
         }
 
         labels={
             'tipo':'Seleccionar el tipo de agua',
-            'cantidad':'Agrege la cantidad en m³'
+            'cantidad':'Agregar la cantidad en m³'
         }
-
 
 
 class ListadoFloristicoCForm(forms.ModelForm):
@@ -158,4 +162,67 @@ class ListadoFloristicoCForm(forms.ModelForm):
         labels={
             'flor':'Seleccionar el tipo de especie',
 
+        }
+
+class PersonalRequeridoForm(forms.ModelForm):
+    class Meta:
+        model = PersonalRequerido
+        fields = ['componente','fase','etapa','personal','cobertura','n_personal']
+     
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'personal': forms.Select(attrs={'class':'form-control'}),
+            'cobertura': forms.Select(attrs={'class':'form-control'}),
+            'n_personal': forms.NumberInput(attrs={'class':'form-control'}),
+            
+        }
+
+        labels={
+            'personal':'Seleccionar el tipo de personal',
+            'cobertura':'Seleccionar el tipo de cobertura',
+            'n_personal':'Ingresar el número de personal',
+
+        }
+
+class MaquinariaCoberturaForm(forms.ModelForm):
+    class Meta:
+        model = MaquinariaCobertura
+        fields = ['componente','fase','etapa','maquinaria','cobertura','horas']
+     
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'maquinaria': forms.Select(attrs={'class':'form-control'}),
+            'cobertura': forms.Select(attrs={'class':'form-control'}),
+            'horas': forms.NumberInput(attrs={'class':'form-control'}),
+            
+        }
+
+        labels={
+            'maquinaria':'Seleccionar el tipo de maquinaria',
+            'cobertura':'Seleccionar el tipo de cobertura',
+            'horas':'Ingresar el número de horas',
+
+        }
+
+
+class ObrasLinealesLongitudesForm(forms.ModelForm):
+    class Meta:
+        model = ObrasLinealesLongitudes
+        fields = ['componente','fase','etapa','tipo','longitud']
+     
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'tipo': forms.Select(attrs={'class':'form-control'}),
+            'longitud': forms.NumberInput(attrs={'class':'form-control'}),                   
+        }
+
+        labels={
+            'tipo':'Seleccionar obra lineal',
+            'longitud':'Agregar longitud en Km'
         }

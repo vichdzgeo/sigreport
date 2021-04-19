@@ -1,29 +1,36 @@
 {% extends 'cap2/base_mx.html' %}
 {% load static %}
-{% block title %}Máquinas{% endblock %}
+{% block title %}{{p_title}}{% endblock %}
 {% block content %}
 {% comment %} {% include 'pages/includes/pages_menu.html'%} {% endcomment %}
 <main role="main">
   
-  <div class="container">
-    <h2 class="mt-3">Lista de figuras de localización</h2>
-    <div class="agregar mb-4 text-right"><a href="{% url 'forms:localizacion' %}">Agregar otra figura</a></div>
+  <div class="container mb-4">
+    <h2 class="mt-3">{{p_title}}</h2>
+    <p class="mt-3">{{p_componente}} - {{p_fase}} - {{p_etapa}}</p>
+    <div class="agregar mb-4 text-right">
+      <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
+      <a class='ml-2' href="{% url 'forms:localizacion' id_f %}">Agregar</a>
+    </div>
+    
     <div class="container-fluid">
       <div class="row">
-        {% for figura in imagenlocalizacionc_list %}            
-          <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-              <div class="bg-white rounded shadow-sm"><img src="{{ figura.image.url }}" alt="" class="img-fluid card-img-top">
+        {% for i in imagenlocalizacionc_list %}
+          {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
+            <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+              <div class="bg-white rounded shadow-sm"><img src="{{ i.image.url }}" alt="" class="img-fluid card-img-top">
                   <div class="p-4">
-                    <h5> <a href="#" class="text-dark">ID:fig{{figura.id}}</a></h5>
-                    <p class="small text-muted mb-0">{{figura.pie}}</p>
+                    <h5> <a href="#" class="text-dark">ID:fig{{i.id}}</a></h5>
+                    <p class="small text-muted mb-0"><a href="{% url 'forms:fig-update' i.id %}" class="text-dark">editar</a></p>
                     <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
-                        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">{{figura.fase}}</span></p>
-                        <div class="badge badge-danger px-3 rounded-pill font-weight-normal">{{figura.etapa}}</div>
+                        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">{{i.fase}}</span></p>
+                        <div class="badge badge-danger px-3 rounded-pill font-weight-normal">{{i.etapa}}</div>
                     </div>
                   </div>
               </div>
-          </div>
-        {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %} <!--Cierre for -->
       </div>
     </div>
   </div>

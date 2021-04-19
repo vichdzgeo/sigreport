@@ -3,8 +3,10 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 import uuid
 from django.conf import settings
-# Create your models here.
-
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+# from formulario.models import CatForm 
+# from formulario.views import agregar_estructura
 
 class Modulo(models.Model):
     title = models.CharField(max_length=150,verbose_name="Componente")
@@ -24,7 +26,6 @@ class Modulo(models.Model):
     
     def __str__(self):
         return str(self.title)
-
 
 
 class Fase(models.Model):

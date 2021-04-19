@@ -30,7 +30,7 @@
                                 {%for fase in fases %}  <!-- INICIA FOR DE FASES-->
                                     {%for etapa in etapas|dictsort:"title"  %}  <!-- INICIA FOR DE ETAPAS-->
                                         <h3>{{fase}} - Etapa {{etapa}}</h3>
-                                        {% for avance in avances  %}
+                                        {% for avance in avances|dictsort:"orden"  %}
                                             {%if avance.fase == fase and etapa == avance.etapa and componente == avance.componente %}
                                                 {% if not avance.completo %}
                                                     <div class="form-check">
@@ -38,7 +38,7 @@
                                                     <label class="form-check-label" for="id_{{avance}}">
                                                         {% with 'forms:'|add:avance.nurl as name %}     
                                                             <a href="{% url name avance.id %}">{{avance}}</a>
-                                                            <a href="{% url 'forms:completo' avance.id %}" class="ml-x">status</a>
+                                                            <a href="{% url 'forms:completo' avance.id %}" class="ml-x">estado</a>
                                                         {% endwith %}
                                                     </label>
                                                     </div>

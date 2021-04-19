@@ -7,20 +7,33 @@
   
   <div class="container mb-4">
     <h2 class="mt-3">{{p_title}}</h2>
-    <div class="agregar mb-4 text-right"><a href="{% url 'catalogos:cobertura-create' %}">Agregar</a></div>
+    <p class="mt-3">{{p_componente}} - {{p_fase}} - {{p_etapa}}</p>
+    <div class="agregar mb-4 text-right">
+      <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
+      <a class='ml-2' href="{% url 'forms:flor' id_f %}">Agregar</a>
+    </div>
+    
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col" class="text-center">Tipo de cobertura</th>
-          <th>Abreviatura</th>
+          <th scope="col" class="text-center">Especie</th>
+          <th scope="col" class="text-center">Familia</th>
+          <th scope="col" class="text-center">Nombre común</th>
+          <th scope="col" class="text-center">Forma biológica</th>
+          <th scope="col" class="text-center">Criterios para rescate</th>
         </tr>
       </thead>
       <tbody>
-      {% for i in listatiposcobertura_list %}
+      {% for i in listadofloristicoc_list %}
+        {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
           <tr>
-            <th scope="row"><a href="{% url 'catalogos:cobertura-update' i.id %}">{{i.tipo}} </a></th>
-            <td>{{i.abreviatura}}</td>
+            <th scope="row"><a class = "font-italic" href="{% url 'forms:flor-update' i.id %}">{{i.flor.especie}} </a></th>
+            <td>{{i.flor.familia}}</td>
+            <td>{{i.flor.nombre}}</td>
+            <td>{{i.flor.forma}}</td>
+            <td>{{i.flor.rescate}}</td>
           </tr>
+        {% endif %}
       {% endfor %}
       </tbody>
     </table>

@@ -1,6 +1,11 @@
 from django import forms 
 from .models import *
 from cap2.models import Modulo
+
+
+
+
+
 class ModuloForm(forms.ModelForm):
 
     class Meta:
@@ -25,6 +30,26 @@ class ModuloForm(forms.ModelForm):
             if Modulo.objects.filter(title = title).exists():
                 raise forms.ValidationError("Este componente ya esta registrado")
         return title
+
+class ObrasLinealesForm(forms.ModelForm):
+
+    class Meta:
+        model = ObrasLineales
+        fields = ['tipo',]
+        widgets = {
+            'tipo':forms.TextInput(attrs={'class': 'form-control'}),
+
+
+        }
+        labels={'tipo':'Agregar nombre de obra líneal',
+        }
+    def clean_tipo(self):
+        tipo = self.cleaned_data.get("tipo")
+        if 'tipo' in self.changed_data:
+            if ObrasLineales.objects.filter(tipo = tipo).exists():
+                raise forms.ValidationError("Este tipo ya esta registrado")
+        return tipo
+
 class MaquinaForm(forms.ModelForm):
 
     class Meta:
@@ -197,6 +222,7 @@ class ListaSisConstructivoForm(forms.ModelForm):
 
         }
         labels ={'sistema':'Agregar sistema constructivo',
+
                 }
         
     def clean_sistema(self):
@@ -205,6 +231,40 @@ class ListaSisConstructivoForm(forms.ModelForm):
             if ListaSisConstructivo.objects.filter(sistema = sistema).exists():
                 raise forms.ValidationError("Este sistema ya esta registrado")
         return sistema
+
+class DescripcionSisConstructivoForm(forms.ModelForm):
+
+    class Meta:
+        model = DescripcionSisConstructivo
+        fields = ['sistema','content']
+        widgets = {
+            'sistema':forms.Select(attrs={'class': 'form-control'}),
+            'content': forms.TextInput(attrs={'class':'form-control',}),        
+
+        }
+        labels ={'sistema':'Agregar sistema constructivo',
+                 'content':'Descripción del sistema constructivo',
+                }
+        
+    def clean_sistema(self):
+        sistema = self.cleaned_data.get("sistema")
+        if 'sistema' in self.changed_data:
+            if Descripcion.objects.filter(sistema = sistema).exists():
+                raise forms.ValidationError("Este sistema ya esta registrado")
+        return sistema
+
+class ListaSisConstructivoFigurasForm(forms.ModelForm):
+
+    class Meta:
+        model = ListaSisConstructivoFiguras
+        fields = ['sistema','image','pie']
+        
+        widgets = {
+            'sistema': forms.Select(attrs={'class':'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
+            'pie': forms.TextInput(attrs={'class':'form-control'}),         
+        }
+
 class ListaProcesoConstructivoForm(forms.ModelForm):
 
     class Meta:

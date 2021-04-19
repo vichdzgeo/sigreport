@@ -16,7 +16,7 @@
             <div class="row mt-3 mb-5">
               <div class="col-md-9 mx-auto">
                 <div class="agregar mb-4 text-right">
-                  <a id = "agregar-fig" href = "{% url 'forms:generalesfiguras' f_id %}">Agregar figura</a>|
+                  <a href="{% url 'forms:generalesfiguras' f_id %}">Agregar figura</a>|
                   <a href="{% url 'forms:generales-list' %}">Ver lista</a>
                 </div>
                 {% if 'ok' in request.GET %}

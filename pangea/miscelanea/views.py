@@ -27,6 +27,7 @@ class CatalogosPageView(TemplateView):
         context['num_flores']=len(ListadoFloristico.objects.all().order_by('especie'))
         context['num_personal']=len(ListaTipoPersonal.objects.all().order_by('tipo'))
         context['num_sistemas']=len(ListaSisConstructivo.objects.all().order_by('sistema'))
+        context['num_descsistemas']=len(DescripcionSisConstructivo.objects.all().order_by('sistema'))
         context['num_procesos']=len(ListaProcesoConstructivo.objects.all().order_by('proceso'))
         context['num_residuos']=len(ListaTipoResiduos.objects.all().order_by('tipo'))
         context['num_tagua']=len(TipoAgua.objects.all().order_by('tipo'))
@@ -36,6 +37,7 @@ class CatalogosPageView(TemplateView):
         context['num_zona']=len(ListaZonificacion.objects.all().order_by('zona'))
         context['num_tierra']=len(MovimientoTierra.objects.all().order_by('tipo'))
         context['num_consedi']=len(ListaTiposConsEdif.objects.all().order_by('tipo'))
+        context['num_obraslineales']=len(ObrasLineales.objects.all().order_by('tipo'))
         return context
 
 #### -- PARA MODULOS - ######
@@ -104,6 +106,49 @@ class MaquinaUpdate(UpdateView):
     def get_success_url(self):
 
         return reverse_lazy('catalogos:maquina-update',args=[self.object.id]) + '?ok'
+
+
+
+
+## Obras lineales
+
+@method_decorator(staff_member_required,name='dispatch')
+class ObrasLinealesListView(ListView):
+    model = ObrasLineales
+    template_name = "miscelanea/obraslineales_list.html"
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ObrasLineales._meta.verbose_name
+        
+        return context
+@method_decorator(staff_member_required,name='dispatch')
+class ObrasLinealesCreate(CreateView):
+    model = ObrasLineales
+    form_class = ObrasLinealesForm
+    success_url = reverse_lazy('catalogos:obraslineales')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar obra lineal"
+        return context
+
+@method_decorator(staff_member_required,name='dispatch')
+class ObrasLinealesUpdate(UpdateView):
+    model = ObrasLineales
+    form_class = ObrasLinealesForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar"
+        context['txt_actualizacion']="registro actualizado correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:obraslineales-update',args=[self.object.id]) + '?ok'
 
 ## unidades
 
@@ -399,47 +444,7 @@ class  ListaTipoPersonalUpdate(UpdateView):
 
         return reverse_lazy('catalogos:personal-update',args=[self.object.id]) + '?ok'
 
-## Sistemas constructivos
 
-@method_decorator(staff_member_required,name='dispatch')
-class ListaSisConstructivoListView(ListView):
-    model = ListaSisConstructivo
-    template_name = "miscelanea/listasisconstructivo_list.html"
-    paginate_by = 20
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ListaSisConstructivo._meta.verbose_name
-        
-        return context
-
-@method_decorator(staff_member_required,name='dispatch')
-
-class ListaSisConstructivoCreate(CreateView):
-    model = ListaSisConstructivo
-    form_class = ListaSisConstructivoForm
-    success_url = reverse_lazy('catalogos:sistemas')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ListaSisConstructivo._meta.verbose_name
-        return context
-
-@method_decorator(staff_member_required,name='dispatch')
-class ListaSisConstructivoUpdate(UpdateView):
-    model = ListaSisConstructivo
-    form_class = ListaSisConstructivoForm
-    template_name_suffix = '_update_form'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar"
-        context['txt_actualizacion']="Registro actualizado correctamente"
-        return context
-    
-    def get_success_url(self):
-
-        return reverse_lazy('catalogos:sistema-update',args=[self.object.id]) + '?ok'
 
 ## PROCESOS constructivos
 
@@ -806,3 +811,123 @@ class ListaTiposConsEdifUpdate(UpdateView):
     def get_success_url(self):
 
         return reverse_lazy('catalogos:consedi-update',args=[self.object.id]) + '?ok'
+
+## Sistemas constructivos
+
+@method_decorator(staff_member_required,name='dispatch')
+class ListaSisConstructivoListView(ListView):
+    model = ListaSisConstructivo
+    template_name = "miscelanea/listasisconstructivo_list.html"
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ListaSisConstructivo._meta.verbose_name
+        
+        return context
+
+@method_decorator(staff_member_required,name='dispatch')
+
+class ListaSisConstructivoCreate(CreateView):
+    model = ListaSisConstructivo
+    form_class = ListaSisConstructivoForm
+    success_url = reverse_lazy('catalogos:sistemas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ListaSisConstructivo._meta.verbose_name
+        return context
+
+@method_decorator(staff_member_required,name='dispatch')
+class ListaSisConstructivoUpdate(UpdateView):
+    model = ListaSisConstructivo
+    form_class = ListaSisConstructivoForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar"
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:sistema-update',args=[self.object.id]) + '?ok'
+
+## Descripción de Sistemas constructivos
+
+@method_decorator(staff_member_required,name='dispatch')
+class DescripcionSisConstructivoListView(ListView):
+    model = DescripcionSisConstructivo
+    template_name = "miscelanea/descripcionsisconstructivo_list.html"
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=DescripcionSisConstructivo._meta.verbose_name
+        
+        return context
+
+@method_decorator(staff_member_required,name='dispatch')
+
+class DescripcionSisConstructivoCreate(CreateView):
+    model = DescripcionSisConstructivo
+    form_class = DescripcionSisConstructivoForm
+    #success_url = reverse_lazy('catalogos:descsistema')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context ['n']=1
+        context['p_title']=DescripcionSisConstructivo._meta.verbose_name
+        context['lasfiguras']= ListaSisConstructivoFiguras.objects.all()
+        return context
+
+@method_decorator(staff_member_required,name='dispatch')
+class DescripcionSisConstructivoUpdate(UpdateView):
+    model = DescripcionSisConstructivo
+    form_class = DescripcionSisConstructivoForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar"
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:descsistema-update',args=[self.object.id]) + '?ok'
+
+########## figuras sistemas constructivos
+
+@method_decorator(staff_member_required,name='dispatch')
+class ListaSisConstructivoFigurasCreate(CreateView):
+    
+    model = ListaSisConstructivoFiguras
+    #form_class = FormLocalizacionC
+    fields = '__all__'
+    #success_url = reverse_lazy('forms:actividad-create')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = ListaSisConstructivo.objects.filter(id=this_id)[0]
+        initial_data = {'sistema':id_form.id}
+        context['form']=ListaSisConstructivoFigurasForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        return  reverse_lazy('catalogos:descsistema-create')
+
+
+
+@method_decorator(staff_member_required,name='dispatch')
+class ListaSisConstructivoFigurasUpdate(UpdateView):
+    model = ListaSisConstructivoFiguras
+    form_class = ListaSisConstructivoFigurasForm
+    template_name_suffix = '_update_form'
+    
+
+    def get_success_url(self):
+        return reverse_lazy('miscelanea:sistemasfiguras-update',args=[self.object.id]) + '?ok'

@@ -33,9 +33,16 @@ catalogos_patterns = ([
     path('personal/', ListaTipoPersonalListView.as_view(), name='personal'),
     path('personal-create/',ListaTipoPersonalCreate.as_view(),name='personal-create'),
     path('personal-update/<int:pk>/',ListaTipoPersonalUpdate.as_view(),name='personal-update'),
-    path('sistemas/', ListaSisConstructivoListView.as_view(), name='sistemas'),
+    path('sistema/', ListaSisConstructivoListView.as_view(), name='sistema'),
     path('sistema-create/',ListaSisConstructivoCreate.as_view(),name='sistema-create'),
     path('sistema-update/<int:pk>/',ListaSisConstructivoUpdate.as_view(),name='sistema-update'),
+
+    path('descsistema/', DescripcionSisConstructivoListView.as_view(), name='descsistema'),
+    path('descsistema-create/',DescripcionSisConstructivoCreate.as_view(),name='descsistema-create'),
+    path('descsistema-update/<int:pk>/',DescripcionSisConstructivoUpdate.as_view(),name='descsistema-update'),
+
+    path('sistemasfiguras-create/<int:pk>/',ListaSisConstructivoFigurasCreate.as_view(),name='sistemasfiguras-create'),
+    path('sistemasfiguras-update/<int:pk>/',ListaSisConstructivoFigurasUpdate.as_view(),name='sistemasfiguras-update'),
     path('procesos/', ListaProcesoConstructivoListView.as_view(), name='procesos'),
     path('proceso-create/',ListaProcesoConstructivoCreate.as_view(),name='proceso-create'),
     path('proceso-update/<int:pk>/',ListaProcesoConstructivoUpdate.as_view(),name='proceso-update'),
@@ -63,5 +70,8 @@ catalogos_patterns = ([
     path('consedi/', ListaTiposConsEdifListView.as_view(), name='consedi'),
     path('consedi-create/',ListaTiposConsEdifCreate.as_view(),name='consedi-create'),
     path('consedi-update/<int:pk>/',ListaTiposConsEdifUpdate.as_view(),name='consedi-update'),
+    path('obraslineales/', ObrasLinealesListView.as_view(), name='obraslineales'),
+    path('obraslineales-create/',ObrasLinealesCreate.as_view(),name='obraslineales-create'),
+    path('obraslineales-update/<int:pk>/',ObrasLinealesUpdate.as_view(),name='obraslineales-update'),
 
 ],'catalogos')

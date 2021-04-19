@@ -4,11 +4,18 @@
 {% block content %}
 
 <main role="main">
+
   <div class="container">
+      <h2 class="mt-3">{{p_title}}</h2>
+      <h3 class="mt-3">Componente:{{p_componente}}</h3>
+      <h3 class="text-bold">Fase:{{p_fase}}</h3>
+      <h3 class="">Etapa:{{p_etapa}}</h3>
     <div class="row mt-3 mb-5">
       <div class="col-md-9 mx-auto">
-        <h2 class="mt-3">{{p_title}}</h2>
-        <div class="agregar mb-4 text-right"><a href="{% url 'catalogos:sistema' %}">Regresar</a></div>
+        <div class="agregar mb-4 text-right"><a href="{% url 'forms:aguaresidual-list' id_f %}">Ver lista</a></div>
+          {% if 'ok' in request.GET %}
+            <div class="alert alert-success text-center" role="alert">{{txt_exitoso}}</div>
+          {% endif %}
           <form action="" method="post">{% csrf_token %}
               <table>
                   {{ form.as_p }}

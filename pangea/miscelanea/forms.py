@@ -232,11 +232,16 @@ class ListaSisConstructivoForm(forms.ModelForm):
                 raise forms.ValidationError("Este sistema ya esta registrado")
         return sistema
 
-class DescripcionSisConstructivoForm(forms.ModelForm):
+
+
+
+
+class DescripcionSisConstructivoFormCreate(forms.ModelForm):
 
     class Meta:
         model = DescripcionSisConstructivo
-        fields = ['sistema','content']
+        fields = ['sistema',
+                    'content']
         widgets = {
             'sistema':forms.Select(attrs={'class': 'form-control'}),
             'content': forms.TextInput(attrs={'class':'form-control',}),        
@@ -249,17 +254,52 @@ class DescripcionSisConstructivoForm(forms.ModelForm):
     def clean_sistema(self):
         sistema = self.cleaned_data.get("sistema")
         if 'sistema' in self.changed_data:
-            if Descripcion.objects.filter(sistema = sistema).exists():
+            if DescripcionSisConstructivo.objects.filter(sistema = sistema).exists():
                 raise forms.ValidationError("Este sistema ya esta registrado")
         return sistema
+
+class DescripcionSisConstructivoForm(forms.ModelForm):
+
+    class Meta:
+        model = DescripcionSisConstructivo
+        fields = [#'sistema',
+                    'content']
+        widgets = {
+            #'sistema':forms.Select(attrs={'class': 'form-control'}),
+            'content': forms.TextInput(attrs={'class':'form-control',}),        
+
+        }
+        labels ={#'sistema':'Agregar sistema constructivo',
+                 'content':'Descripción del sistema constructivo',
+                }
+        
+    def clean_sistema(self):
+        sistema = self.cleaned_data.get("sistema")
+        if 'sistema' in self.changed_data:
+            if DescripcionSisConstructivo.objects.filter(sistema = sistema).exists():
+                raise forms.ValidationError("Este sistema ya esta registrado")
+        return sistema
+
+
+class agregaFiguraForm(forms.ModelForm):
+
+    class Meta:
+        model = ListaSisConstructivoFiguras
+        fields = ['image','pie']
+        
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
+            'pie': forms.TextInput(attrs={'class':'form-control'}),         
+        }
 
 class ListaSisConstructivoFigurasForm(forms.ModelForm):
 
     class Meta:
         model = ListaSisConstructivoFiguras
-        fields = ['sistema','image','pie']
+        fields = ['descripcion','sistema','image','pie']
         
         widgets = {
+            'descripcion': forms.Select(attrs={'class':'form-control'}),
             'sistema': forms.Select(attrs={'class':'form-control'}),
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
             'pie': forms.TextInput(attrs={'class':'form-control'}),         

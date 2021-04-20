@@ -13,7 +13,8 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 import pandas as pd 
 from django.conf import settings
-
+import os
+import datetime 
 def regresa_i(key,objetos):
     for i in objetos:
         if i.title == key:
@@ -28,6 +29,43 @@ def regresa(key,modelo):
 
 # Create your models here.
 
+
+
+### Formulario de Descripción de procesos constructivos
+
+class DescripcionProcesosConstructivos(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default="")
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default = None,blank=True,null=True)
+    proceso_constructivo = models.ForeignKey(ListaProcesoConstructivo, on_delete=models.CASCADE,default="")
+    contenido  = RichTextField(verbose_name="Descipción de proceso construcivo",default='')
+    # created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    # updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+    class Meta:
+        verbose_name = "Descripción de procesos constructivos"
+        verbose_name_plural = "Descripción de procesos constructivos"
+        ordering = ["-id"]
+    
+    def __str__(self):
+        return str(self.id)
+
+
+### Sistemas constructivos seleccion
+class SeleccionSistemasConstructivos(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default="")
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default = None,blank=True,null=True)
+    sistemas = models.ManyToManyField(DescripcionSisConstructivo, verbose_name="Sistemas construcitivos")
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")#     
+
+    class Meta:
+        verbose_name = "Selección de sistemas constructivos"
+        verbose_name_plural = "Selección de sistemas constructivos"
+        ordering = ["-created"]
+    
+    def __str__(self):
+        return str(self.id)
 
 class CatForm(models.Model):
     TIPO_FORMULARIO = (
@@ -73,6 +111,27 @@ class CatForm(models.Model):
 
 
 # ###  INICIA FORMULARIOS PARA CONSTRUCCIÓN
+
+class DatosGeneral(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')#regresa("Construcción",Fase))
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    sup_aprov_total = models.FloatField(verbose_name='Superficie aprovechable total (ha)')
+    sup_edi = models.FloatField(verbose_name='Superficie edificable (ha)')
+    sup_const_no_edi = models.FloatField(verbose_name='Superficie a construir no edificable (ha)')
+    nivel_max = models.IntegerField(verbose_name='Niveles máximos construidos')
+    zonificacion = models.CharField(max_length=30,verbose_name="Abreviaturas de las zonificaciones (separaras por comas)")
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+    
+    class Meta:
+        verbose_name = "Datos generales del componente"
+        verbose_name_plural = "Datos generales del componente"
+        ordering = ["-created"]
+
+
+    def __str__(self):
+        return str(self.id)
 
 class ImagenLocalizacionC(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
@@ -170,7 +229,7 @@ class DescripcionGeneral(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
-    #content = MDTextField()
+    duracion = models.TextField(max_length=30,verbose_name='Duración de las obras o actividades',default='')
     content = RichTextField(verbose_name="Descipción general del componente para esta etapa")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
@@ -272,8 +331,9 @@ class ObrasLinealesLongitudes(models.Model):
 
 
 def agrega_estructura():
-    
-    estructura = pd.read_csv("formulario/estructura_arbol_form2.txt", delimiter='\t',encoding='utf-8')
+    module_dir = os.path.dirname(__file__)  
+    file_path = os.path.join(module_dir, 'estructura_arbol_form2.txt')
+    estructura = pd.read_csv(file_path, delimiter='\t',encoding='utf-8')
     estructura.sort_values(by='nombre',ascending=False)
     l_componentes  = Modulo.objects.all()
     l_etapas = Etapa.objects.all()

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.edit import CreateView,UpdateView,DeleteView, FormMixin
-from django.contrib.admin.views.decorators import staff_member_required 
-from django.shortcuts import render, HttpResponse, redirect
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
@@ -15,7 +14,7 @@ from .models import *
 import pandas as pd 
 import pandas as pd 
 from django.conf import settings
-
+import os 
 def regresa(key,modelo):
     for i in objetos:
         if i.title == key:
@@ -31,11 +30,118 @@ def regresa_instancia_id(key,modelo):
             return i
 
 
+###### Descripción de procesos constructivos
+@method_decorator(login_required,name='dispatch')
+class DescripcionProcesosConstructivosListView(ListView):
+    model = DescripcionProcesosConstructivos
+    template_name = "formulario/descripcionprocesosconstructivos_list.html"
+    paginate_by = 5
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=DescripcionProcesosConstructivos._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class DescripcionProcesosConstructivosCreate(CreateView):
+    
+    model = DescripcionProcesosConstructivos
+    fields = '__all__'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=DescripcionProcesosConstructivos._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=DescripcionProcesosConstructivosForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        return  reverse_lazy('forms:descprocesos',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class DescripcionProcesosConstructivosUpdate(UpdateView):
+    model = DescripcionProcesosConstructivos
+    form_class = DescripcionProcesosConstructivosForm
+    template_name_suffix = '_update_form'
+    
+
+    def get_success_url(self):
+        return reverse_lazy('forms:descprocesos-update',args=[self.object.id]) + '?ok'
+
+
+
+##### Selección de sistemas constructivos 
+
+@method_decorator(login_required,name='dispatch')
+class SeleccionSistemasConstructivosCreate(CreateView):
+    
+    model = SeleccionSistemasConstructivos
+    fields = '__all__'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=SeleccionSistemasConstructivos._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=SeleccionSistemasConstructivosForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        return  reverse_lazy('forms:selecsistemas',args=[this_id]) + '?ok'
+
+@method_decorator(login_required,name='dispatch')
+class SeleccionSistemasConstructivosListView(ListView):
+    model = SeleccionSistemasConstructivos
+    template_name = "formulario/seleccionsistemasconstructivos_list.html"
+    paginate_by = 20
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=SeleccionSistemasConstructivos._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class SeleccionSistemasConstructivosUpdate(UpdateView):
+    model = SeleccionSistemasConstructivos
+    form_class = SeleccionSistemasConstructivosForm
+    template_name_suffix = '_update_form'
+    
+
+    def get_success_url(self):
+        return reverse_lazy('forms:selecsistemas-update',args=[self.object.id]) + '?ok'
+
+
 ###### Longitud de obras lineales
-
-
-
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ObrasLinealesLongitudesListView(ListView):
     model = ObrasLinealesLongitudes
     template_name = "formulario/obraslinealeslongitudes_list.html"
@@ -52,7 +158,7 @@ class ObrasLinealesLongitudesListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ObrasLinealesLongitudesCreate(CreateView):
     
     model = ObrasLinealesLongitudes
@@ -82,7 +188,7 @@ class ObrasLinealesLongitudesCreate(CreateView):
         return  reverse_lazy('forms:obraslineales',args=[this_id]) + '?ok'
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ObrasLinealesLongitudesUpdate(UpdateView):
     model = ObrasLinealesLongitudes
     form_class = ObrasLinealesLongitudesForm
@@ -96,7 +202,7 @@ class ObrasLinealesLongitudesUpdate(UpdateView):
 
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class SuperficieObrasCListView(ListView):
     model = SuperficieObrasC
     template_name = "formulario/superficieobrasc_list.html"
@@ -113,7 +219,7 @@ class SuperficieObrasCListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class SuperficieObrasCCreate(CreateView):
     
     model = SuperficieObrasC
@@ -143,7 +249,7 @@ class SuperficieObrasCCreate(CreateView):
         return  reverse_lazy('forms:obrastemporales',args=[this_id]) + '?ok'
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class SuperficieObrasCUpdate(UpdateView):
     model = SuperficieObrasC
     form_class = SuperficieObrasCForm
@@ -160,7 +266,7 @@ class SuperficieObrasCUpdate(UpdateView):
 ###### Generación de aguas residuales 
 
     
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class AguasResidualesCListView(ListView):
     model = AguasResidualesC
     template_name = "formulario/aguasresidualesc_list.html"
@@ -177,7 +283,7 @@ class AguasResidualesCListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class AguasResidualesCCreate(CreateView):
     
     model = AguasResidualesC
@@ -207,7 +313,7 @@ class AguasResidualesCCreate(CreateView):
         return  reverse_lazy('forms:aguaresidual',args=[this_id]) + '?ok'
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class AguasResidualesCUpdate(UpdateView):
     model = AguasResidualesC
     form_class = AguasResidualesCForm
@@ -222,7 +328,7 @@ class AguasResidualesCUpdate(UpdateView):
 ###### Consumo de agua
 
     
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ConsumoAguaCListView(ListView):
     model = ConsumoAguaC
     template_name = "formulario/consumoaguac_list.html"
@@ -239,7 +345,7 @@ class ConsumoAguaCListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ConsumoAguaCCreate(CreateView):
     
     model = ConsumoAguaC
@@ -269,7 +375,7 @@ class ConsumoAguaCCreate(CreateView):
         return  reverse_lazy('forms:consumoagua',args=[this_id]) + '?ok'
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ConsumoAguaCUpdate(UpdateView):
     model = ConsumoAguaC
     form_class = ConsumoAguaCForm
@@ -283,7 +389,7 @@ class ConsumoAguaCUpdate(UpdateView):
 ###### Listado floristico 
 
     
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListadoFloristicoCListView(ListView):
     model = ListadoFloristicoC
     template_name = "formulario/listadofloristicoc_list.html"
@@ -300,7 +406,7 @@ class ListadoFloristicoCListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListadoFloristicoCCreate(CreateView):
     
     model = ListadoFloristicoC
@@ -330,7 +436,7 @@ class ListadoFloristicoCCreate(CreateView):
         return  reverse_lazy('forms:flor',args=[this_id]) + '?ok'
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListadoFloristicoCUpdate(UpdateView):
     model = ListadoFloristicoC
     form_class = ListadoFloristicoCForm
@@ -344,7 +450,7 @@ class ListadoFloristicoCUpdate(UpdateView):
 ###### Numero de personal
 
     
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class PersonalRequeridoListView(ListView):
     model = PersonalRequerido
     template_name = "formulario/personalrequerido_list.html"
@@ -361,7 +467,7 @@ class PersonalRequeridoListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class PersonalRequeridoCreate(CreateView):
     
     model = PersonalRequerido
@@ -391,7 +497,7 @@ class PersonalRequeridoCreate(CreateView):
         return  reverse_lazy('forms:personal',args=[this_id]) + '?ok'
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class PersonalRequeridoUpdate(UpdateView):
     model = PersonalRequerido
     form_class = PersonalRequeridoForm
@@ -406,7 +512,7 @@ class PersonalRequeridoUpdate(UpdateView):
 
 ################################################ maquinaria cobertura
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class MaquinariaCoberturaListView(ListView):
     model = MaquinariaCobertura
     template_name = "formulario/maquinariacobertura_list.html"
@@ -423,7 +529,7 @@ class MaquinariaCoberturaListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class MaquinariaCoberturaCreate(CreateView):
     
     model = MaquinariaCobertura
@@ -453,7 +559,7 @@ class MaquinariaCoberturaCreate(CreateView):
         return  reverse_lazy('forms:maquinaria',args=[this_id]) + '?ok'
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class MaquinariaCoberturaUpdate(UpdateView):
     model = MaquinariaCobertura
     form_class = MaquinariaCoberturaForm
@@ -467,57 +573,57 @@ class MaquinariaCoberturaUpdate(UpdateView):
 
 
 
-### Descipcion general 
-@method_decorator(staff_member_required,name='dispatch')
+### Datos generales general 
+@method_decorator(login_required,name='dispatch')
 class DatosGeneralListView(ListView):
-    model = DescripcionGeneral
-    template_name = "formulario/descripciongeneral_list.html"
+    model = DatosGeneral
+    template_name = "formulario/datosgeneral_list.html"
     paginate_by = 20
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']=DescripcionGeneral._meta.verbose_name
-        
+        context['p_title']=DatosGeneral._meta.verbose_name
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
         return context
 
 
 class DatosGeneralCreate(CreateView):
     
-    model = DescripcionGeneral
-    #form_class = FormLocalizacionC
+    model = DatosGeneral
     fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
     
-
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
 
-        context['p_title']=DescripcionGeneral._meta.verbose_name
+        context['p_title']=DatosGeneral._meta.verbose_name
         context['p_componente']=id_form.componente.title
         context['p_fase']=id_form.fase.title
         context['p_etapa']= id_form.etapa.title
         context['f_id']= this_id
-        context['descripcionfiguras']= DescripcionGeneralFiguras.objects.all()
         context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
         initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
-        context['form']=DescripcionGeneralForm(initial=initial_data)
+        context['form']=DatosGeneralForm(initial=initial_data)
         return context
 
     def get_success_url(self):
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0]
-        return  reverse_lazy('forms:generales',args=[this_id]) + '?ok'
-@method_decorator(staff_member_required,name='dispatch')
+        return  reverse_lazy('forms:datosgenerales',args=[this_id]) + '?ok'
+
+@method_decorator(login_required,name='dispatch')
 class DatosGeneralUpdate(UpdateView):
-    model = DescripcionGeneral
-    form_class = DescripcionGeneralForm
+    model = DatosGeneral
+    form_class = DatosGeneralForm
     template_name_suffix = '_update_form'
     
-
     def get_success_url(self):
-        return reverse_lazy('forms:generales-update',args=[self.object.id]) + '?ok'
+        return reverse_lazy('forms:datosgenerales-update',args=[self.object.id]) + '?ok'
 
 
 
@@ -526,7 +632,27 @@ class DatosGeneralUpdate(UpdateView):
 
 
 ### Descipcion general 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
+class DescripcionGeneralDetailView(DetailView):
+    model = DescripcionGeneral
+    template_name = "formulario/descripciongeneral_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=DescripcionGeneral._meta.verbose_name
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = DescripcionGeneral.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['existe1'] = len(DescripcionGeneral.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id))
+
+        return context
+
+
+
+@method_decorator(login_required,name='dispatch')
 class DescripcionGeneralListView(ListView):
     model = DescripcionGeneral
     template_name = "formulario/descripciongeneral_list.html"
@@ -534,7 +660,14 @@ class DescripcionGeneralListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['p_title']=DescripcionGeneral._meta.verbose_name
-        
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['existe1'] = len(DescripcionGeneral.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id))
+
         return context
 
 
@@ -554,6 +687,7 @@ class DescripcionGeneralCreate(CreateView):
         context['p_fase']=id_form.fase.title
         context['p_etapa']= id_form.etapa.title
         context['f_id']= this_id
+        
         context['descripcionfiguras']= DescripcionGeneralFiguras.objects.all()
         context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
         initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
@@ -565,13 +699,25 @@ class DescripcionGeneralCreate(CreateView):
         id_form = CatForm.objects.filter(id=this_id)[0]
         return  reverse_lazy('forms:generales-list',args=[this_id]) + '?ok'
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class DescripcionGeneralUpdate(UpdateView):
     model = DescripcionGeneral
     form_class = DescripcionGeneralForm
     template_name_suffix = '_update_form'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_element = DescripcionGeneral.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_componente']=id_element.componente.title
+        context['p_fase']=id_element.fase.title
+        context['p_etapa']= id_element.etapa.title
+        context['f_id']= this_id
+        context['p_title']=DescripcionGeneral._meta.verbose_name
+        context['descripcionfiguras']= DescripcionGeneralFiguras.objects.all()
+        context['txt_exitoso']='Actualizado correctamente'
 
+        return context
     def get_success_url(self):
         return reverse_lazy('forms:generales-update',args=[self.object.id]) + '?ok'
 
@@ -579,7 +725,7 @@ class DescripcionGeneralUpdate(UpdateView):
 
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class DescripcionGeneralFigurasListView(ListView):
     model = DescripcionGeneralFiguras
     template_name = "formulario/descripciongeneralfiguras_list.html"
@@ -596,7 +742,7 @@ class DescripcionGeneralFigurasListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class DescripcionGeneralFigurasCreate(CreateView):
     
     model = DescripcionGeneralFiguras
@@ -604,13 +750,18 @@ class DescripcionGeneralFigurasCreate(CreateView):
     fields = '__all__'
     #success_url = reverse_lazy('forms:actividad-create')
     
-
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        this_lugar =str(self.request.get_full_path()).split("/")[-3]
+        if this_lugar == 'generalesfiguras':
+            this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+            id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        elif this_lugar == 'generalesfigurasu':
+            this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+            id_form = DescripcionGeneral.objects.filter(id=this_id)[0] #NO MODIFICAR
+
         context['id_f']=this_id
+        context['this_lugar']=this_lugar
         context['p_title']=DescripcionGeneralFiguras._meta.verbose_name
         context['p_componente']=id_form.componente.title
         context['p_fase']=id_form.fase.title
@@ -621,12 +772,19 @@ class DescripcionGeneralFigurasCreate(CreateView):
         return context
 
     def get_success_url(self):
-        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-        id_form = CatForm.objects.filter(id=this_id)[0]
-        return  reverse_lazy('forms:generalesfiguras',args=[this_id]) + '?ok'
+        this_lugar =str(self.request.get_full_path()).split("/")[-3]
+        if this_lugar == 'generalesfiguras':
+            this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+            id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+            return  reverse_lazy('forms:generalesfiguras',args=[this_id]) + '?ok'
+        elif this_lugar == 'generalesfigurasu':
+            this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+            id_form = DescripcionGeneral.objects.filter(id=this_id)[0]
+
+            return  reverse_lazy('forms:generalesfigurasu',args=[this_id]) + '?ok'
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class DescripcionGeneralFigurasUpdate(UpdateView):
     model = DescripcionGeneralFiguras
     form_class = DescripcionGeneralFigurasForm
@@ -641,7 +799,7 @@ class DescripcionGeneralFigurasUpdate(UpdateView):
 
 
     
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class FrecuenciaActividadesCListView(ListView):
     model = FrecuenciaActividadesC
     template_name = "formulario/frecuenciaactividadesc_list.html"
@@ -658,7 +816,7 @@ class FrecuenciaActividadesCListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class FrecuenciaActividadesCCreate(CreateView):
     
     model = FrecuenciaActividadesC
@@ -688,7 +846,7 @@ class FrecuenciaActividadesCCreate(CreateView):
         return  reverse_lazy('forms:actividades',args=[this_id]) + '?ok'
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class FrecuenciaActividadesCUpdate(UpdateView):
     model = FrecuenciaActividadesC
     form_class = FrecuenciaActividadesCForm
@@ -699,7 +857,7 @@ class FrecuenciaActividadesCUpdate(UpdateView):
 
 #### LOCALIZACION
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class LocalizacionCreate(CreateView):
     
     model = ImagenLocalizacionC
@@ -719,8 +877,9 @@ class LocalizacionCreate(CreateView):
         id_form = CatForm.objects.filter(id=this_id)[0]
         return  reverse_lazy('forms:fig-loc',args=[this_id]) + '?ok'
 
-
-@method_decorator(staff_member_required,name='dispatch')
+login_required
+#@method_decorator(login_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class LocalizacionCListView(ListView):
     model = ImagenLocalizacionC
     template_name = "formulario/imagenlocalizacionc_list.html"
@@ -741,7 +900,7 @@ class LocalizacionCListView(ListView):
 
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class LocalizacionCUpdate(UpdateView):
     model = ImagenLocalizacionC
     form_class = FormLocalizacionC
@@ -773,7 +932,7 @@ class CatFormUpdate(UpdateView):
     def get_success_url(self):
         return reverse_lazy('forms:completo',args=[self.object.id]) + '?ok'
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class EstructuraView(TemplateView):
     template_name = "formulario/fichas.html"
     def get_context_data(self, **kwargs):
@@ -805,8 +964,9 @@ def regresa_i(key,objetos):
 
 
 def agregar_estructura(request):
-    
-    estructura = pd.read_csv("formulario/estructura_arbol_form2.txt", delimiter='\t',encoding='utf-8')
+    module_dir = os.path.dirname(__file__)  
+    file_path = os.path.join(module_dir, 'estructura_arbol_form2.txt')
+    estructura = pd.read_csv(file_path, delimiter='\t',encoding='utf-8')
     estructura.sort_values(by='nombre',ascending=False)
     l_componentes  = Modulo.objects.all()
     l_etapas = Etapa.objects.all()

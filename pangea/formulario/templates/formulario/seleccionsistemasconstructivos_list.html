@@ -11,29 +11,29 @@
     <div class="agregar mb-4 text-right">
       {% if not request.user.is_staff %}
         <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
-        <a class='ml-2' href="{% url 'forms:maquinaria' id_f %}">Agregar</a>
+        <a class='ml-2' href="{% url 'forms:selecsistemas' id_f %}">Agregar</a>
       {% else %}
         <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
-        <a class='ml-2' href="{% url 'forms:maquinaria' id_f %}">Agregar</a>
+        <a class='ml-2' href="{% url 'forms:selecsistemas' id_f %}">Agregar</a>
         <a class='ml-2' href="{% url 'forms:completo' id_f %}">Estado</a>
       {% endif %}
     </div>    
-    
+
+
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col">Maquinaria</th>
-          <th scope="col">número de horas</th>
-          <th scope="col">cobertura</th>
+          <th scope="col">Sistemas constructivos</th>
         </tr>
       </thead>
       <tbody>
-      {% for i in maquinariacobertura_list %}
+      {% for i in seleccionsistemasconstructivos_list %}
         {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
-          <tr>
-            <th scope="row"><a href="{% url 'forms:maquinaria-update' i.id %}">{{ i.maquinaria }} </a></th>
-            <td>{{i.horas}}</td>
-            <td>{{i.cobertura}}</td>
+          {% for sis in i.sistemas.all %}
+            <tr>
+              <td scope="row"><a href="{% url 'forms:selecsistemas-update' i.id %}">{{ sis }}</a></td>
+            </tr>
+          {% endfor %}
         {% endif %}
       {% endfor %}
       </tbody>

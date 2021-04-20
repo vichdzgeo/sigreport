@@ -10,6 +10,63 @@ def regresa_instancia_title(key,modelo):
         if i.title == key:
             return i
 
+
+
+class DescripcionProcesosConstructivosForm(forms.ModelForm):
+    class Meta:
+        model = DescripcionProcesosConstructivos
+        fields = '__all__'
+        exclude =('created','updated')
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'proceso_constructivo': forms.Select(attrs={'class':'form-control'}),
+            'contenido': forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+
+class SeleccionSistemasConstructivosForm(forms.ModelForm):
+    class Meta:
+        model = SeleccionSistemasConstructivos
+        fields = '__all__'
+        exclude =('created','updated')
+        widgets = {
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'sistemas': forms.SelectMultiple(attrs={'class':'form-control'}),
+        }
+
+        labels ={
+            'sistemas':'Seleccionar sistemas constructivos'
+        }
+
+
+class DatosGeneralForm(forms.ModelForm):
+    class Meta:
+        model = DatosGeneral
+        fields =  '__all__'
+        exclude =('created','updated')
+        widgets = { 
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'sup_aprov_total': forms.NumberInput(attrs={'class':'form-control'}),
+            'sup_edi': forms.NumberInput(attrs={'class':'form-control'}),
+            'sup_const_no_edi': forms.NumberInput(attrs={'class':'form-control'}),
+            'nivel_max': forms.NumberInput(attrs={'class':'form-control'}),
+            'zonificacion': forms.TextInput(attrs={'class':'form-control'})
+        }
+    def clean_componente_fase_etapa(self):
+        componente = self.cleaned_data.get("componente")
+        fase = self.cleaned_data.get("fase")
+        etapa = self.cleaned_data.get("etapa")
+        if 'componente' in self.changed_data and 'fase' in self.changed_data and 'etapa' in self.changed_data:
+            if DatosGeneral.objects.fiter(componente=componente, fase=fase,etapa=etapa).exits():
+                raise form.ValidationError("Esta descripción general para este componente ya fue registrada")
+            return componente,fase,etapa
+
 class FormLocalizacionC(forms.ModelForm):
 
     class Meta:
@@ -60,18 +117,20 @@ class FrecuenciaActividadesCForm(forms.ModelForm):
 class DescripcionGeneralForm(forms.ModelForm):
     class Meta:
         model = DescripcionGeneral
-        fields = ['componente','fase','etapa','content']
+        fields = ['componente','fase','etapa','duracion','content']
      
         widgets = {
             'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'duracion': forms.TextInput(attrs={'class':'form-control',}),        
             'content': forms.TextInput(attrs={'class':'form-control',}),        
         }
 
         labels={
             'content':'Agregar la descripción'
         }
+        
 
 class DescripcionGeneralFigurasForm(forms.ModelForm):
 
@@ -80,9 +139,9 @@ class DescripcionGeneralFigurasForm(forms.ModelForm):
         fields = ['componente','fase','etapa','image','pie']
         
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control'}),
-            'fase': forms.Select(attrs={'class':'form-control'}),
-            'etapa': forms.Select(attrs={'class':'form-control'}),
+            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
             'pie': forms.TextInput(attrs={'class':'form-control'}),         
         }

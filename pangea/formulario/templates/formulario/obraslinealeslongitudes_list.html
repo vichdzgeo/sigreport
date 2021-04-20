@@ -9,9 +9,15 @@
     <h2 class="mt-3">{{p_title}}</h2>
     <p class="mt-3">{{p_componente}} - {{p_fase}} - {{p_etapa}}</p>
     <div class="agregar mb-4 text-right">
-      <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
-      <a class='ml-2' href="{% url 'forms:obraslineales' id_f %}">Agregar</a>
-    </div>
+      {% if not request.user.is_staff %}
+        <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
+        <a class='ml-2' href="{% url 'forms:obraslineales' id_f %}">Agregar</a>
+      {% else %}
+        <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
+        <a class='ml-2' href="{% url 'forms:obraslineales' id_f %}">Agregar</a>
+        <a class='ml-2' href="{% url 'forms:completo' id_f %}">Estado</a>
+      {% endif %}
+    </div>    
     
     <table class="table  table-striped mt-5">
       <thead>

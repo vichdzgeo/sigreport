@@ -38,7 +38,6 @@
                                                     <label class="form-check-label" for="id_{{avance}}">
                                                         {% with 'forms:'|add:avance.nurl as name %}     
                                                             <a href="{% url name avance.id %}">{{avance}}</a>
-                                                            <a href="{% url 'forms:completo' avance.id %}" class="ml-x">estado</a>
                                                         {% endwith %}
                                                     </label>
                                                     </div>
@@ -47,8 +46,7 @@
                                                     <input class="form-check-input" type="checkbox" value="" id="id_c_{{avance}}" checked>
                                                     <label class="form-check-label" for="id_c_{{avance}}">
                                                         {% with 'forms:'|add:avance.nurl as name %}     
-                                                            <a href="{% url name avance.id %}">{{avance}}</a>
-                                                            <a href="{% url 'forms:completo' avance.id %}" class="ml-x">status</a>
+                                                            <a href="{% url name avance.id %}">{{avance}}</a>                                                            
                                                         {% endwith %}
                                                     </label>
                                                     </div>

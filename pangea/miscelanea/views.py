@@ -8,10 +8,11 @@ from django.views.generic import TemplateView
 from .forms import *
 from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 # Create your views here.
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class CatalogosPageView(TemplateView):
     template_name = "miscelanea/catalogos.html"
 
@@ -41,7 +42,7 @@ class CatalogosPageView(TemplateView):
         return context
 
 #### -- PARA MODULOS - ######
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ModuloListView(ListView):
     model = Modulo
     template_name = "miscelanea/modulo_list.html"
@@ -53,7 +54,7 @@ class ModuloListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ModuloCreate(CreateView):
     model = Modulo
     form_class = ModuloForm
@@ -64,7 +65,7 @@ class ModuloCreate(CreateView):
         context['p_title']="Agregar componente"
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ModuloUpdate(UpdateView):
     model = Modulo
     form_class = ModuloForm
@@ -84,19 +85,19 @@ class ModuloUpdate(UpdateView):
 
 
 ### Maquinas
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class MaquinaListView(ListView):
     model = Maquina
     template_name = "miscelanea/maquina_list.html"
     paginate_by = 20
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class MaquinaCreate(CreateView):
     model = Maquina
     form_class = MaquinaForm
     success_url = reverse_lazy('catalogos:maquinas')
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class MaquinaUpdate(UpdateView):
     model = Maquina
     form_class = MaquinaForm
@@ -112,7 +113,7 @@ class MaquinaUpdate(UpdateView):
 
 ## Obras lineales
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ObrasLinealesListView(ListView):
     model = ObrasLineales
     template_name = "miscelanea/obraslineales_list.html"
@@ -123,7 +124,7 @@ class ObrasLinealesListView(ListView):
         context['p_title']=ObrasLineales._meta.verbose_name
         
         return context
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ObrasLinealesCreate(CreateView):
     model = ObrasLineales
     form_class = ObrasLinealesForm
@@ -134,7 +135,7 @@ class ObrasLinealesCreate(CreateView):
         context['p_title']="Agregar obra lineal"
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ObrasLinealesUpdate(UpdateView):
     model = ObrasLineales
     form_class = ObrasLinealesForm
@@ -152,7 +153,7 @@ class ObrasLinealesUpdate(UpdateView):
 
 ## unidades
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class UnidadListView(ListView):
     model = Unidad
     template_name = "miscelanea/unidad_list.html"
@@ -163,7 +164,7 @@ class UnidadListView(ListView):
         context['p_title']="Lista de unidades"
         
         return context
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class UnidadCreate(CreateView):
     model = Unidad
     form_class = UnidadForm
@@ -174,7 +175,7 @@ class UnidadCreate(CreateView):
         context['p_title']="Agregar unidad"
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class UnidadUpdate(UpdateView):
     model = Unidad
     form_class = UnidadForm
@@ -193,7 +194,7 @@ class UnidadUpdate(UpdateView):
 
 ## Edificacion Provisional
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class EdiProvisionalListView(ListView):
     model = EdificacionProvisional
     template_name = "miscelanea/edificacionprovisional_list.html"
@@ -205,7 +206,7 @@ class EdiProvisionalListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class EdiProvisionalCreate(CreateView):
     model = EdificacionProvisional
     form_class = EdificacionProvisionalForm
@@ -216,7 +217,7 @@ class EdiProvisionalCreate(CreateView):
         context['p_title']="Agregar edificación"
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class EdiProvisionalUpdate(UpdateView):
     model = EdificacionProvisional
     form_class = EdificacionProvisionalForm
@@ -233,7 +234,7 @@ class EdiProvisionalUpdate(UpdateView):
         return reverse_lazy('catalogos:edificio-update',args=[self.object.id]) + '?ok'
 
 ## Actividad Provisional
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ActProvisionalListView(ListView):
     model = ActividadProvisional
     template_name = "miscelanea/actividadprovisional_list.html"
@@ -245,7 +246,7 @@ class ActProvisionalListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 
 class ActProvisionalCreate(CreateView):
     model = ActividadProvisional
@@ -257,7 +258,7 @@ class ActProvisionalCreate(CreateView):
         context['p_title']="Agregar actividad"
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ActProvisionalUpdate(UpdateView):
     model = ActividadProvisional
     form_class = ActividadProvisionalForm
@@ -275,7 +276,7 @@ class ActProvisionalUpdate(UpdateView):
 
 ## Insumos lista
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class InsumosListaListView(ListView):
     model = InsumosLista
     template_name = "miscelanea/insumoslista_list.html"
@@ -287,7 +288,7 @@ class InsumosListaListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 
 class InsumosListaCreate(CreateView):
     model = InsumosLista
@@ -299,7 +300,7 @@ class InsumosListaCreate(CreateView):
         context['p_title']=InsumosLista._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class InsumosListaUpdate(UpdateView):
     model = InsumosLista
     form_class = InsumosListaForm
@@ -318,7 +319,7 @@ class InsumosListaUpdate(UpdateView):
 
 ## Sustancias quimicas
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class SustanciasQuimicasPListView(ListView):
     model = SustanciasQuimicasP
     template_name = "miscelanea/sustanciasquimicasp_list.html"
@@ -330,7 +331,7 @@ class SustanciasQuimicasPListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 
 class SustanciasQuimicasPCreate(CreateView):
     model = SustanciasQuimicasP
@@ -342,7 +343,7 @@ class SustanciasQuimicasPCreate(CreateView):
         context['p_title']=SustanciasQuimicasP._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class SustanciasQuimicasPUpdate(UpdateView):
     model = SustanciasQuimicasP
     form_class = SustanciasQuimicasPForm
@@ -360,7 +361,7 @@ class SustanciasQuimicasPUpdate(UpdateView):
 
 ## listado floristico
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class  ListadoFloristicoListView(ListView):
     model =  ListadoFloristico
     template_name = "miscelanea/listadofloristico_list.html"
@@ -372,7 +373,7 @@ class  ListadoFloristicoListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class  ListadoFloristicoCreate(CreateView):
     model =  ListadoFloristico
     form_class = ListadoFloristicoForm
@@ -385,7 +386,7 @@ class  ListadoFloristicoCreate(CreateView):
 
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class  ListadoFloristicoUpdate(UpdateView):
     model =  ListadoFloristico
     form_class =  ListadoFloristicoForm
@@ -403,7 +404,7 @@ class  ListadoFloristicoUpdate(UpdateView):
 
 ## ListaTipoPersonal
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class  ListaTipoPersonalListView(ListView):
     model =  ListaTipoPersonal
     template_name = "miscelanea/listatipopersonal_list.html"
@@ -415,7 +416,7 @@ class  ListaTipoPersonalListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class  ListaTipoPersonalCreate(CreateView):
     model = ListaTipoPersonal
     form_class = ListaTipoPersonalForm
@@ -428,7 +429,7 @@ class  ListaTipoPersonalCreate(CreateView):
 
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class  ListaTipoPersonalUpdate(UpdateView):
     model =  ListaTipoPersonal
     form_class =  ListaTipoPersonalForm
@@ -448,7 +449,7 @@ class  ListaTipoPersonalUpdate(UpdateView):
 
 ## PROCESOS constructivos
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaProcesoConstructivoListView(ListView):
     model = ListaProcesoConstructivo
     template_name = "miscelanea/listaprocesoconstructivo_list.html"
@@ -460,7 +461,7 @@ class ListaProcesoConstructivoListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 
 class ListaProcesoConstructivoCreate(CreateView):
     model = ListaProcesoConstructivo
@@ -472,7 +473,7 @@ class ListaProcesoConstructivoCreate(CreateView):
         context['p_title']=ListaProcesoConstructivo._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaProcesoConstructivoUpdate(UpdateView):
     model = ListaProcesoConstructivo
     form_class = ListaProcesoConstructivoForm
@@ -490,7 +491,7 @@ class ListaProcesoConstructivoUpdate(UpdateView):
 
 ## Tipos de residuos
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTipoResiduosListView(ListView):
     model = ListaTipoResiduos
     template_name = "miscelanea/listatiporesiduos_list.html"
@@ -502,7 +503,7 @@ class ListaTipoResiduosListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 
 class ListaTipoResiduosCreate(CreateView):
     model = ListaTipoResiduos
@@ -514,7 +515,7 @@ class ListaTipoResiduosCreate(CreateView):
         context['p_title']=ListaTipoResiduos._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTipoResiduosUpdate(UpdateView):
     model = ListaTipoResiduos
     form_class = ListaTipoResiduosForm
@@ -532,7 +533,7 @@ class ListaTipoResiduosUpdate(UpdateView):
 
 ## Tipos de agua
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class TipoAguaListView(ListView):
     model = TipoAgua
     template_name = "miscelanea/tipoagua_list.html"
@@ -544,7 +545,7 @@ class TipoAguaListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 
 class TipoAguaCreate(CreateView):
     model = TipoAgua
@@ -556,7 +557,7 @@ class TipoAguaCreate(CreateView):
         context['p_title']=TipoAgua._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class TipoAguaUpdate(UpdateView):
     model = TipoAgua
     form_class = TipoAguaForm
@@ -573,7 +574,7 @@ class TipoAguaUpdate(UpdateView):
         return reverse_lazy('catalogos:tagua-update',args=[self.object.id]) + '?ok'
 
 ## Tipos de agua residual
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class TipoAguaResidualListView(ListView):
     model = TipoAguaResidual
     template_name = "miscelanea/tipoaguaresidual_list.html"
@@ -585,7 +586,7 @@ class TipoAguaResidualListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class TipoAguaResidualCreate(CreateView):
     model = TipoAguaResidual
     form_class = TipoAguaResidualForm
@@ -596,7 +597,7 @@ class TipoAguaResidualCreate(CreateView):
         context['p_title']=TipoAguaResidual._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class TipoAguaResidualUpdate(UpdateView):
     model = TipoAguaResidual
     form_class = TipoAguaResidualForm
@@ -614,7 +615,7 @@ class TipoAguaResidualUpdate(UpdateView):
 
 
 ## Tipos de aprovechamiento
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTiposAprovechamientoListView(ListView):
     model = ListaTiposAprovechamiento
     template_name = "miscelanea/listatiposaprovechamiento_list.html"
@@ -626,7 +627,7 @@ class ListaTiposAprovechamientoListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTiposAprovechamientoCreate(CreateView):
     model = ListaTiposAprovechamiento
     form_class = ListaTiposAprovechamientoForm
@@ -637,7 +638,7 @@ class ListaTiposAprovechamientoCreate(CreateView):
         context['p_title']=ListaTiposAprovechamiento._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTiposAprovechamientoUpdate(UpdateView):
     model = ListaTiposAprovechamiento
     form_class = ListaTiposAprovechamientoForm
@@ -653,7 +654,7 @@ class ListaTiposAprovechamientoUpdate(UpdateView):
         return reverse_lazy('catalogos:aprovechamiento-update',args=[self.object.id]) + '?ok'
 
 ## Tipos de cobertura
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTiposCoberturaListView(ListView):
     model = ListaTiposCobertura
     template_name = "miscelanea/listatiposcobertura_list.html"
@@ -665,7 +666,7 @@ class ListaTiposCoberturaListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTiposCoberturaCreate(CreateView):
     model = ListaTiposCobertura
     form_class = ListaTiposCoberturaForm
@@ -676,7 +677,7 @@ class ListaTiposCoberturaCreate(CreateView):
         context['p_title']=ListaTiposCobertura._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTiposCoberturaUpdate(UpdateView):
     model = ListaTiposCobertura
     form_class = ListaTiposCoberturaForm
@@ -693,7 +694,7 @@ class ListaTiposCoberturaUpdate(UpdateView):
         return reverse_lazy('catalogos:cobertura-update',args=[self.object.id]) + '?ok'
 
 ## Tipos zonificación
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaZonificacionListView(ListView):
     model = ListaZonificacion
     template_name = "miscelanea/listazonificacion_list.html"
@@ -705,7 +706,7 @@ class ListaZonificacionListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaZonificacionCreate(CreateView):
     model = ListaZonificacion
     form_class = ListaZonificacionForm
@@ -716,7 +717,7 @@ class ListaZonificacionCreate(CreateView):
         context['p_title']=ListaZonificacion._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaZonificacionUpdate(UpdateView):
     model = ListaZonificacion
     form_class = ListaZonificacionForm
@@ -733,7 +734,7 @@ class ListaZonificacionUpdate(UpdateView):
         return reverse_lazy('catalogos:zona-update',args=[self.object.id]) + '?ok'
 
 ## Tipos de movimienttos de tierra
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class MovimientoTierraListView(ListView):
     model = MovimientoTierra
     template_name = "miscelanea/movimientotierra_list.html"
@@ -745,7 +746,7 @@ class MovimientoTierraListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class MovimientoTierraCreate(CreateView):
     model = MovimientoTierra
     form_class = MovimientoTierraForm
@@ -756,7 +757,7 @@ class MovimientoTierraCreate(CreateView):
         context['p_title']=MovimientoTierra._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class MovimientoTierraUpdate(UpdateView):
     model = MovimientoTierra
     form_class = MovimientoTierraForm
@@ -773,7 +774,7 @@ class MovimientoTierraUpdate(UpdateView):
         return reverse_lazy('catalogos:tierra-update',args=[self.object.id]) + '?ok'
 
 ## Tipos de construcción y edificacion
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTiposConsEdifListView(ListView):
     model = ListaTiposConsEdif
     template_name = "miscelanea/listatiposconsedif_list.html"
@@ -785,7 +786,7 @@ class ListaTiposConsEdifListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTiposConsEdifCreate(CreateView):
     model = ListaTiposConsEdif
     form_class = ListaTiposConsEdifForm
@@ -796,7 +797,7 @@ class ListaTiposConsEdifCreate(CreateView):
         context['p_title']=ListaTiposConsEdif._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaTiposConsEdifUpdate(UpdateView):
     model = ListaTiposConsEdif
     form_class = ListaTiposConsEdifForm
@@ -814,7 +815,7 @@ class ListaTiposConsEdifUpdate(UpdateView):
 
 ## Sistemas constructivos
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaSisConstructivoListView(ListView):
     model = ListaSisConstructivo
     template_name = "miscelanea/listasisconstructivo_list.html"
@@ -826,7 +827,7 @@ class ListaSisConstructivoListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 
 class ListaSisConstructivoCreate(CreateView):
     model = ListaSisConstructivo
@@ -838,7 +839,7 @@ class ListaSisConstructivoCreate(CreateView):
         context['p_title']=ListaSisConstructivo._meta.verbose_name
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaSisConstructivoUpdate(UpdateView):
     model = ListaSisConstructivo
     form_class = ListaSisConstructivoForm
@@ -856,7 +857,7 @@ class ListaSisConstructivoUpdate(UpdateView):
 
 ## Descripción de Sistemas constructivos
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class DescripcionSisConstructivoListView(ListView):
     model = DescripcionSisConstructivo
     template_name = "miscelanea/descripcionsisconstructivo_list.html"
@@ -868,11 +869,11 @@ class DescripcionSisConstructivoListView(ListView):
         
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 
 class DescripcionSisConstructivoCreate(CreateView):
     model = DescripcionSisConstructivo
-    form_class = DescripcionSisConstructivoForm
+    form_class = DescripcionSisConstructivoFormCreate
     #success_url = reverse_lazy('catalogos:descsistema')
 
 
@@ -883,46 +884,62 @@ class DescripcionSisConstructivoCreate(CreateView):
         context['lasfiguras']= ListaSisConstructivoFiguras.objects.all()
         return context
 
-@method_decorator(staff_member_required,name='dispatch')
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:descsistema')
+
+@method_decorator(login_required,name='dispatch')
 class DescripcionSisConstructivoUpdate(UpdateView):
     model = DescripcionSisConstructivo
     form_class = DescripcionSisConstructivoForm
     template_name_suffix = '_update_form'
     
     def get_context_data(self, **kwargs):
+        print(kwargs)
+
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         context = super().get_context_data(**kwargs)
+        print(context["object"].sistema, this_id)
         context['p_title']="Actualizar"
+        context['sistemaTitle']="Actualizar"
+        context['sis_id']=this_id
+        context['lasfiguras']= ListaSisConstructivoFiguras.objects.filter(descripcion_id=this_id)
         context['txt_actualizacion']="Registro actualizado correctamente"
         return context
     
     def get_success_url(self):
 
-        return reverse_lazy('catalogos:descsistema-update',args=[self.object.id]) + '?ok'
+        return reverse_lazy('catalogos:descsistema')
 
 ########## figuras sistemas constructivos
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaSisConstructivoFigurasCreate(CreateView):
     
     model = ListaSisConstructivoFiguras
-    #form_class = FormLocalizacionC
-    fields = '__all__'
+    form_class = agregaFiguraForm
+    
     #success_url = reverse_lazy('forms:actividad-create')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-        id_form = ListaSisConstructivo.objects.filter(id=this_id)[0]
-        initial_data = {'sistema':id_form.id}
-        context['form']=ListaSisConstructivoFigurasForm(initial=initial_data)
+        id_form = DescripcionSisConstructivo.objects.filter(id=this_id)[0]
+
+        initial_data = {'sistema':1, 'descripcion':id_form.id}
+        print(context)
+        context['form']=agregaFiguraForm(initial=initial_data)
         return context
 
-    def get_success_url(self):
-        return  reverse_lazy('catalogos:descsistema-create')
+    def get_success_url(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = DescripcionSisConstructivo.objects.filter(id=this_id)[0]
+        return  reverse_lazy('catalogos:descsistema-update',args=[id_form.id,])
 
 
 
-@method_decorator(staff_member_required,name='dispatch')
+@method_decorator(login_required,name='dispatch')
 class ListaSisConstructivoFigurasUpdate(UpdateView):
     model = ListaSisConstructivoFiguras
     form_class = ListaSisConstructivoFigurasForm

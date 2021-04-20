@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import *
-formulario_patterns = ([
+formulario_patterns = ([  
     path('localizacion/<int:pk>/', LocalizacionCreate.as_view(), name='localizacion'),
     path('fig-loc/<int:pk>/', LocalizacionCListView.as_view(), name='fig-loc'),
     path('fig-update/<int:pk>/',LocalizacionCUpdate.as_view(),name='fig-update'),
@@ -15,11 +15,17 @@ formulario_patterns = ([
     path('datosgenerales-list/<int:pk>/',  DatosGeneralListView.as_view(), name='datosgenerales-list'),
     path('datosgenerales-update/<int:pk>/',  DatosGeneralUpdate.as_view(),name='datosgenerales-update'),
     
+    path('selecsistemas/<int:pk>/', SeleccionSistemasConstructivosCreate.as_view(),name='selecsistemas'),
+    path('selecsistemas-list/<int:pk>/', SeleccionSistemasConstructivosListView.as_view(), name='selecsistemas-list'),
+    path('selecsistemas-update/<int:pk>/', SeleccionSistemasConstructivosUpdate.as_view(),name='selecsistemas-update'),
+
     path('generales/<int:pk>/', DescripcionGeneralCreate.as_view(),name='generales'),
     path('generales-list/<int:pk>/',  DescripcionGeneralListView.as_view(), name='generales-list'),
+    path('generales-detail/<int:pk>/',  DescripcionGeneralDetailView.as_view(), name='generales-detail'),
     path('generales-update/<int:pk>/',  DescripcionGeneralUpdate.as_view(),name='generales-update'),
 
     path('generalesfiguras/<int:pk>/', DescripcionGeneralFigurasCreate.as_view(),name='generalesfiguras'),
+    path('generalesfigurasu/<int:pk>/', DescripcionGeneralFigurasCreate.as_view(),name='generalesfigurasu'),
     path('generalesfiguras-list/<int:pk>/',  DescripcionGeneralFigurasListView.as_view(), name='generalesfiguras-list'),
     path('generalesfiguras-update/<int:pk>/',  DescripcionGeneralFigurasUpdate.as_view(),name='generalesfiguras-update'),
 
@@ -44,4 +50,8 @@ formulario_patterns = ([
     path('obraslineales-list/<int:pk>/',  ObrasLinealesLongitudesListView.as_view(), name='obraslineales-list'),
     path('obraslineales/<int:pk>/', ObrasLinealesLongitudesCreate.as_view(),name='obraslineales'),
     path('obraslineales-update/<int:pk>/', ObrasLinealesLongitudesUpdate.as_view(),name='obraslineales-update'),
+
+    path('descprocesos-list/<int:pk>/',  DescripcionProcesosConstructivosListView.as_view(), name='descprocesos-list'),
+    path('descprocesos/<int:pk>/', DescripcionProcesosConstructivosCreate.as_view(),name='descprocesos'),
+    path('descprocesos-update/<int:pk>/', DescripcionProcesosConstructivosUpdate.as_view(),name='descprocesos-update'),
 ],'forms')

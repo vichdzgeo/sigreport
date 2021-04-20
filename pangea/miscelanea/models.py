@@ -165,7 +165,7 @@ class ListaSisConstructivo(models.Model):
         verbose_name_plural = "Lista de sistemas constructivos"
         ordering = ["sistema"]
     def __str__(self):
-        return self.sistema
+        return str(self.sistema)
 
 class DescripcionSisConstructivo(models.Model):
     
@@ -178,10 +178,11 @@ class DescripcionSisConstructivo(models.Model):
         verbose_name_plural = "Descripción de sistemas constructivos"
         ordering = ["sistema"]
     def __str__(self):
-        return self.sistema
+        return str(self.sistema)
 
 
 class ListaSisConstructivoFiguras(models.Model):
+    descripcion = models.ForeignKey(DescripcionSisConstructivo,on_delete=models.CASCADE,default="")
     sistema = models.ForeignKey(ListaSisConstructivo,on_delete=models.CASCADE,default="")
     image = models.ImageField(default = 'null', verbose_name="Figura",upload_to="sistemasconstructivos-fig")
     pie = models.CharField(max_length=300,verbose_name="pie de figura")

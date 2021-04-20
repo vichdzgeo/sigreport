@@ -6,7 +6,7 @@ Tipos de aprovechamiento por tipo de cobertura y zonificación	6	1	Construcción
 "Desmonte, despalme, excavación y relleno por tipo de zonificación"	6	1	Construcción	generales-list	13	
 Tipos de construcción-edificación por tipo de cobertura	6	2	Construcción	generales-list	5	
 Procesos constructivos por tipo de cobertura	6	1	Construcción	generales-list	6	
-Descripción de procesos constructivos 	7	1	Construcción	generales-list	7	
+Descripción de procesos constructivos 	7	1	Construcción	descprocesos-list	7	
 Superficie de obras o edificaciones provisionales temporales	5	3	Construcción	obrastemporales-list	8	
 Frecuencia de actividades de obras provisionales	5	3	Construcción	actividades-list	9	
 Insumos requeridos por zonificación	5	1	Construcción	generales-list	10	
@@ -16,6 +16,6 @@ Personal requerido por zonificación	6	1	Construcción	personal-list	14
 Generación de residuos por zonificación 	6	1	Construcción	generales-list	15	
 Consumo de agua 	5	1	Construcción	consumoagua-list	16	
 Generación de aguas residuales	5	1	Construcción	aguaresidual-list	17	
-Selección de sistemas constructivos 	7	1	Construcción	generales-list	18	
+Selección de sistemas constructivos 	7	1	Construcción	selecsistemas-list	18	
 Listado florístico en el módulo	5	4	Construcción	flor-list	19	
 Longitud de obras lineales	5	5	Construcción	obraslineales-list	20	

@@ -832,7 +832,7 @@ class ListaSisConstructivoListView(ListView):
 class ListaSisConstructivoCreate(CreateView):
     model = ListaSisConstructivo
     form_class = ListaSisConstructivoForm
-    success_url = reverse_lazy('catalogos:sistemas')
+    success_url = reverse_lazy('catalogos:sistema')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -923,7 +923,9 @@ class ListaSisConstructivoFigurasCreate(CreateView):
     def form_valid(self, form):
         
         form.instance.sistema = ListaSisConstructivo.objects.first()
-        print(self.request.POST)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = DescripcionSisConstructivo.objects.filter(id=this_id)[0]
+        form.instance.descripcion = id_form
         #form.instance.descripcion = self.request.
         return super(ListaSisConstructivoFigurasCreate, self).form_valid(form)
 
@@ -931,7 +933,7 @@ class ListaSisConstructivoFigurasCreate(CreateView):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = DescripcionSisConstructivo.objects.filter(id=this_id)[0]
-
+        context['titulo'] = id_form.sistema
         initial_data = {'sistema':1, 'descripcion':id_form.id}
         print(context)
         context['form']=agregaFiguraForm(initial=initial_data)

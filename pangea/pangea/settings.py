@@ -16,11 +16,11 @@ import os
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 
-'''#Descomentar para entorno en casa 
-STATICFILES_DIRS = (
-   os.path.join(BASE_DIR,'static'),
-)
-'''
+# #Descomentar para entorno en casa 
+# STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR,'static'),
+# )
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -45,12 +45,36 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ckeditor',
+    #'mdeditor',
     'bootstrap4',
     'cap2',
     'miscelanea.apps.MiscelaneaConfig',
     'formulario.apps.FormularioConfig',
     'ficha',
 ]
+
+CKEDITOR_CONFIGS = {
+    # django-ckeditor the default configuration is used 
+    'default': {
+        #  editor width adaptive 
+        'width':'auto',
+        'height':'100px',
+        # tab key to convert the number of spaces 
+        'tabSpaces': 4,
+        #  toolbar style 
+        'toolbar': 'Custom',
+        #  toolbar button 
+        'toolbar_Custom': [
+            #  the font style 
+            ['Format'],
+            ['Bold', 'Italic', 'Underline','Subscript', 'Superscript'],
+            #  lists
+            ['NumberedList', 'BulletedList']
+        ],
+        #  add the code block plug-in 
+        #'extraPlugins': 'markdown'
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

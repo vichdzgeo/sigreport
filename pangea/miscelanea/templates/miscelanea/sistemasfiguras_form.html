@@ -14,7 +14,6 @@
                 <div class="agregar mb-4 text-right">
                   <a href="{% url 'forms:sistemasfiguras' f_id %}">Agregar figura</a>
                 </div>
-                <h2>{{object.sistema}}</h2>
                 {% if 'ok' in request.GET %}
                   <div class="alert alert-success text-center" role="alert">{{txt_exitoso}}</div>
                 {% endif %}

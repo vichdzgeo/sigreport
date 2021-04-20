@@ -920,7 +920,13 @@ class ListaSisConstructivoFigurasCreate(CreateView):
     form_class = agregaFiguraForm
     
     #success_url = reverse_lazy('forms:actividad-create')
-    
+    def form_valid(self, form):
+        
+        form.instance.sistema = ListaSisConstructivo.objects.first()
+        print(self.request.POST)
+        #form.instance.descripcion = self.request.
+        return super(ListaSisConstructivoFigurasCreate, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])

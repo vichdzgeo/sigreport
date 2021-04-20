@@ -28,9 +28,10 @@
     <div class="container mb-4">
       
       {% for txt in descripciongeneral_list|dictsort:"id" reversed %}
-        <p >Duración de las obras o actividades: {{txt.duracion}}</p>
-        <a href="{% url 'forms:generales-update' txt.id  %}">Editar</a>
+        
         {% if txt.componente == p_componente and txt.fase == p_fase and txt.etapa == p_etapa %}
+          <p >Duración de las obras o actividades: {{txt.duracion}}</p>
+          <a href="{% url 'forms:generales-update' txt.id  %}">Editar</a>
           <div class="row mt-3">
             <div class="col-md-9 mx-auto">
               <p scope="row"></p>

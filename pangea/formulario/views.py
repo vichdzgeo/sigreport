@@ -15,6 +15,7 @@ import pandas as pd
 import pandas as pd 
 from django.conf import settings
 import os 
+from django.http import HttpResponse
 def regresa(key,modelo):
     for i in objetos:
         if i.title == key:
@@ -510,19 +511,19 @@ class PersonalRequeridoUpdate(UpdateView):
 
 
 
-################################################ maquinaria cobertura
+################################################ maquinaria zonificacion
 
 @method_decorator(login_required,name='dispatch')
-class MaquinariaCoberturaListView(ListView):
-    model = MaquinariaCobertura
-    template_name = "formulario/maquinariacobertura_list.html"
+class MaquinariaZonificacionListView(ListView):
+    model = MaquinariaZonificacion
+    template_name = "formulario/maquinariazonificacion_list.html"
     paginate_by = 20
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         context['id_f']=this_id
         id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
-        context['p_title']=MaquinariaCobertura._meta.verbose_name
+        context['p_title']=MaquinariaZonificacion._meta.verbose_name
         context['p_componente']=id_form.componente
         context['p_fase']=id_form.fase
         context['p_etapa']= id_form.etapa
@@ -530,9 +531,9 @@ class MaquinariaCoberturaListView(ListView):
         return context
 
 @method_decorator(login_required,name='dispatch')
-class MaquinariaCoberturaCreate(CreateView):
+class MaquinariaZonificacionCreate(CreateView):
     
-    model = MaquinariaCobertura
+    model = MaquinariaZonificacion
     #form_class = FormLocalizacionC
     fields = '__all__'
     #success_url = reverse_lazy('forms:actividad-create')
@@ -544,13 +545,13 @@ class MaquinariaCoberturaCreate(CreateView):
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
         context['id_f']=this_id
-        context['p_title']=MaquinariaCobertura._meta.verbose_name
+        context['p_title']=MaquinariaZonificacion._meta.verbose_name
         context['p_componente']=id_form.componente.title
         context['p_fase']=id_form.fase.title
         context['p_etapa']= id_form.etapa.title
         context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
         initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
-        context['form']=MaquinariaCoberturaForm(initial=initial_data)
+        context['form']=MaquinariaZonificacionForm(initial=initial_data)
         return context
 
     def get_success_url(self):
@@ -560,9 +561,9 @@ class MaquinariaCoberturaCreate(CreateView):
 
 
 @method_decorator(login_required,name='dispatch')
-class MaquinariaCoberturaUpdate(UpdateView):
-    model = MaquinariaCobertura
-    form_class = MaquinariaCoberturaForm
+class MaquinariaZonificacionUpdate(UpdateView):
+    model = MaquinariaZonificacion
+    form_class = MaquinariaZonificacionForm
     template_name_suffix = '_update_form'
 
     def get_success_url(self):

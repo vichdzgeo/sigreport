@@ -226,44 +226,43 @@ class ListadoFloristicoCForm(forms.ModelForm):
 class PersonalRequeridoForm(forms.ModelForm):
     class Meta:
         model = PersonalRequerido
-        fields = ['componente','fase','etapa','personal','cobertura','n_personal']
+        fields = ['componente','fase','etapa','personal','n_prot','n_rest','n_apro']
      
         widgets = {
             'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'personal': forms.Select(attrs={'class':'form-control'}),
-            'cobertura': forms.Select(attrs={'class':'form-control'}),
-            'n_personal': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_prot': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_rest': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_apro': forms.NumberInput(attrs={'class':'form-control'}),
+            
             
         }
 
         labels={
             'personal':'Seleccionar el tipo de personal',
-            'cobertura':'Seleccionar el tipo de cobertura',
-            'n_personal':'Ingresar el número de personal',
 
         }
 
-class MaquinariaCoberturaForm(forms.ModelForm):
+class MaquinariaZonificacionForm(forms.ModelForm):
     class Meta:
-        model = MaquinariaCobertura
-        fields = ['componente','fase','etapa','maquinaria','cobertura','horas']
+        model = MaquinariaZonificacion
+        fields = ['componente','fase','etapa','maquinaria','n_prot','n_rest','n_apro']
      
         widgets = {
             'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'maquinaria': forms.Select(attrs={'class':'form-control'}),
-            'cobertura': forms.Select(attrs={'class':'form-control'}),
-            'horas': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_prot': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_rest': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_apro': forms.NumberInput(attrs={'class':'form-control'}),
             
         }
 
         labels={
             'maquinaria':'Seleccionar el tipo de maquinaria',
-            'cobertura':'Seleccionar el tipo de cobertura',
-            'horas':'Ingresar el número de horas',
 
         }
 

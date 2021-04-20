@@ -23,11 +23,9 @@
       <thead>
         <tr>
           <th scope="col">Personal</th>
-          <th scope="col">número de personal</th>
-          <th scope="col">cobertura</th>
-          {% comment %} <th scope="col">Fase</th>
-          <th scope="col">Etapa</th>
-          <th scope="col">Componente</th> {% endcomment %}
+          <th scope="col">PROT</th>
+          <th scope="col">REST</th>
+          <th scope="col">APRO</th>
         </tr>
       </thead>
       <tbody>
@@ -35,12 +33,10 @@
         {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
           <tr>
             <th scope="row"><a href="{% url 'forms:personal-update' i.id %}">{{i.personal}} </a></th>
-            <td>{{i.n_personal}}</td>
-            <td>{{i.cobertura}}</td>
-            {% comment %} <td>{{actividad.fase}}</td>
-            <td>{{actividad.etapa}}</td>
-            <td>{{actividad.componente}}</td>
-          </tr> {% endcomment %}
+            <td>{{i.n_prot}}</td>
+            <td>{{i.n_rest}}</td>
+            <td>{{i.n_apro}}</td>
+          </tr> 
         {% endif %}
       {% endfor %}
       </tbody>

@@ -280,32 +280,36 @@ class PersonalRequerido(models.Model):
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     personal = models.ForeignKey(ListaTipoPersonal, on_delete=models.CASCADE,default="")
     cobertura = models.ForeignKey(ListaTiposCobertura, on_delete=models.CASCADE,default='')
-    n_personal = models.IntegerField(verbose_name="Número de personal",default=0)
+    n_prot = models.IntegerField(verbose_name="Número de personal por zonificación Protección - PROT",default=0)
+    n_rest = models.IntegerField(verbose_name="Número de personal por zonificación Uso restringido -  REST",default=0)
+    n_apro = models.IntegerField(verbose_name="Número de personal por zonificación Uso Aprovechamiento controlado - APRO",default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
     class Meta:
-        verbose_name = "Personal"
-        verbose_name_plural = "Personal"
+        verbose_name = "Personal requerido por zonificación"
+        verbose_name_plural = "Personal requerido por zonificación"
         ordering = ['created']
 
     def __str__(self):
         return str(self.id)
 
+#MaquinariaCobertura
         
-class MaquinariaCobertura(models.Model):
+class MaquinariaZonificacion(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     maquinaria = models.ForeignKey(Maquina, on_delete=models.CASCADE,default='')
-    cobertura = models.ForeignKey(ListaTiposCobertura, on_delete=models.CASCADE,default='')
-    horas = models.IntegerField(verbose_name="Número de horas",default=0)
+    n_prot = models.IntegerField(verbose_name="Número de horas por zonificación Protección - PROT",default=0)
+    n_rest = models.IntegerField(verbose_name="Número de horas por zonificación Uso restringido -  REST",default=0)
+    n_apro = models.IntegerField(verbose_name="Número de horas por zonificación Uso Aprovechamiento controlado - APRO",default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
     class Meta:
-        verbose_name = "Maquinaria por cobertura y zonificación"
-        verbose_name_plural = "Maquinarias por cobertura y zonificación"
+        verbose_name = "Maquinaria por zonificación"
+        verbose_name_plural = "Maquinaria por zonificación"
         ordering = ['created']
 
     def __str__(self):

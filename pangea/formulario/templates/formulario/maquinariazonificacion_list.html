@@ -23,17 +23,19 @@
       <thead>
         <tr>
           <th scope="col">Maquinaria</th>
-          <th scope="col">número de horas</th>
-          <th scope="col">cobertura</th>
+          <th scope="col">PROT</th>
+          <th scope="col">REST</th>
+          <th scope="col">APRO</th>
         </tr>
       </thead>
       <tbody>
-      {% for i in maquinariacobertura_list %}
+      {% for i in maquinariazonificacion_list %}
         {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
           <tr>
             <th scope="row"><a href="{% url 'forms:maquinaria-update' i.id %}">{{ i.maquinaria }} </a></th>
-            <td>{{i.horas}}</td>
-            <td>{{i.cobertura}}</td>
+            <td>{{i.n_prot}}</td>
+            <td>{{i.n_rest}}</td>
+            <td>{{i.n_apro}}</td>
         {% endif %}
       {% endfor %}
       </tbody>

@@ -58,7 +58,7 @@ CKEDITOR_CONFIGS = {
     'default': {
         #  editor width adaptive 
         'width':'auto',
-        'height':'100px',
+        'height':'500px',
         # tab key to convert the number of spaces 
         'tabSpaces': 4,
         #  toolbar style 

@@ -57,7 +57,7 @@ CKEDITOR_CONFIGS = {
     # django-ckeditor the default configuration is used 
     'default': {
         #  editor width adaptive 
-        'width':'600px',
+        'width':'800px',
         'height':'500px',
         # tab key to convert the number of spaces 
         'tabSpaces': 4,

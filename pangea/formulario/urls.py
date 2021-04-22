@@ -14,7 +14,10 @@ formulario_patterns = ([
     path('datosgenerales/<int:pk>/', DatosGeneralCreate.as_view(),name='datosgenerales'),
     path('datosgenerales-list/<int:pk>/',  DatosGeneralListView.as_view(), name='datosgenerales-list'),
     path('datosgenerales-update/<int:pk>/',  DatosGeneralUpdate.as_view(),name='datosgenerales-update'),
-    
+
+    path('selecprocesos/<int:pk>/', SeleccionProcesosConstructivosCreate.as_view(),name='selecprocesos'),
+    path('selecprocesos-update/<int:pk>/', SeleccionProcesosConstructivosUpdate.as_view(),name='selecprocesos-update'),
+
     path('selecsistemas/<int:pk>/', SeleccionSistemasConstructivosCreate.as_view(),name='selecsistemas'),
     path('selecsistemas-list/<int:pk>/', SeleccionSistemasConstructivosListView.as_view(), name='selecsistemas-list'),
     path('selecsistemas-update/<int:pk>/', SeleccionSistemasConstructivosUpdate.as_view(),name='selecsistemas-update'),
@@ -51,7 +54,4 @@ formulario_patterns = ([
     path('obraslineales/<int:pk>/', ObrasLinealesLongitudesCreate.as_view(),name='obraslineales'),
     path('obraslineales-update/<int:pk>/', ObrasLinealesLongitudesUpdate.as_view(),name='obraslineales-update'),
 
-    path('descprocesos-list/<int:pk>/',  DescripcionProcesosConstructivosListView.as_view(), name='descprocesos-list'),
-    path('descprocesos/<int:pk>/', DescripcionProcesosConstructivosCreate.as_view(),name='descprocesos'),
-    path('descprocesos-update/<int:pk>/', DescripcionProcesosConstructivosUpdate.as_view(),name='descprocesos-update'),
 ],'forms')

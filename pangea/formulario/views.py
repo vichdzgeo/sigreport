@@ -12,10 +12,10 @@ from django.urls import reverse_lazy
 from django import forms 
 from .models import * 
 import pandas as pd 
-import pandas as pd 
 from django.conf import settings
 import os 
 from django.http import HttpResponse
+from django.shortcuts import redirect
 def regresa(key,modelo):
     for i in objetos:
         if i.title == key:
@@ -31,59 +31,74 @@ def regresa_instancia_id(key,modelo):
             return i
 
 
-###### Descripción de procesos constructivos
-@method_decorator(login_required,name='dispatch')
-class DescripcionProcesosConstructivosListView(ListView):
-    model = DescripcionProcesosConstructivos
-    template_name = "formulario/descripcionprocesosconstructivos_list.html"
-    paginate_by = 5
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-        context['id_f']=this_id
-        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
-        context['p_title']=DescripcionProcesosConstructivos._meta.verbose_name
-        context['p_componente']=id_form.componente
-        context['p_fase']=id_form.fase
-        context['p_etapa']= id_form.etapa
-        
-        return context
+##### Selección de procesos constructivos 
 
 @method_decorator(login_required,name='dispatch')
-class DescripcionProcesosConstructivosCreate(CreateView):
+class SeleccionProcesosConstructivosCreate(CreateView):
     
-    model = DescripcionProcesosConstructivos
-    fields = '__all__'
+    model = SeleccionProcesosConstructivos
+    form_class = SeleccionProcesosConstructivosForm
+
+    def get(self, *args, **kwargs):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        if SeleccionProcesosConstructivos.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id):
+            id_form_fig = SeleccionProcesosConstructivos.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id)
+            return redirect('forms:selecprocesos-update',id_form_fig[0].id)
+        else:
+            return super().get(*args, **kwargs)
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(SeleccionProcesosConstructivosCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
         context['id_f']=this_id
-        context['p_title']=DescripcionProcesosConstructivos._meta.verbose_name
+        context['p_title']=SeleccionProcesosConstructivos._meta.verbose_name
         context['p_componente']=id_form.componente.title
         context['p_fase']=id_form.fase.title
         context['p_etapa']= id_form.etapa.title
         context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
         initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
-        context['form']=DescripcionProcesosConstructivosForm(initial=initial_data)
+        context['form']=SeleccionProcesosConstructivosForm(initial=initial_data)
         return context
 
     def get_success_url(self):
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0]
-        return  reverse_lazy('forms:descprocesos',args=[this_id]) + '?ok'
+        return  reverse_lazy('forms:fichas')
 
 
 @method_decorator(login_required,name='dispatch')
-class DescripcionProcesosConstructivosUpdate(UpdateView):
-    model = DescripcionProcesosConstructivos
-    form_class = DescripcionProcesosConstructivosForm
+class SeleccionProcesosConstructivosUpdate(UpdateView):
+    model = SeleccionProcesosConstructivos
+    form_class = SeleccionProcesosConstructivosForm
     template_name_suffix = '_update_form'
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        elemento = SeleccionProcesosConstructivos.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['i']=elemento   
+        context['p_componente']=elemento.componente
+        context['p_fase']= elemento.fase
+        context['p_etapa']= elemento.etapa
+        context['avance'] = CatForm.objects.filter(title='Selección de procesos constructivos',
+                                            etapa=elemento.etapa,
+                                            componente=elemento.componente)[0]
+        return context
 
     def get_success_url(self):
-        return reverse_lazy('forms:descprocesos-update',args=[self.object.id]) + '?ok'
+        return reverse_lazy('forms:fichas')
+
 
 
 
@@ -93,7 +108,25 @@ class DescripcionProcesosConstructivosUpdate(UpdateView):
 class SeleccionSistemasConstructivosCreate(CreateView):
     
     model = SeleccionSistemasConstructivos
-    fields = '__all__'
+    form_class = SeleccionSistemasConstructivosForm
+
+    def get(self, *args, **kwargs):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        if SeleccionSistemasConstructivos.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id):
+            id_form_fig = SeleccionSistemasConstructivos.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id)
+            return redirect('forms:selecsistemas-update',id_form_fig[0].id)
+        else:
+            return super().get(*args, **kwargs)
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(SeleccionSistemasConstructivosCreate, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
@@ -111,7 +144,7 @@ class SeleccionSistemasConstructivosCreate(CreateView):
     def get_success_url(self):
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0]
-        return  reverse_lazy('forms:selecsistemas',args=[this_id]) + '?ok'
+        return  reverse_lazy('forms:fichas')
 
 @method_decorator(login_required,name='dispatch')
 class SeleccionSistemasConstructivosListView(ListView):
@@ -135,10 +168,22 @@ class SeleccionSistemasConstructivosUpdate(UpdateView):
     model = SeleccionSistemasConstructivos
     form_class = SeleccionSistemasConstructivosForm
     template_name_suffix = '_update_form'
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        elemento = SeleccionSistemasConstructivos.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['i']=elemento   
+        context['p_componente']=elemento.componente
+        context['p_fase']= elemento.fase
+        context['p_etapa']= elemento.etapa
+        context['avance'] = CatForm.objects.filter(title='Selección de sistemas constructivos',
+                                            etapa=elemento.etapa,
+                                            componente=elemento.componente)[0]
+        return context
 
     def get_success_url(self):
-        return reverse_lazy('forms:selecsistemas-update',args=[self.object.id]) + '?ok'
+        return reverse_lazy('forms:fichas')
 
 
 ###### Longitud de obras lineales
@@ -163,11 +208,17 @@ class ObrasLinealesLongitudesListView(ListView):
 class ObrasLinealesLongitudesCreate(CreateView):
     
     model = ObrasLinealesLongitudes
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
-    
+    form_class = ObrasLinealesLongitudesForm
 
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(ObrasLinealesLongitudesCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -224,11 +275,17 @@ class SuperficieObrasCListView(ListView):
 class SuperficieObrasCCreate(CreateView):
     
     model = SuperficieObrasC
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
-    
+    form_class = SuperficieObrasCForm
 
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(SuperficieObrasCCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -288,11 +345,17 @@ class AguasResidualesCListView(ListView):
 class AguasResidualesCCreate(CreateView):
     
     model = AguasResidualesC
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
-    
+    form_class = AguasResidualesCForm
 
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(AguasResidualesCCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -350,11 +413,17 @@ class ConsumoAguaCListView(ListView):
 class ConsumoAguaCCreate(CreateView):
     
     model = ConsumoAguaC
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
-    
+    form_class = ConsumoAguaCForm
 
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(ConsumoAguaCCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -411,11 +480,17 @@ class ListadoFloristicoCListView(ListView):
 class ListadoFloristicoCCreate(CreateView):
     
     model = ListadoFloristicoC
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
-    
+    form_class = ListadoFloristicoCForm
 
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(ListadoFloristicoCCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -472,11 +547,17 @@ class PersonalRequeridoListView(ListView):
 class PersonalRequeridoCreate(CreateView):
     
     model = PersonalRequerido
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
-    
+    form_class = PersonalRequeridoForm
 
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(PersonalRequeridoCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -534,11 +615,17 @@ class MaquinariaZonificacionListView(ListView):
 class MaquinariaZonificacionCreate(CreateView):
     
     model = MaquinariaZonificacion
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
-    
+    form_class = MaquinariaZonificacionForm
 
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(MaquinariaZonificacionCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -595,8 +682,28 @@ class DatosGeneralListView(ListView):
 class DatosGeneralCreate(CreateView):
     
     model = DatosGeneral
-    fields = '__all__'
+    form_class = DatosGeneralForm
     
+    def get(self, *args, **kwargs):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        if DatosGeneral.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id):
+            id_form_fig = DatosGeneral.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id)
+            return redirect('forms:datosgenerales-update',id_form_fig[0].id)
+        else:
+            return super().get(*args, **kwargs)
+
+
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(DatosGeneralCreate, self).form_valid(form)
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
@@ -622,7 +729,19 @@ class DatosGeneralUpdate(UpdateView):
     model = DatosGeneral
     form_class = DatosGeneralForm
     template_name_suffix = '_update_form'
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        elemento = DatosGeneral.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['i']=elemento   
+        context['p_componente']=elemento.componente
+        context['p_fase']= elemento.fase
+        context['p_etapa']= elemento.etapa
+        context['avance'] = CatForm.objects.filter(title=DatosGeneral._meta.verbose_name,
+                                            etapa=elemento.etapa,
+                                            componente=elemento.componente)[0]
+        return context
     def get_success_url(self):
         return reverse_lazy('forms:datosgenerales-update',args=[self.object.id]) + '?ok'
 
@@ -652,7 +771,7 @@ class DescripcionGeneralDetailView(DetailView):
         return context
 
 
-
+#### esto no se ocupa ya ###
 @method_decorator(login_required,name='dispatch')
 class DescripcionGeneralListView(ListView):
     model = DescripcionGeneral
@@ -675,9 +794,27 @@ class DescripcionGeneralListView(ListView):
 class DescripcionGeneralCreate(CreateView):
     
     model = DescripcionGeneral
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
+    form_class = DescripcionGeneralForm
+
+
+    def get(self, *args, **kwargs):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        if DescripcionGeneral.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id):
+            id_form_fig = DescripcionGeneral.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id)
+            return redirect('forms:generales-update',id_form_fig[0].id)
+        else:
+            return super().get(*args, **kwargs)
+
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(DescripcionGeneralCreate, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
@@ -689,7 +826,7 @@ class DescripcionGeneralCreate(CreateView):
         context['p_etapa']= id_form.etapa.title
         context['f_id']= this_id
         
-        context['descripcionfiguras']= DescripcionGeneralFiguras.objects.all()
+        #context['descripcionfiguras']= DescripcionGeneralFiguras.objects.all()
         context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
         initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
         context['form']=DescripcionGeneralForm(initial=initial_data)
@@ -698,9 +835,10 @@ class DescripcionGeneralCreate(CreateView):
     def get_success_url(self):
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0]
-        return  reverse_lazy('forms:generales-list',args=[this_id]) + '?ok'
+        return  reverse_lazy('forms:fichas')
 
 @method_decorator(login_required,name='dispatch')
+
 class DescripcionGeneralUpdate(UpdateView):
     model = DescripcionGeneral
     form_class = DescripcionGeneralForm
@@ -709,13 +847,16 @@ class DescripcionGeneralUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-        id_element = DescripcionGeneral.objects.filter(id=this_id)[0] #NO MODIFICAR
-        context['p_componente']=id_element.componente.title
-        context['p_fase']=id_element.fase.title
-        context['p_etapa']= id_element.etapa.title
+        elemento = DescripcionGeneral.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_componente']=elemento.componente.title
+        context['p_fase']=elemento.fase.title
+        context['p_etapa']= elemento.etapa.title
         context['f_id']= this_id
         context['p_title']=DescripcionGeneral._meta.verbose_name
-        context['descripcionfiguras']= DescripcionGeneralFiguras.objects.all()
+        context['avance'] = CatForm.objects.filter(title='Descripción general del componente',
+                                            etapa=elemento.etapa,
+                                            componente=elemento.componente)[0]
+        context['descripcionfiguras']= DescripcionGeneralFiguras.objects.filter(componente=elemento.componente.id,etapa=elemento.etapa)
         context['txt_exitoso']='Actualizado correctamente'
 
         return context
@@ -723,9 +864,6 @@ class DescripcionGeneralUpdate(UpdateView):
         return reverse_lazy('forms:generales-update',args=[self.object.id]) + '?ok'
 
 ###### Descripción general Figuras
-
-
-
 @method_decorator(login_required,name='dispatch')
 class DescripcionGeneralFigurasListView(ListView):
     model = DescripcionGeneralFiguras
@@ -747,19 +885,23 @@ class DescripcionGeneralFigurasListView(ListView):
 class DescripcionGeneralFigurasCreate(CreateView):
     
     model = DescripcionGeneralFiguras
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
+    form_class = DescripcionGeneralFigurasForm
     
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = DescripcionGeneral.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(DescripcionGeneralFigurasCreate, self).form_valid(form)
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_lugar =str(self.request.get_full_path()).split("/")[-3]
-        if this_lugar == 'generalesfiguras':
-            this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-            id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
-        elif this_lugar == 'generalesfigurasu':
-            this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-            id_form = DescripcionGeneral.objects.filter(id=this_id)[0] #NO MODIFICAR
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = DescripcionGeneral.objects.filter(id=this_id)[0] #NO MODIFICAR
 
         context['id_f']=this_id
         context['this_lugar']=this_lugar
@@ -773,16 +915,9 @@ class DescripcionGeneralFigurasCreate(CreateView):
         return context
 
     def get_success_url(self):
-        this_lugar =str(self.request.get_full_path()).split("/")[-3]
-        if this_lugar == 'generalesfiguras':
-            this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-            id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
-            return  reverse_lazy('forms:generalesfiguras',args=[this_id]) + '?ok'
-        elif this_lugar == 'generalesfigurasu':
-            this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-            id_form = DescripcionGeneral.objects.filter(id=this_id)[0]
-
-            return  reverse_lazy('forms:generalesfigurasu',args=[this_id]) + '?ok'
+        this_id =str(self.request.get_full_path()).split("/")[-2]
+        return  reverse_lazy('forms:generales-update',args=[this_id]) + '?ok'
+ 
 
 
 @method_decorator(login_required,name='dispatch')
@@ -821,11 +956,17 @@ class FrecuenciaActividadesCListView(ListView):
 class FrecuenciaActividadesCCreate(CreateView):
     
     model = FrecuenciaActividadesC
-    #form_class = FormLocalizacionC
-    fields = '__all__'
-    #success_url = reverse_lazy('forms:actividad-create')
-    
+    form_class = FrecuenciaActividadesCForm
 
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(FrecuenciaActividadesCCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -862,24 +1003,41 @@ class FrecuenciaActividadesCUpdate(UpdateView):
 class LocalizacionCreate(CreateView):
     
     model = ImagenLocalizacionC
-    #form_class = FormLocalizacionC
-    fields = '__all__'
+    form_class = FormLocalizacionC
+    def get(self, *args, **kwargs):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        if ImagenLocalizacionC.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id):
+            id_form_fig = ImagenLocalizacionC.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id)
+            return redirect('forms:fig-update',id_form_fig[0].id)
+        else:
+            return super().get(*args, **kwargs)
     
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(LocalizacionCreate, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0]
         initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
         context['form']=FormLocalizacionC(initial=initial_data)
+        context['p_componente']=id_form.componente
+        context['p_etapa']= id_form.etapa
         return context
 
     def get_success_url(self):
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0]
-        return  reverse_lazy('forms:fig-loc',args=[this_id]) + '?ok'
+        return  reverse_lazy('forms:fichas')
 
-login_required
-#@method_decorator(login_required,name='dispatch')
+
 @method_decorator(login_required,name='dispatch')
 class LocalizacionCListView(ListView):
     model = ImagenLocalizacionC
@@ -894,8 +1052,10 @@ class LocalizacionCListView(ListView):
         context['p_componente']=id_form.componente
         context['p_fase']=id_form.fase
         context['p_etapa']= id_form.etapa
+        context['existe1'] = len(ImagenLocalizacionC.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id))
         
         return context
+
 
 
 
@@ -906,9 +1066,23 @@ class LocalizacionCUpdate(UpdateView):
     model = ImagenLocalizacionC
     form_class = FormLocalizacionC
     template_name_suffix = '_update_form'
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        figura = ImagenLocalizacionC.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['i']=figura   
+        context['p_componente']=figura.componente
+        context['p_fase']= figura.fase
+        context['p_etapa']= figura.etapa
+        context['avance'] = CatForm.objects.filter(title='Imagen de localización y tipos de aprovechamiento',
+                                            etapa=figura.etapa.id,
+                                            componente=figura.componente.id)[0]
+        return context
+
     def get_success_url(self):
         return reverse_lazy('forms:fig-update',args=[self.object.id]) + '?ok'
+
 
 
 ## Confirmación de formularios
@@ -923,7 +1097,7 @@ class CatFormUpdate(UpdateView):
         id_form = CatForm.objects.filter(id=this_id)[0]
         
         context['p_title']="Formulario completo"
-        context['p_subtitle']=id_form.componente.title+" - "+id_form.fase.title+" - "+ id_form.etapa.title
+        context['p_subtitle']=id_form.componente.title+" - "+id_form.fase.title+" - "+ str(id_form.etapa.title)
         if id_form.completo is True:
             context['txt_actualizacion']="Estado del formualario: completo y validado"
         else:
@@ -974,137 +1148,138 @@ def agregar_estructura(request):
     l_fases = Fase.objects.all()
     dicc_fases ={}
 
-
+    
     for componente_i in l_componentes:
         for etapa_i in l_etapas:
-            for index, row in estructura.iterrows():
-                
-                if row['tipo_c']== 1 and componente_i.t_base == True: #and componente_i.t_aprov_edificable == False and componente_i.t_obras == False and componente_i.t_areas_verdes == False and componente_i.t_aprov_lineal == False:
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
+            if etapa_i in componente_i.etapas.all():
+                print("si esta")
+                for index, row in estructura.iterrows():
 
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+                    if row['tipo_c']== 1 and componente_i.t_base == True: #and componente_i.t_aprov_edificable == False and componente_i.t_obras == False and componente_i.t_areas_verdes == False and componente_i.t_aprov_lineal == False:
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
-                
-                elif row['tipo_c']== 2 and componente_i.t_base == True and componente_i.t_aprov_edificable == True:  
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+                    
+                    elif row['tipo_c']== 2 and componente_i.t_base == True and componente_i.t_aprov_edificable == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
 
-                elif row['tipo_c']== 3 and componente_i.t_base == True and componente_i.t_obras == True:  
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
+                    elif row['tipo_c']== 3 and componente_i.t_base == True and componente_i.t_obras == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
 
-                elif row['tipo_c']== 4 and componente_i.t_base == True and componente_i.t_areas_verdes == True:  
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
+                    elif row['tipo_c']== 4 and componente_i.t_base == True and componente_i.t_areas_verdes == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
 
-                elif row['tipo_c']== 5 and componente_i.t_base == True and componente_i.t_aprov_lineal == True:  
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
-            
+                    elif row['tipo_c']== 5 and componente_i.t_base == True and componente_i.t_aprov_lineal == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
+
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
             
     return HttpResponse("estructura creada")
 

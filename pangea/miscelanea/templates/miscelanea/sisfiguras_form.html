@@ -3,22 +3,6 @@
 {% block title %}{{p_title}}{% endblock %}
 {% block content %}
 
-<script type="text/javascript"> 
-   
-   function getsistema(){
-    sistema_select = document.getElementsByName("sistema")[0];
-    id_sistema = sistema_select.value;
-    a = document.getElementById("id_a");
-    a.setAttribute("href","/catalogos/sistemasfiguras-create/"+id_sistema+"/");
-    }
-  function setListener(){
-    sistema_select = document.getElementsByName("sistema")[0];
-    sistema_select.addEventListener('change', getsistema);
-  }
-</script>
-
-
-
 <main role="main">
   <div class="row">
     <div class="col-sm-12">
@@ -28,44 +12,40 @@
             <div class="row mt-3 mb-5">
               <div class="col-md-9 mx-auto">
                 <div class="agregar mb-4 text-right">
-                  <a href="{% url 'catalogos:descsistema' %}">Ver lista</a>
+                  <a href="{% url 'catalogos:sistemasfiguras-create' f_id %}">Agregar figura</a>
                 </div>
-                <h1>{{ object.sistema}} </h1>
                 {% if 'ok' in request.GET %}
                   <div class="alert alert-success text-center" role="alert">{{txt_exitoso}}</div>
-                {% endif %} 
-                <form action="" method="post">{% csrf_token %}
+                {% endif %}
+                <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
                   <table>
                       {{ form.as_p }}
                   </table>
                   <div class = "text-center">
-                    <input type="submit" class = "btn btn-primary btn-block"value="Actualizar" />
+                    <input type="submit" class = "btn btn-primary btn-block"value="Agregar" />
                   </div>
-                </form> 
-              </div>
-            </div>
+                </form> <!--cierre de form-->
+              </div><!--cierre de div de formulario-->
+            </div><!--cierre de row de formulario-->
           </div>
         </div>
         <div class="col-4 col-sm-4">
           <h3 class="mt-3">Figuras citables</h3>
-          <a id = "id_a" href="{% url 'catalogos:sistemasfiguras-create' sis_id %}">Agregar figura</a>
           {% for i in lasfiguras %}
-            
-            
+            {% comment %} {% if i.sys_id == this_sys_id %} {% endcomment %}
               <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
                 <div class="bg-white rounded shadow-sm"><img src="{{ i.image.url }}" alt="" class="img-fluid card-img-top">
                     <div class="p-4">
-                      <h5> <a href="#" class="text-dark">(fig{{i.id}})</a></h5>
+                      <h5> <a href="{% url 'catalogos:sistemasfiguras-update' i.id %}" class="text-dark">ID = fig{{i.id}}</a></h5>
                     </div>
                 </div>
               </div>
-            
-          {% endfor %} 
-         
+            {% comment %} {% endif %} {% endcomment %}
+          {% endfor %} <!--Cierre for -->
         </div>
       </div>
     </div>
   </div>
-  
+
 </main>
 {% endblock %}

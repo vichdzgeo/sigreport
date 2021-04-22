@@ -6,7 +6,7 @@ from ckeditor.fields import RichTextField
 
 
 class ObrasLineales(models.Model):
-    tipo =  models.CharField(max_length=10,verbose_name = "Tipo de obra lineal")
+    tipo =  models.CharField(max_length=280,verbose_name = "Tipo de obra lineal")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 
@@ -46,7 +46,7 @@ class Maquina(models.Model):
         return self.tipo
 
 class Unidad(models.Model):
-    title =  models.CharField(max_length=10,verbose_name = "Unidad de medida")
+    title =  models.CharField(max_length=50,verbose_name = "Unidad de medida")
     description = models.TextField(max_length=50,verbose_name="Descripción")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
@@ -61,7 +61,6 @@ class Unidad(models.Model):
 
 class EdificacionProvisional(models.Model):
     title =  models.CharField(max_length=1500,verbose_name = "Edificación en obras provisionales")
-    description = models.TextField(max_length=1500,verbose_name="Descripción",blank = True)
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 
@@ -155,35 +154,35 @@ class ListaTipoPersonal(models.Model):
     def __str__(self):
         return self.tipo
 
-class ListaSisConstructivo(models.Model):
-    
-    sistema = models.CharField(max_length=300,verbose_name = "Sistema constructivo")
+
+class ProcConstructivo(models.Model):
+    title = models.CharField(max_length=300,verbose_name = "Proceso constructivo")
+    content = RichTextField(verbose_name="Descripción del proceso constructivo", default="")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
     class Meta:
-        verbose_name = "Lista de sistemas constructivos"
-        verbose_name_plural = "Lista de sistemas constructivos"
-        ordering = ["sistema"]
+        verbose_name = "Descripción de procesos constructivos"
+        verbose_name_plural = "Descripción de procesos constructivos"
+        ordering = ["title"]
     def __str__(self):
-        return str(self.sistema)
+        return str(self.title)
 
-class DescripcionSisConstructivo(models.Model):
-    
-    sistema = models.ForeignKey(ListaSisConstructivo,on_delete=models.CASCADE,default="")
+
+class SisConstructivo(models.Model):
+    title = models.CharField(max_length=300,verbose_name = "Sistema constructivo")
+    #images = models.ManyToManyField(SisFiguras,on_delete=models.CASCADE,default="")
     content = RichTextField(verbose_name="Descipción del sistema constructivo", default="")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
     class Meta:
         verbose_name = "Descripción de sistemas constructivos"
         verbose_name_plural = "Descripción de sistemas constructivos"
-        ordering = ["sistema"]
+        ordering = ["title"]
     def __str__(self):
-        return str(self.sistema)
+        return str(self.title)
 
-
-class ListaSisConstructivoFiguras(models.Model):
-    descripcion = models.ForeignKey(DescripcionSisConstructivo,on_delete=models.CASCADE,default="")
-    sistema = models.ForeignKey(ListaSisConstructivo,on_delete=models.CASCADE,default="")
+class SisFiguras(models.Model):
+    sistema = models.ForeignKey(SisConstructivo,on_delete=models.CASCADE,default="")
     image = models.ImageField(default = 'null', verbose_name="Figura",upload_to="sistemasconstructivos-fig")
     pie = models.CharField(max_length=300,verbose_name="pie de figura")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
@@ -196,7 +195,9 @@ class ListaSisConstructivoFiguras(models.Model):
 
 
     def __str__(self):
-        return self.pie        
+        return self.pie    
+
+
 
 class ListaProcesoConstructivo(models.Model):
     proceso = models.CharField(max_length=280,verbose_name = "Proceso constructivo")

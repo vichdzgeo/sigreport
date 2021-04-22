@@ -8,8 +8,41 @@ from django.db.models.signals import post_save
 # from formulario.models import CatForm 
 # from formulario.views import agregar_estructura
 
+
+class Fase(models.Model):
+    title = models.CharField(max_length=100,verbose_name="Fase")
+    descripcion = models.TextField(max_length=1500,verbose_name="Descripción",blank=True,null=True)
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+    
+    class Meta:
+        verbose_name = "Fase"
+        verbose_name_plural = "Fases"
+        ordering = ["-created"]
+    
+    def __str__(self):
+        return str(self.title)
+
+
+class Etapa(models.Model):
+    fase = models.ForeignKey(Fase,on_delete=models.CASCADE,default="")
+    title = models.PositiveIntegerField(verbose_name="Etapa",default=1)
+    inicio = models.PositiveIntegerField(verbose_name='Inicio',default=1)
+    fin = models.PositiveIntegerField(verbose_name='fin',default=99)
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+    class Meta:
+        verbose_name = "Etapa"
+        verbose_name_plural = "Etapas"
+        ordering = ["-created"]
+    
+    def __str__(self):
+        return str(str(self.fase)+" Etapa "+str(self.title))
+
+
 class Modulo(models.Model):
-    title = models.CharField(max_length=150,verbose_name="Componente")
+    title = models.CharField(max_length=280,verbose_name="Componente")
+    etapas = models.ManyToManyField(Etapa,verbose_name="Selecciona las etapas")
     abreviatura = models.CharField(max_length=10,verbose_name="Abreviatura",default="")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
@@ -28,33 +61,7 @@ class Modulo(models.Model):
         return str(self.title)
 
 
-class Fase(models.Model):
-    title = models.CharField(max_length=300,verbose_name="Fase")
-    descripcion = models.TextField(max_length=1500,verbose_name="Descripción",blank=True,null=True)
-    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
-    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
-    
-    class Meta:
-        verbose_name = "Fase"
-        verbose_name_plural = "Fases"
-        ordering = ["-created"]
-    
-    def __str__(self):
-        return str(self.title)
 
-class Etapa(models.Model):
-    title = models.CharField(max_length=2,verbose_name="Etapa")
-    inicio = models.PositiveIntegerField(verbose_name='Inicio',default=1)
-    fin = models.PositiveIntegerField(verbose_name='fin',default=99)
-    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
-    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
-    class Meta:
-        verbose_name = "Etapa"
-        verbose_name_plural = "Etapas"
-        ordering = ["-created"]
-    
-    def __str__(self):
-        return str(self.title)
 
 
 

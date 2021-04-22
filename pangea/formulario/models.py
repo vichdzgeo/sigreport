@@ -10,7 +10,7 @@ from miscelanea.models import *
 #from mdeditor.fields import MDTextField
 from ckeditor.widgets import CKEditorWidget
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 import pandas as pd 
 from django.conf import settings
 import os
@@ -50,12 +50,32 @@ class DescripcionProcesosConstructivos(models.Model):
         return str(self.id)
 
 
+###  seleccion procesos const
+class SeleccionProcesosConstructivos(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default="")
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default = None,blank=True,null=True)
+    procesos = models.ManyToManyField(ProcConstructivo, verbose_name="Procesos construcitivos")
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")#     
+
+    class Meta:
+        verbose_name = "Selección de procesos constructivos"
+        verbose_name_plural = "Selección de procesos constructivos"
+        ordering = ["-created"]
+    
+    def __str__(self):
+        return str(self.id)
+
+
+
+
 ### Sistemas constructivos seleccion
 class SeleccionSistemasConstructivos(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default="")
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default = None,blank=True,null=True)
-    sistemas = models.ManyToManyField(DescripcionSisConstructivo, verbose_name="Sistemas construcitivos")
+    sistemas = models.ManyToManyField(SisConstructivo, verbose_name="Sistemas construcitivos")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")#     
 
@@ -229,7 +249,7 @@ class DescripcionGeneral(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
-    duracion = models.TextField(max_length=30,verbose_name='Duración de las obras o actividades',default='')
+    duracion = models.PositiveIntegerField(verbose_name='Días de duración de las obras o actividades en la etapa',default=1)
     content = RichTextField(verbose_name="Descipción general del componente para esta etapa")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
@@ -346,137 +366,170 @@ def agrega_estructura():
 
     
     for componente_i in l_componentes:
+        print(componente_i.title,componente_i.etapas.all())
         for etapa_i in l_etapas:
-            for index, row in estructura.iterrows():
-                
-                if row['tipo_c']== 1 and componente_i.t_base == True: #and componente_i.t_aprov_edificable == False and componente_i.t_obras == False and componente_i.t_areas_verdes == False and componente_i.t_aprov_lineal == False:
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
+            print("for etapa",componente_i.title,etapa_i)
 
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+            if etapa_i in componente_i.etapas.all():
+                print("si esta")
+                for index, row in estructura.iterrows():
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
-                
-                elif row['tipo_c']== 2 and componente_i.t_base == True and componente_i.t_aprov_edificable == True:  
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+                    if row['tipo_c']== 1 and componente_i.t_base == True: #and componente_i.t_aprov_edificable == False and componente_i.t_obras == False and componente_i.t_areas_verdes == False and componente_i.t_aprov_lineal == False:
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
 
-                elif row['tipo_c']== 3 and componente_i.t_base == True and componente_i.t_obras == True:  
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+                    
+                    elif row['tipo_c']== 2 and componente_i.t_base == True and componente_i.t_aprov_edificable == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
 
-                elif row['tipo_c']== 4 and componente_i.t_base == True and componente_i.t_areas_verdes == True:  
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+                    elif row['tipo_c']== 3 and componente_i.t_base == True and componente_i.t_obras == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
 
-                elif row['tipo_c']== 5 and componente_i.t_base == True and componente_i.t_aprov_lineal == True:  
-                    nombre_f = row['nombre'] #0
-                    tipo_f = str(row['tipo']) #1
-                    tipoc_f = str(row['tipo_c']) #2
-                    componente_f =componente_i  #3
-                    fase_f =regresa_i(row['fase'],l_fases) #4
-                    etapa_f = etapa_i  # 5
-                    tag_url = str(row['tag-url'])
-                    orden = int(row['orden'])
-                    existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                    print (len(existe_form))
-                    if len(existe_form)==0:
+                    elif row['tipo_c']== 4 and componente_i.t_base == True and componente_i.t_areas_verdes == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
 
-                        agrega_form = CatForm(
-                            title = nombre_f,
-                            tipo = tipo_f,
-                            tipo_c = tipoc_f,
-                            componente = componente_f,
-                            fase = fase_f,
-                            etapa =etapa_f,
-                            nurl = tag_url,
-                            orden=orden,
-                                            )
-                        agrega_form.save()
-@receiver(post_save,sender=Modulo)
-def ensure_model_exists(sender,instance,**kwargs):
-    if kwargs.get('created',False) or  kwargs.get('created',False):
-        #Catform.objects.get_or_create(title=instance)
-        print("Se acaba de crear la estructura para un modulo")
-        agrega_estructura()
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+
+                    elif row['tipo_c']== 5 and componente_i.t_base == True and componente_i.t_aprov_lineal == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+                        print (len(existe_form))
+                        if len(existe_form)==0:
+
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+
+#@receiver(post_save,sender=Modulo)
+# @receiver(m2m_changed,sender=Modulo.etapas)
+# def ensure_model_exists(sender,instance,**kwargs):
+#     print(instance.etapas.all())
+#     if kwargs.get('created',True):
+#         #Catform.objects.get_or_create(title=instance)
+#         print("Se acaba de crear la estructura para un modulo")
+#         agrega_estructura()
+
+def models_etapas_changed(sender,**kwargs):
+    agrega_estructura()
+m2m_changed.connect(models_etapas_changed,sender=Modulo.etapas.through)
+
+def models_modulo_changed(sender,**kwargs):
+    i_componente = kwargs.get('instance',True)
+    i_aprov_edificable =  kwargs.get('instance',True).t_aprov_edificable #2
+    i_obras =  kwargs.get('instance',True).t_obras #3
+    i_areas_verdes = kwargs.get('instance',True).t_areas_verdes #4
+    i_aprov_lineal =  kwargs.get('instance',True).t_aprov_lineal #5
+    
+    lista_false =[]
+    if i_aprov_edificable is False:
+        lista_false.append("2")    
+    if i_obras is False:
+        lista_false.append("3")  
+    if i_areas_verdes is False:
+        lista_false.append("4")  
+    if i_aprov_lineal is False:
+        lista_false.append("5")
+      
+    CatForm.objects.filter(componente=i_componente,tipo_c__in=lista_false).delete()
+    agrega_estructura()
+post_save.connect(models_modulo_changed,sender=Modulo)

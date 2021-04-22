@@ -19,7 +19,7 @@
       <tbody>
       {% for unidad in unidad_list %}
           <tr>
-            <th scope="row"><a href="{% url 'catalogos:unidad-update' unidad.id %}">{{unidad.title}} </a></th>
+            <th scope="row"><a href="{% url 'catalogos:unidad-update' unidad.id %}">{{unidad.title|safe}} </a></th>
             <td>{{unidad.description}}</td>
           </tr>
       {% endfor %}

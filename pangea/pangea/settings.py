@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ckeditor',
-    #'mdeditor',
     'bootstrap4',
     'cap2',
     'miscelanea.apps.MiscelaneaConfig',
@@ -57,8 +56,10 @@ CKEDITOR_CONFIGS = {
     # django-ckeditor the default configuration is used 
     'default': {
         #  editor width adaptive 
-        'width':'800px',
-        'height':'500px',
+        #'width':'800px',
+        #'height':'500px',
+        'width': '100% !important',
+        'max-width': '821px !important',
         # tab key to convert the number of spaces 
         'tabSpaces': 4,
         #  toolbar style 
@@ -66,10 +67,30 @@ CKEDITOR_CONFIGS = {
         #  toolbar button 
         'toolbar_Custom': [
             #  the font style 
-            ['Format'],
+            #['Format'],
             ['Bold', 'Italic', 'Underline','Subscript', 'Superscript'],
             #  lists
             ['NumberedList', 'BulletedList']
+        ],
+        #  add the code block plug-in 
+        #'extraPlugins': 'markdown'
+    },
+
+    'unidades': {
+        #  editor width adaptive 
+        'width':'auto',
+        'height':'50px',
+        # tab key to convert the number of spaces 
+        'tabSpaces': 4,
+        #  toolbar style 
+        'toolbar': 'Custom',
+        #  toolbar button 
+        'toolbar_Custom': [
+            #  the font style 
+            #['Format'],
+            ['Subscript', 'Superscript'],
+            #  lists
+            #['NumberedList', 'BulletedList']
         ],
         #  add the code block plug-in 
         #'extraPlugins': 'markdown'
@@ -140,7 +161,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'UTC'
 

@@ -18,28 +18,72 @@ class CatalogosPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['num_componentes']=len(Modulo.objects.all().order_by('title'))
-        context['num_macquina']=len(Maquina.objects.all().order_by('tipo'))
-        context['num_unidades']=len(Unidad.objects.all().order_by('title'))
-        context['num_edificios']=len(EdificacionProvisional.objects.all().order_by('title'))
-        context['num_actividades']=len(ActividadProvisional.objects.all().order_by('title'))
-        context['num_insumos']=len(InsumosLista.objects.all().order_by('title'))
-        context['num_quimicas']=len(SustanciasQuimicasP.objects.all().order_by('title'))
-        context['num_flores']=len(ListadoFloristico.objects.all().order_by('especie'))
-        context['num_personal']=len(ListaTipoPersonal.objects.all().order_by('tipo'))
-        context['num_sistemas']=len(ListaSisConstructivo.objects.all().order_by('sistema'))
-        context['num_descsistemas']=len(DescripcionSisConstructivo.objects.all().order_by('sistema'))
-        context['num_procesos']=len(ListaProcesoConstructivo.objects.all().order_by('proceso'))
-        context['num_residuos']=len(ListaTipoResiduos.objects.all().order_by('tipo'))
-        context['num_tagua']=len(TipoAgua.objects.all().order_by('tipo'))
-        context['num_tagresidual']=len(TipoAguaResidual.objects.all().order_by('tipo'))
-        context['num_aprovechamiento']=len(ListaTiposAprovechamiento.objects.all().order_by('tipo'))
-        context['num_cobertura']=len(ListaTiposCobertura.objects.all().order_by('tipo'))
-        context['num_zona']=len(ListaZonificacion.objects.all().order_by('zona'))
-        context['num_tierra']=len(MovimientoTierra.objects.all().order_by('tipo'))
-        context['num_consedi']=len(ListaTiposConsEdif.objects.all().order_by('tipo'))
-        context['num_obraslineales']=len(ObrasLineales.objects.all().order_by('tipo'))
+        context['num_etapas']=len(Etapa.objects.all())
+        context['num_componentes']=len(Modulo.objects.all())
+        context['num_macquina']=len(Maquina.objects.all())
+        context['num_unidades']=len(Unidad.objects.all())
+        context['num_edificios']=len(EdificacionProvisional.objects.all())
+        context['num_actividades']=len(ActividadProvisional.objects.all())
+        context['num_insumos']=len(InsumosLista.objects.all())
+        context['num_quimicas']=len(SustanciasQuimicasP.objects.all())
+        context['num_flores']=len(ListadoFloristico.objects.all())
+        context['num_personal']=len(ListaTipoPersonal.objects.all())
+        context['num_descsistemas']=len(SisConstructivo.objects.all())
+        context['num_procesos']=len(ProcConstructivo.objects.all())
+        context['num_residuos']=len(ListaTipoResiduos.objects.all())
+        context['num_tagua']=len(TipoAgua.objects.all())
+        context['num_tagresidual']=len(TipoAguaResidual.objects.all())
+        context['num_aprovechamiento']=len(ListaTiposAprovechamiento.objects.all())
+        context['num_cobertura']=len(ListaTiposCobertura.objects.all())
+        context['num_zona']=len(ListaZonificacion.objects.all())
+        context['num_tierra']=len(MovimientoTierra.objects.all())
+        context['num_consedi']=len(ListaTiposConsEdif.objects.all())
+        context['num_obraslineales']=len(ObrasLineales.objects.all())
         return context
+
+
+#### -- PARA etapas - ######
+@method_decorator(login_required,name='dispatch')
+class EtapaListView(ListView):
+    model = Etapa
+    template_name = "miscelanea/etapa_list.html"
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Lista de etapas"
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class EtapaCreate(CreateView):
+    model = Etapa
+    form_class = EtapaForm
+    success_url = reverse_lazy('catalogos:etapas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar etapa"
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class EtapaUpdate(UpdateView):
+    model = Etapa
+    form_class = EtapaForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar etapa"
+        context['txt_actualizacion']="Etapa  actualizada correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:etapa-list')
+
+
+
 
 #### -- PARA MODULOS - ######
 @method_decorator(login_required,name='dispatch')
@@ -815,73 +859,124 @@ class ListaTiposConsEdifUpdate(UpdateView):
 
 ## Sistemas constructivos
 
+# @method_decorator(login_required,name='dispatch')
+# class ListaSisConstructivoListView(ListView):
+#     model = ListaSisConstructivo
+#     template_name = "miscelanea/listasisconstructivo_list.html"
+#     paginate_by = 20
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['p_title']=ListaSisConstructivo._meta.verbose_name
+        
+#         return context
+
+# @method_decorator(login_required,name='dispatch')
+
+# class ListaSisConstructivoCreate(CreateView):
+#     model = ListaSisConstructivo
+#     form_class = ListaSisConstructivoForm
+#     success_url = reverse_lazy('catalogos:sistema')
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['p_title']=ListaSisConstructivo._meta.verbose_name
+#         return context
+
+# @method_decorator(login_required,name='dispatch')
+# class ListaSisConstructivoUpdate(UpdateView):
+#     model = ListaSisConstructivo
+#     form_class = ListaSisConstructivoForm
+#     template_name_suffix = '_update_form'
+    
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['p_title']="Actualizar"
+#         context['txt_actualizacion']="Registro actualizado correctamente"
+#         return context
+    
+#     def get_success_url(self):
+
+#         return reverse_lazy('catalogos:sistema-update',args=[self.object.id]) + '?ok'
+
+
+
+## Descripción de Procesos constructivos
+
 @method_decorator(login_required,name='dispatch')
-class ListaSisConstructivoListView(ListView):
-    model = ListaSisConstructivo
-    template_name = "miscelanea/listasisconstructivo_list.html"
+class ProcConstructivoListView(ListView):
+    model = ProcConstructivo
+    template_name = "miscelanea/procconstructivo_list.html"
     paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']=ListaSisConstructivo._meta.verbose_name
+        context['p_title']=ProcConstructivo._meta.verbose_name
         
         return context
 
 @method_decorator(login_required,name='dispatch')
 
-class ListaSisConstructivoCreate(CreateView):
-    model = ListaSisConstructivo
-    form_class = ListaSisConstructivoForm
-    success_url = reverse_lazy('catalogos:sistema')
+class ProcConstructivoCreate(CreateView):
+    model = ProcConstructivo
+    form_class = ProcConstructivoForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']=ListaSisConstructivo._meta.verbose_name
+        context ['n']=1
+        context['p_title']=ProcConstructivo._meta.verbose_name
         return context
 
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:descproceso')
+
 @method_decorator(login_required,name='dispatch')
-class ListaSisConstructivoUpdate(UpdateView):
-    model = ListaSisConstructivo
-    form_class = ListaSisConstructivoForm
+class ProcConstructivoUpdate(UpdateView):
+    model = ProcConstructivo
+    form_class = ProcConstructivoForm
     template_name_suffix = '_update_form'
     
     def get_context_data(self, **kwargs):
+        print(kwargs)
         context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar"
+        context['p_title']=ProcConstructivo._meta.verbose_name
+        context['sis_id']= context['object'].id
         context['txt_actualizacion']="Registro actualizado correctamente"
         return context
     
     def get_success_url(self):
 
-        return reverse_lazy('catalogos:sistema-update',args=[self.object.id]) + '?ok'
+        return reverse_lazy('catalogos:descproceso')
+
 
 ## Descripción de Sistemas constructivos
 
 @method_decorator(login_required,name='dispatch')
-class DescripcionSisConstructivoListView(ListView):
-    model = DescripcionSisConstructivo
-    template_name = "miscelanea/descripcionsisconstructivo_list.html"
+class SisConstructivoListView(ListView):
+    model = SisConstructivo
+    template_name = "miscelanea/sisconstructivo_list.html"
     paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']=DescripcionSisConstructivo._meta.verbose_name
+        context['p_title']=SisConstructivo._meta.verbose_name
         
         return context
 
 @method_decorator(login_required,name='dispatch')
 
-class DescripcionSisConstructivoCreate(CreateView):
-    model = DescripcionSisConstructivo
-    form_class = DescripcionSisConstructivoFormCreate
+class SisConstructivoCreate(CreateView):
+    model = SisConstructivo
+    form_class = SisConstructivoForm
     #success_url = reverse_lazy('catalogos:descsistema')
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context ['n']=1
-        context['p_title']=DescripcionSisConstructivo._meta.verbose_name
-        context['lasfiguras']= ListaSisConstructivoFiguras.objects.all()
+        context['p_title']=SisConstructivo._meta.verbose_name
+        context['lasfiguras']= SisFiguras.objects.all()
         return context
 
     def get_success_url(self):
@@ -889,21 +984,18 @@ class DescripcionSisConstructivoCreate(CreateView):
         return reverse_lazy('catalogos:descsistema')
 
 @method_decorator(login_required,name='dispatch')
-class DescripcionSisConstructivoUpdate(UpdateView):
-    model = DescripcionSisConstructivo
-    form_class = DescripcionSisConstructivoForm
+class SisConstructivoUpdate(UpdateView):
+    model = SisConstructivo
+    form_class = SisConstructivoForm
     template_name_suffix = '_update_form'
     
     def get_context_data(self, **kwargs):
         print(kwargs)
-
-        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         context = super().get_context_data(**kwargs)
-        print(context["object"].sistema, this_id)
-        context['p_title']="Actualizar"
-        context['sistemaTitle']="Actualizar"
-        context['sis_id']=this_id
-        context['lasfiguras']= ListaSisConstructivoFiguras.objects.filter(descripcion_id=this_id)
+        context['p_title']=SisConstructivo._meta.verbose_name
+        #context['sistemaTitle']="Actualizar"
+        context['sis_id']= context['object'].id
+        context['lasfiguras']= SisFiguras.objects.filter(sistema=context['object'])
         context['txt_actualizacion']="Registro actualizado correctamente"
         return context
     
@@ -914,43 +1006,42 @@ class DescripcionSisConstructivoUpdate(UpdateView):
 ########## figuras sistemas constructivos
 
 @method_decorator(login_required,name='dispatch')
-class ListaSisConstructivoFigurasCreate(CreateView):
+class SisFigurasCreate(CreateView):
     
-    model = ListaSisConstructivoFiguras
-    form_class = agregaFiguraForm
+    model = SisFiguras
+    form_class = SisFigurasForm
     
     #success_url = reverse_lazy('forms:actividad-create')
     def form_valid(self, form):
-        
-        form.instance.sistema = ListaSisConstructivo.objects.first()
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-        id_form = DescripcionSisConstructivo.objects.filter(id=this_id)[0]
-        form.instance.descripcion = id_form
+        this_sis = SisConstructivo.objects.filter(id=this_id)[0]
+        form.instance.sistema = this_sis
         #form.instance.descripcion = self.request.
-        return super(ListaSisConstructivoFigurasCreate, self).form_valid(form)
+        return super(SisFigurasCreate, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-        id_form = DescripcionSisConstructivo.objects.filter(id=this_id)[0]
-        context['titulo'] = id_form.sistema
-        initial_data = {'sistema':1, 'descripcion':id_form.id}
+        this_sis = SisConstructivo.objects.filter(id=this_id)[0]
+        context['titulo'] = this_sis.title
+        initial_data = {'sistema':this_sis.id}
+        context['f_id']=this_id
         print(context)
-        context['form']=agregaFiguraForm(initial=initial_data)
+        context['form']=SisFigurasForm(initial=initial_data)
         return context
 
     def get_success_url(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
-        id_form = DescripcionSisConstructivo.objects.filter(id=this_id)[0]
+        id_form = SisConstructivo.objects.filter(id=this_id)[0]
         return  reverse_lazy('catalogos:descsistema-update',args=[id_form.id,])
 
 
 
 @method_decorator(login_required,name='dispatch')
-class ListaSisConstructivoFigurasUpdate(UpdateView):
-    model = ListaSisConstructivoFiguras
-    form_class = ListaSisConstructivoFigurasForm
+class SisFigurasUpdate(UpdateView):
+    model = SisFiguras
+    form_class = SisFigurasForm
     template_name_suffix = '_update_form'
     
 

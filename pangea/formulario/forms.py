@@ -12,29 +12,28 @@ def regresa_instancia_title(key,modelo):
 
 
 
-class DescripcionProcesosConstructivosForm(forms.ModelForm):
+
+class SeleccionProcesosConstructivosForm(forms.ModelForm):
     class Meta:
-        model = DescripcionProcesosConstructivos
-        fields = '__all__'
+        model = SeleccionProcesosConstructivos
+        fields = ['procesos',]
         exclude =('created','updated')
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'proceso_constructivo': forms.Select(attrs={'class':'form-control'}),
-            'contenido': forms.TextInput(attrs={'class':'form-control'}),
+
+            'procesos': forms.SelectMultiple(attrs={'class':'form-control'}),
         }
 
+        labels ={
+            'procesos':'Seleccionar procesos constructivos'
+        }
 
 class SeleccionSistemasConstructivosForm(forms.ModelForm):
     class Meta:
         model = SeleccionSistemasConstructivos
-        fields = '__all__'
+        fields = ['sistemas',]
         exclude =('created','updated')
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+
             'sistemas': forms.SelectMultiple(attrs={'class':'form-control'}),
         }
 
@@ -46,18 +45,20 @@ class SeleccionSistemasConstructivosForm(forms.ModelForm):
 class DatosGeneralForm(forms.ModelForm):
     class Meta:
         model = DatosGeneral
-        fields =  '__all__'
-        exclude =('created','updated')
+        fields =  ['sup_aprov_total','sup_edi','sup_const_no_edi','nivel_max','zonificacion']
+
         widgets = { 
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            # 'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            # 'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+            # 'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'sup_aprov_total': forms.NumberInput(attrs={'class':'form-control'}),
             'sup_edi': forms.NumberInput(attrs={'class':'form-control'}),
             'sup_const_no_edi': forms.NumberInput(attrs={'class':'form-control'}),
             'nivel_max': forms.NumberInput(attrs={'class':'form-control'}),
             'zonificacion': forms.TextInput(attrs={'class':'form-control'})
         }
+
+        labels={'zonificacion':"Abreviaturas de las zonificaciones (separadas por comas)"}
     def clean_componente_fase_etapa(self):
         componente = self.cleaned_data.get("componente")
         fase = self.cleaned_data.get("fase")
@@ -71,12 +72,12 @@ class FormLocalizacionC(forms.ModelForm):
 
     class Meta:
         model = ImagenLocalizacionC
-        fields = ['componente','fase','etapa','image']
+        fields = ['image',]
         
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control'}),
-            'fase': forms.Select(attrs={'class':'form-control'}),
-            'etapa': forms.Select(attrs={'class':'form-control'}),
+            # 'componente': forms.Select(attrs={'class':'form-control'}),
+            # 'fase': forms.Select(attrs={'class':'form-control'}),
+            # 'etapa': forms.Select(attrs={'class':'form-control'}),
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),           
         }
 
@@ -103,13 +104,10 @@ class FrecuenciaActividadesCForm(forms.ModelForm):
 
     class Meta:
         model = FrecuenciaActividadesC
-        fields = ['componente','fase','etapa','actividades','horas']
+        fields = ['actividades','horas']
         #fields = ['actividades','horas']
         
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'actividades': forms.Select(attrs={'class':'form-control'}),
             'horas': forms.NumberInput(attrs={'class':'form-control'}),           
         }
@@ -117,12 +115,9 @@ class FrecuenciaActividadesCForm(forms.ModelForm):
 class DescripcionGeneralForm(forms.ModelForm):
     class Meta:
         model = DescripcionGeneral
-        fields = ['componente','fase','etapa','duracion','content']
+        fields = ['duracion','content']
      
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'duracion': forms.TextInput(attrs={'class':'form-control',}),        
             'content': forms.TextInput(attrs={'class':'form-control',}),        
         }
@@ -136,12 +131,9 @@ class DescripcionGeneralFigurasForm(forms.ModelForm):
 
     class Meta:
         model = DescripcionGeneralFiguras
-        fields = ['componente','fase','etapa','image','pie']
+        fields = ['image','pie']
         
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
             'pie': forms.TextInput(attrs={'class':'form-control'}),         
         }
@@ -149,14 +141,12 @@ class DescripcionGeneralFigurasForm(forms.ModelForm):
 class SuperficieObrasCForm(forms.ModelForm):
     class Meta:
         model = SuperficieObrasC
-        fields = ['componente','fase','etapa','edificaciones','superficie']
+        fields = ['edificaciones','superficie']
      
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+
             'edificaciones': forms.Select(attrs={'class':'form-control'}),
-            'superfice': forms.NumberInput(attrs={'class':'form-control'}),                   
+            'superficie': forms.NumberInput(attrs={'class':'form-control'}),                   
         }
 
         labels={
@@ -167,13 +157,9 @@ class SuperficieObrasCForm(forms.ModelForm):
 class ConsumoAguaCForm(forms.ModelForm):
     class Meta:
         model = ConsumoAguaC
-        fields = ['componente','fase','etapa','tipo','unidad','cantidad']
+        fields = ['tipo','unidad','cantidad']
      
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            
             'tipo': forms.Select(attrs={'class':'form-control'}),
             'unidad': forms.TextInput(attrs={'class':'form-control','readonly':'True'}),
             'cantidad': forms.NumberInput(attrs={'class':'form-control'}),                   
@@ -187,12 +173,9 @@ class ConsumoAguaCForm(forms.ModelForm):
 class AguasResidualesCForm(forms.ModelForm):
     class Meta:
         model = AguasResidualesC
-        fields = ['componente','fase','etapa','tipo','unidad','cantidad']
+        fields = ['tipo','unidad','cantidad']
      
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             
             'tipo': forms.Select(attrs={'class':'form-control'}),
             'unidad': forms.TextInput(attrs={'class':'form-control','readonly':'True'}),
@@ -208,12 +191,9 @@ class AguasResidualesCForm(forms.ModelForm):
 class ListadoFloristicoCForm(forms.ModelForm):
     class Meta:
         model = ListadoFloristicoC
-        fields = ['componente','fase','etapa','flor']
+        fields = ['flor']
      
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'flor': forms.Select(attrs={'class':'form-control'}),
             
         }
@@ -226,12 +206,9 @@ class ListadoFloristicoCForm(forms.ModelForm):
 class PersonalRequeridoForm(forms.ModelForm):
     class Meta:
         model = PersonalRequerido
-        fields = ['componente','fase','etapa','personal','n_prot','n_rest','n_apro']
+        fields = ['personal','n_prot','n_rest','n_apro']
      
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'personal': forms.Select(attrs={'class':'form-control'}),
             'n_prot': forms.NumberInput(attrs={'class':'form-control'}),
             'n_rest': forms.NumberInput(attrs={'class':'form-control'}),
@@ -248,12 +225,10 @@ class PersonalRequeridoForm(forms.ModelForm):
 class MaquinariaZonificacionForm(forms.ModelForm):
     class Meta:
         model = MaquinariaZonificacion
-        fields = ['componente','fase','etapa','maquinaria','n_prot','n_rest','n_apro']
+        fields = ['maquinaria','n_prot','n_rest','n_apro']
      
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
+
             'maquinaria': forms.Select(attrs={'class':'form-control'}),
             'n_prot': forms.NumberInput(attrs={'class':'form-control'}),
             'n_rest': forms.NumberInput(attrs={'class':'form-control'}),
@@ -270,12 +245,9 @@ class MaquinariaZonificacionForm(forms.ModelForm):
 class ObrasLinealesLongitudesForm(forms.ModelForm):
     class Meta:
         model = ObrasLinealesLongitudes
-        fields = ['componente','fase','etapa','tipo','longitud']
+        fields = ['tipo','longitud']
      
         widgets = {
-            'componente': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'fase': forms.Select(attrs={'class':'form-control','readonly':'True'}),
-            'etapa': forms.Select(attrs={'class':'form-control','readonly':'True'}),
             'tipo': forms.Select(attrs={'class':'form-control'}),
             'longitud': forms.NumberInput(attrs={'class':'form-control'}),                   
         }

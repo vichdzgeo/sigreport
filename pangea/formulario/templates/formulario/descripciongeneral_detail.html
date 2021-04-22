@@ -21,7 +21,7 @@
 
       <div class="row mt-3">
         <div class="col-md-9 mx-auto">
-          <p >Duración de las obras o actividades: {{descripciongeneral.duracion}}</p>
+          <p >Duración de las obras o actividades: {{descripciongeneral.duracion}} días en cinco años</p>
           <a href="{% url 'forms:generales-update' descripciongeneral.id  %}">Editar</a>
           <div class = "text-justify">
             <p>{{descripciongeneral.content|striptags|safe|linebreaks}}</p>

@@ -30,6 +30,7 @@ class CatalogosPageView(TemplateView):
         context['num_personal']=len(ListaTipoPersonal.objects.all())
         context['num_descsistemas']=len(SisConstructivo.objects.all())
         context['num_procesos']=len(ProcConstructivo.objects.all())
+        context['num_residuossol']=len(ListaTipoResiduosSolidos.objects.all())
         context['num_residuos']=len(ListaTipoResiduos.objects.all())
         context['num_tagua']=len(TipoAgua.objects.all())
         context['num_tagresidual']=len(TipoAguaResidual.objects.all())
@@ -533,7 +534,55 @@ class ListaProcesoConstructivoUpdate(UpdateView):
 
         return reverse_lazy('catalogos:proceso-update',args=[self.object.id]) + '?ok'
 
-## Tipos de residuos
+
+
+
+## Tipos de residuos solidos
+
+@method_decorator(login_required,name='dispatch')
+class ListaTipoResiduosSolidosListView(ListView):
+    model = ListaTipoResiduosSolidos
+    template_name = "miscelanea/listatiporesiduossolidos_list.html"
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ListaTipoResiduosSolidos._meta.verbose_name
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+
+class ListaTipoResiduosSolidosCreate(CreateView):
+    model = ListaTipoResiduosSolidos
+    form_class = ListaTipoResiduosSolidosForm
+    template_name = "miscelanea/listatiporesiduos_form.html"
+    paginate_by = 20
+    success_url = reverse_lazy('catalogos:residuossolidos')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ListaTipoResiduosSolidos._meta.verbose_name
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaTipoResiduosSolidosUpdate(UpdateView):
+    model = ListaTipoResiduosSolidos
+    form_class = ListaTipoResiduosSolidosForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar"
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:residuossolidos-update',args=[self.object.id]) + '?ok'
+
+
+## Tipos de residuos tóxicos
 
 @method_decorator(login_required,name='dispatch')
 class ListaTipoResiduosListView(ListView):

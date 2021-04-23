@@ -17,7 +17,7 @@
       <tbody>
       {% for i in listatiposaprovechamiento_list %}
           <tr>
-            <th scope="row"><a href="{% url 'catalogos:aprovechamiento-update' i.id %}">{{i.tipo}} </a></th>
+            <th scope="row"><a href="{% url 'catalogos:aprovechamiento-update' i.id %}">{{i.title}} - {{i.subtipo}} </a></th>
           </tr>
       {% endfor %}
       </tbody>

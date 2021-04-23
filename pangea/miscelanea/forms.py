@@ -43,7 +43,7 @@ class ModuloForm(forms.ModelForm):
             'etapas': forms.SelectMultiple(attrs={'class':'form-control'}),
         }
 
-        labels = {'title':"Nombre del componente",'abreviatura':"Abreviatura",'etapas':'Seleccionar etapas'}
+        labels = {'title':"Nombre del componente (solo primer caracter en mayúscula) ",'abreviatura':"Abreviatura (todas en mayúsculas)",'etapas':'Seleccionar etapas'}
         
         
     def clean_title(self):
@@ -234,25 +234,6 @@ class ListaTipoPersonalForm(forms.ModelForm):
             if ListaTipoPersonal.objects.filter(tipo = tipo).exists():
                 raise forms.ValidationError("Este tipo de personal ya fue registrado")
         return tipo
-# class ListaSisConstructivoForm(forms.ModelForm):
-
-#     class Meta:
-#         model = ListaSisConstructivo
-#         fields = ['sistema',]
-#         widgets = {
-#             'sistema':forms.TextInput(attrs={'class': 'form-control'}),
-
-#         }
-#         labels ={'sistema':'Agregar sistema constructivo',
-
-#                 }
-        
-#     def clean_sistema(self):
-#         sistema = self.cleaned_data.get("sistema")
-#         if 'sistema' in self.changed_data:
-#             if ListaSisConstructivo.objects.filter(sistema = sistema).exists():
-#                 raise forms.ValidationError("Este sistema ya esta registrado")
-#         return sistema
 
 
 class ProcConstructivoForm(forms.ModelForm):
@@ -300,50 +281,6 @@ class SisConstructivoForm(forms.ModelForm):
         return title
 
 
-# class DescripcionSisConstructivoFormCreate(forms.ModelForm):
-
-#     class Meta:
-#         model = DescripcionSisConstructivo
-#         fields = ['sistema',
-#                     'content']
-#         widgets = {
-#             'sistema':forms.Select(attrs={'class': 'form-control'}),
-#             'content': forms.TextInput(attrs={'class':'form-control',}),        
-
-#         }
-#         labels ={'sistema':'Agregar sistema constructivo',
-#                  'content':'Descripción del sistema constructivo',
-#                 }
-        
-#     def clean_sistema(self):
-#         sistema = self.cleaned_data.get("sistema")
-#         if 'sistema' in self.changed_data:
-#             if DescripcionSisConstructivo.objects.filter(sistema = sistema).exists():
-#                 raise forms.ValidationError("Este sistema ya esta registrado")
-#         return sistema
-
-# class DescripcionSisConstructivoForm(forms.ModelForm):
-
-#     class Meta:
-#         model = DescripcionSisConstructivo
-#         fields = [#'sistema',
-#                     'content']
-#         widgets = {
-#             #'sistema':forms.Select(attrs={'class': 'form-control'}),
-#             'content': forms.TextInput(attrs={'class':'form-control',}),        
-
-#         }
-#         labels ={#'sistema':'Agregar sistema constructivo',
-#                  'content':'Descripción del sistema constructivo',
-#                 }
-        
-#     def clean_sistema(self):
-#         sistema = self.cleaned_data.get("sistema")
-#         if 'sistema' in self.changed_data:
-#             if DescripcionSisConstructivo.objects.filter(sistema = sistema).exists():
-#                 raise forms.ValidationError("Este sistema ya esta registrado")
-#         return sistema
-
 
 class SisFigurasForm(forms.ModelForm):
 
@@ -355,19 +292,6 @@ class SisFigurasForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
             'pie': forms.TextInput(attrs={'class':'form-control'}),         
         }
-
-# class ListaSisConstructivoFigurasForm(forms.ModelForm):
-
-#     class Meta:
-#         model = ListaSisConstructivoFiguras
-#         fields = ['descripcion','sistema','image','pie']
-        
-#         widgets = {
-#             'descripcion': forms.Select(attrs={'class':'form-control'}),
-#             'sistema': forms.Select(attrs={'class':'form-control'}),
-#             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
-#             'pie': forms.TextInput(attrs={'class':'form-control'}),         
-#         }
 
 class ListaProcesoConstructivoForm(forms.ModelForm):
 
@@ -414,6 +338,28 @@ class ListaTipoResiduosForm(forms.ModelForm):
             if ListaTipoResiduos.objects.filter(tipo = tipo).exists():
                 raise forms.ValidationError("Este tipo ya esta registrado")
         return tipo
+
+class ListaTipoResiduosSolidosForm(forms.ModelForm):
+
+    class Meta:
+        model = ListaTipoResiduosSolidos
+        fields =  '__all__'
+        exclude =('created','updated')
+        widgets = {
+            'tipo':forms.TextInput(attrs={'class': 'form-control'}),
+            'unidad': forms.Select(attrs={'class': 'form-control'}),
+
+        }
+        labels ={'tipo':'Agregar tipo de residuos Sólidos',
+                'unidad':'Seleccionar unidad',
+                }
+    def clean_tipo(self):
+        tipo = self.cleaned_data.get("tipo")
+        if 'tipo' in self.changed_data:
+            if ListaTipoResiduosSolidos.objects.filter(tipo = tipo).exists():
+                raise forms.ValidationError("Este tipo ya esta registrado")
+        return tipo
+
 class TipoAguaForm(forms.ModelForm):
 
     class Meta:
@@ -453,21 +399,22 @@ class ListaTiposAprovechamientoForm(forms.ModelForm):
 
     class Meta:
         model = ListaTiposAprovechamiento
-        fields = ['tipo']
+        fields = ['title','subtipo']
         widgets = {
-            'tipo':forms.TextInput(attrs={'class': 'form-control',}),
+            'title':forms.TextInput(attrs={'class': 'form-control',}),
+            'subtipo':forms.Select(attrs={'class': 'form-control',}),
         }
 
-        labels = {'tipo':'Ingresar el tipo de aprovechamiento',
+        labels = {'title':'Ingresar el tipo de aprovechamiento',
         }
 
         
-    def clean_tipo(self):
-        tipo = self.cleaned_data.get("tipo")
-        if 'tipo' in self.changed_data:
-            if ListaTiposAprovechamiento.objects.filter(tipo = tipo).exists():
-                raise forms.ValidationError("Este tipo ya esta registrado")
-        return tipo
+    # def clean_tipo(self):
+    #     tipo = self.cleaned_data.get("tipo")
+    #     if 'tipo' in self.changed_data:
+    #         if ListaTiposAprovechamiento.objects.filter(tipo = tipo).exists():
+    #             raise forms.ValidationError("Este tipo ya esta registrado")
+    #     return tipo
 
 class ListaTiposCoberturaForm(forms.ModelForm):
     class Meta:
@@ -514,9 +461,9 @@ class MovimientoTierraForm(forms.ModelForm):
         fields = ['tipo']
         widgets = {
             'tipo':forms.TextInput(attrs={'class': 'form-control',}),
-           
+            'unidad': forms.Select(attrs={'class': 'form-control'}),
         }
-        labels = {'tipo':'Ingresar el tipo',
+        labels = {'tipo':'Ingresar el tipo','unidad':"Seleccionar unidad"
        
         }
     

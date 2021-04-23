@@ -12,7 +12,7 @@
         <a href="{% url 'catalogos:componentes' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de componentes <span class="badge badge-light">{{num_componentes}}</span></a>
         <a href="{% url 'catalogos:unidades' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de unidades <span class="badge badge-light">{{num_unidades}} </a>
         <a href="{% url 'catalogos:aprovechamiento' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de aprovechamiento <span class="badge badge-light">{{num_aprovechamiento}}</a>
-        <a href="{% url 'catalogos:consedi' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de construcción-edificación<span class="badge badge-light">{{num_consedi}}</a>
+        {% comment %} <a href="{% url 'catalogos:consedi' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de construcción-edificación<span class="badge badge-light">{{num_consedi}}</a> {% endcomment %}
         <a href="{% url 'catalogos:obraslineales' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de obras lineales<span class="badge badge-light">{{num_obraslineales}}</a>
         <a href="{% url 'catalogos:descproceso' %}" class="list-group-item list-group-item-action border-0 text-primary">Descripción de procesos constructivos<span class="badge badge-light">{{num_procesos}}</a>
         <a href="{% url 'catalogos:descsistema' %}" class="list-group-item list-group-item-action border-0 text-primary">Descripción de sistemas constructivos<span class="badge badge-light">{{num_descsistemas}}</a>
@@ -25,7 +25,8 @@
         <a href="{% url 'catalogos:cobertura' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de cobertura y abreviaturas<span class="badge badge-light">{{num_cobertura}}</a>
         <a href="{% url 'catalogos:zona' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de zonificación y abreviaturas<span class="badge badge-light">{{num_zona}}</a>
         <a href="{% url 'catalogos:personal' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de personal <span class="badge badge-light">{{num_personal}}</a>
-        <a href="{% url 'catalogos:residuos' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de residuos<span class="badge badge-light">{{num_residuos}}</a>
+        <a href="{% url 'catalogos:residuossolidos' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de residuos sólidos<span class="badge badge-light">{{num_residuossol}}</a>
+        <a href="{% url 'catalogos:residuos' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de residuos tóxicos<span class="badge badge-light">{{num_residuos}}</a>
         <a href="{% url 'catalogos:tagua' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de agua<span class="badge badge-light">{{num_tagua}}</a>
         <a href="{% url 'catalogos:tagresidual' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de aguas residuales<span class="badge badge-light">{{num_tagresidual}}</a>
         <a href="{% url 'catalogos:tierra' %}" class="list-group-item list-group-item-action border-0 text-primary">Catálogo de desmonte, despalme, excavación y relleno<span class="badge badge-light">{{num_tierra}}</a>

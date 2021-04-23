@@ -18,7 +18,7 @@ class Fase(models.Model):
     class Meta:
         verbose_name = "Fase"
         verbose_name_plural = "Fases"
-        ordering = ["-created"]
+        ordering = ["created"]
     
     def __str__(self):
         return str(self.title)
@@ -34,7 +34,7 @@ class Etapa(models.Model):
     class Meta:
         verbose_name = "Etapa"
         verbose_name_plural = "Etapas"
-        ordering = ["-created"]
+        ordering = ["fase","title"]
     
     def __str__(self):
         return str(str(self.fase)+" Etapa "+str(self.title))

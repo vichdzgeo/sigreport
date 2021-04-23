@@ -56,6 +56,10 @@ catalogos_patterns = ([
     path('residuos/', ListaTipoResiduosListView.as_view(), name='residuos'),
     path('residuo-create/',ListaTipoResiduosCreate.as_view(),name='residuo-create'),
     path('residuo-update/<int:pk>/',ListaTipoResiduosUpdate.as_view(),name='residuo-update'),
+
+    path('residuossolidos/', ListaTipoResiduosSolidosListView.as_view(), name='residuossolidos'),
+    path('residuossolidos-create/',ListaTipoResiduosSolidosCreate.as_view(),name='residuossolidos-create'),
+    path('residuossolidos-update/<int:pk>/',ListaTipoResiduosSolidosUpdate.as_view(),name='residuossolidos-update'),
     path('tagua/', TipoAguaListView.as_view(), name='tagua'),
     path('tagua-create/',TipoAguaCreate.as_view(),name='tagua-create'),
     path('tagua-update/<int:pk>/',TipoAguaUpdate.as_view(),name='tagua-update'),

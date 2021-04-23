@@ -210,6 +210,20 @@ class ListaProcesoConstructivo(models.Model):
     def __str__(self):
         return self.proceso
 
+
+class ListaTipoResiduosSolidos(models.Model):
+
+    tipo = models.CharField(max_length=100,verbose_name = "Tipo")
+    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE,default="")
+
+    class Meta:
+        verbose_name = "Lista de tipos de residuos sólidos"
+        verbose_name_plural = "Lista de tipos de residuos sólidos"
+        ordering = ["tipo"]
+    def __str__(self):
+        return self.tipo
+
+
 class ListaTipoResiduos(models.Model):
 
     ESTADO_FISICO = (
@@ -222,15 +236,15 @@ class ListaTipoResiduos(models.Model):
     corrosivo = models.BooleanField(default=False,verbose_name='Corrosivo')
     reactivo = models.BooleanField(default=False,verbose_name='Reactivo')
     explosivo = models.BooleanField(default=False,verbose_name='Explosivo')
-    toxico = models.BooleanField(default=False,verbose_name='Toxico')
+    toxico = models.BooleanField(default=False,verbose_name='Tóxico')
     inflamable = models.BooleanField(default=False,verbose_name='Inflamable')
-    biologico = models.BooleanField(default=False,verbose_name='Biologico infeccioso')
+    biologico = models.BooleanField(default=False,verbose_name='Biológico infeccioso')
     edo_fisico = models.CharField(max_length=15,choices=ESTADO_FISICO,default="Sólido",verbose_name='Estado físico')
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
     class Meta:
-        verbose_name = "Lista de tipos de residuos"
-        verbose_name_plural = "Lista de tipos de residuos"
+        verbose_name = "Lista de tipos de residuos tóxicos"
+        verbose_name_plural = "Lista de tipos de residuos tóxicos"
         ordering = ["tipo"]
     def __str__(self):
         return self.tipo
@@ -263,17 +277,24 @@ class TipoAguaResidual(models.Model):
 
 
 class ListaTiposAprovechamiento(models.Model):
-    tipo = models.CharField(max_length=100,verbose_name = "Tipo de aprovechamiento")
+    SUBTIPOS = (
+
+        ("Edificable","Edificable"),
+        ("No edificable", "No edificable"),
+    )
+
+    title = models.CharField(max_length=100,verbose_name = "Tipo de aprovechamiento")
+    subtipo = models.CharField(max_length=15,choices=SUBTIPOS,default="Edificable",verbose_name='Seleccionar el subtipo')
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 
     class Meta:
         verbose_name = "Lista de tipos de aprovechamiento"
         verbose_name_plural = "Lista de tipos de aprovechamiento"
-        ordering = ["tipo"]
+        ordering = ["title"]
     
     def __str__(self):
-        return self.tipo
+        return self.title
 
 class ListaTiposCobertura(models.Model):
     tipo = models.CharField(max_length=100,verbose_name = "Tipo de cobertura")
@@ -305,6 +326,7 @@ class ListaZonificacion(models.Model):
 
 class MovimientoTierra(models.Model):
     tipo = models.CharField(max_length=50,verbose_name = "Tipo")
+    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE,default="")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 

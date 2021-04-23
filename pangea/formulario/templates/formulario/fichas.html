@@ -30,7 +30,7 @@
                                 {%for fase in fases %}  <!-- INICIA FOR DE FASES-->
                                     {%for etapa in etapas|dictsort:"title"  %}  <!-- INICIA FOR DE ETAPAS-->
                                         {% for etapa_c in componente.etapas.all %} 
-                                            {% if etapa_c == etapa %}
+                                            {% if etapa_c == etapa and fase == etapa_c.fase %}
                                             
                                             <h3>{{etapa}}</h3>
                                             {% for avance in avances|dictsort:"orden"  %}

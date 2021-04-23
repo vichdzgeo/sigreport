@@ -458,7 +458,7 @@ class ListaZonificacionForm(forms.ModelForm):
 class MovimientoTierraForm(forms.ModelForm):
     class Meta:
         model = MovimientoTierra
-        fields = ['tipo']
+        fields = ['tipo','unidad']
         widgets = {
             'tipo':forms.TextInput(attrs={'class': 'form-control',}),
             'unidad': forms.Select(attrs={'class': 'form-control'}),

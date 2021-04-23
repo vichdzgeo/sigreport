@@ -18,8 +18,8 @@
       <tbody>
       {% for insumo in insumoslista_list %}
           <tr>
-            <th scope="row"><a href="{% url 'catalogos:insumo-update' insumo.id %}">{{insumo.title}} </a></th>
-            <th scope="row">{{insumo.unidad}}</th>
+            <td scope="row" class="text-center"><a href="{% url 'catalogos:insumo-update' insumo.id %}">{{insumo.title}} </a></td>
+            <td scope="row" class="text-center">{{insumo.unidad}}</td>
           </tr>
       {% endfor %}
       </tbody>

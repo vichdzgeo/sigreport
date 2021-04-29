@@ -1119,7 +1119,7 @@ class EstructuraView(TemplateView):
         context['completados'] = len(CatForm.objects.filter(completo=True))
         context['totales'] = len(CatForm.objects.values_list('title',))
         if context['totales']!=0:
-            context['porcentaje'] = str((context['completados']/ context['totales'])*100)
+            context['porcentaje'] = str(round((context['completados']/ context['totales'])*100,0))
         else:
             context['porcentaje'] = 0
         return context

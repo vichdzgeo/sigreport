@@ -10,6 +10,8 @@
 \usepackage[table, dvipsnames]{xcolor}
 \usepackage{multirow}
 \usepackage{boldline}
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{ #1 }}
 
 \definecolor{myblue1}{RGB}{141,179, 226}
 \definecolor{myblue2}{RGB}{79,129, 189}
@@ -28,8 +30,11 @@
 
 
 
-{% macro render_table_1(tabla, titulo, anchos) -%}
-\begin{tabular}{ {% for c in range(0,tabla[0]|length) %}{% if anchos[c] is number -%}|p{ {{ anchos[c] }}cm }{% else -%}|c{% endif %}{% endfor %}|}
+
+
+{% macro render_table_1(tabla, titulo, anchos, totales = None) -%}
+
+\begin{tabular}{ {% for c in range(0,tabla[0]|length) %}{% if anchos[c] is number -%}|p{ {{ anchos[c] }}cm }{% else -%}|d{2.1}{% endif %}{% endfor %}|}
 \hline
 \multicolumn{ {{tabla[0]|length}} }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ {{titulo}} }}\\
 \hline
@@ -41,6 +46,10 @@
 {% endfor %}
 \hline
 {% endfor %}
+{% if totales != None %}
+\multicolumn{ {{ 1 + tabla[0]|length - totales|length }} }{|r|}{\scriptsize {{totales[0]}} } & {% for c in range(1,totales|length) %} \scriptsize {{ totales[c] }} & {% endfor %}
+\hline
+{% endif %}
 \end{tabular}
 {%- endmacro -%}
 
@@ -66,7 +75,11 @@
 {% for c in range(0,header|length) %}\multicolumn{1}{ {% if c == 0 %}|{% endif %}c|}{\scriptsize\textcolor{myblue2} { {{ header[c] }} } } & {% endfor %}
 \hline
 {% for key, value in dicc.items() %}
-    \multirow{ {{ value|length }} }{ {{ anchos[0] }}cm }{\centering\scriptsize {{ key }} } &
+{% if value|length == 1 -%}
+    \scriptsize {{ key }} &
+    {% else -%}
+    \multirow{ {{ value|length }} }{ {{ anchos[0] }}cm }{\scriptsize {{ key }} } &
+    {% endif %}
     {% for r in range(0,value|length) %}
       {% if r > 0 %}
        ~  &
@@ -81,9 +94,98 @@
     \hline
 {% endfor %}
 
-
 \end{tabular}
 {%- endmacro -%}
+
+{% macro render_table_tree_custom_header(dicc, titulo, anchos, header, totales = None) -%}
+\begin{tabular}{ {% for c in range(0,header[1]|length) %}{% if anchos[c] is number -%}|p{ {{ anchos[c] }}cm }{% else -%}|c{% endif %}{% endfor %}|}
+\hline
+\multicolumn{ {{header[1]|length}} }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ {{titulo}} }}\\
+\hline
+{% for r in range(0,header|length) %}
+{% for c in range(0,header[r]|length) %}
+{% if header[r][c]|length == 1 -%}
+  {% if header[r][c][0] == "~" %}
+    ~ &
+  {% else -%}
+    \multicolumn{1}{ {% if c == 0 %}|{% endif %}c|}{\scriptsize\textcolor{myblue2} { {{ header[r][c][0] }} }} &
+  {% endif %}
+{% else -%}
+  {{ header[r][c][1] }} {% if "column" in header[r][c][1] -%} { {% if c == 0 %}|{% endif %}c|}{% else -%}{*}{% endif %} {\scriptsize\textcolor{myblue2} { {{ header[r][c][0] }} }} &
+{% endif %}
+{% endfor %}
+{% if r == 0 -%}
+\hhline{ {% for c in range(0,header[r+1]|length) %}{% if header[r+1][c][0] == "~" -%}~{% else -%}-{% endif %}{% endfor %} }
+{% else -%}
+\hline
+{% endif %}
+{% endfor %}
+{% for key, value in dicc.items() %}
+    {% if value|length == 1 -%}
+    \scriptsize {{ key }} &
+    {% else -%}
+    \multirow{ {{ value|length }} }{ {{ anchos[0] }}cm }{\scriptsize {{ key }} } &
+    {% endif %}
+    {% for r in range(0,value|length) %}
+      {% if r > 0 %}
+       ~  &
+      {% endif %}
+      {% for cell in value[r] %}
+        \scriptsize {{ cell }} &
+      {% endfor %}
+      {% if r < value|length - 1  %}
+        \hhline{|~|{% for c in range(1,header[1]|length) %}-|{% endfor %} }
+      {% endif %}
+    {% endfor %}
+    \hline
+{% endfor %}
+{% if totales != None %}
+\multicolumn{ {{ 1 + header[1]|length - totales|length }} }{|r|}{\scriptsize {{totales[0]}} } & {% for c in range(1,totales|length) %} \scriptsize {{ totales[c] }} & {% endfor %}
+\hline
+{% endif %}
+\end{tabular}
+{%- endmacro -%}
+
+{% macro render_table_custom_header(tabla, titulo, anchos, header, totales = None) -%}
+\begin{tabular}{ {% for c in range(0,tabla[0]|length) %}{% if anchos[c] is number -%}|p{ {{ anchos[c] }}cm }{% else -%}|c{% endif %}{% endfor %}|}
+\hline
+\multicolumn{ {{tabla[0]|length}} }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ {{titulo}} }}\\
+\hline
+
+{% for r in range(0,header|length) %}
+{% for c in range(0,header[r]|length) %}
+{% if header[r][c]|length == 1 -%}
+  {% if header[r][c][0] == "~" %}
+    ~ &
+  {% else -%}
+    \multicolumn{1}{ {% if c == 0 %}|{% endif %}c|}{\scriptsize\textcolor{myblue2} { {{ header[r][c][0] }} }} &
+  {% endif %}
+{% else -%}
+  {{ header[r][c][1] }} {% if "column" in header[r][c][1] -%} { {% if c == 0 %}|{% endif %}c|}{% else -%}{*}{% endif %} {\scriptsize\textcolor{myblue2} { {{ header[r][c][0] }} }} &
+{% endif %}
+{% endfor %}
+{% if r == 0 -%}
+\hhline{ {% for c in range(0,header[r+1]|length) %}{% if header[r+1][c][0] == "~" -%}~{% else -%}-{% endif %}{% endfor %} }
+{% else -%}
+\hline
+{% endif %}
+{% endfor %}
+
+{% for r in range(0,tabla|length) %}
+{% for cell in tabla[r] %}
+\scriptsize {{ cell }} &
+{% endfor %}
+\hline
+{% endfor %}
+{% if totales != None %}
+\multicolumn{ {{ 1 + tabla[0]|length - totales|length }} }{|r|}{\scriptsize {{totales[0]}} } & {% for c in range(1,totales|length) %} \scriptsize {{ totales[c] }} & {% endfor %}
+\hline
+{% endif %}
+\end{tabular}
+{%- endmacro -%}
+
+
+
 
 
 
@@ -183,6 +285,29 @@
 
 {{ render_table_tree(dicc4, titulo4, anchos4, header4) }}
 
+\bigskip
+
+{{ render_table_1(tabla5, titulo5, anchos5, totales5) }}
+
+\bigskip
+
+{{ render_table_1(tabla6, titulo6, anchos6, totales6) }}
+
+\bigskip
+
+
+
+
+
 \end{multicols}
+
+{{ render_table_custom_header(tabla7, titulo7, anchos7, header7, totales7) }}
+
+\bigskip
+
+{{ render_table_tree_custom_header(dicc8, titulo8, anchos8, header8, totales8) }}
+
+
+
 
 \end{document}

@@ -10,6 +10,8 @@
 \usepackage[table, dvipsnames]{xcolor}
 \usepackage{multirow}
 \usepackage{boldline}
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{ #1 }}
 
 \definecolor{myblue1}{RGB}{141,179, 226}
 \definecolor{myblue2}{RGB}{79,129, 189}
@@ -28,6 +30,8 @@
 
 
 
+
+
 \begin{document}
 \begin{flushleft}
 \tablefirsthead{}
@@ -36,34 +40,32 @@
 \tablelasttail{}
 \arrayrulecolor{myblue3}
 
-\begin{tabular}{m{7.7320004cm}m{0.091000006cm}|m{2.421cm}|m{0.089cm}m{0.694cm}m{0.693cm} m{0.703cm}m{0.703cm}m{0.703cm}m{0.703cm}m{0.703cm}m{0.703cm} }
-\hhline{ ~~-~~~~~~~~~ }
- ~&~ & \multirow{2}{*}{\centering\textcolor{myblue2}{Clave: PUEB}}&~ &\footnotesize Etapa:&\footnotesize\textcolor{myblue2} {\textbf{ 1 }} &~&~&~&~&~&~
-\\\hhline{ ~~~~~------~ }
+\begin{tabular}{m{7.7320004cm}m{0.091000006cm}|m{2.421cm}|m{0.089cm}m{0.694cm}m{0.693cm} m{0.703cm}m{0.703cm}m{0.703cm}m{0.703cm}m{0.703cm} }
+\hhline{ ~~-~~~~~~~~ }
+ ~&~ & \multirow{2}{*}{\centering\textcolor{myblue2}{Clave: PUEB}}&~ &\footnotesize Etapa:&\footnotesize\textcolor{myblue2} {\textbf{ 2 }} &~&~&~&~&~
+\\\hhline{ ~~~~~-----~ }
 \textcolor{myblue2} {Módulo:}&~& &~&\multicolumn{1}{m{0.694cm}|}{\footnotesize Años: } &
 
-  \multicolumn{1}{m{0.693cm}|}{ \cellcolor{gray!50} \footnotesize\centering 1-5  } &
+  \multicolumn{1}{m{0.693cm}|}{  \footnotesize\centering 1-5  } &
 
-  \multicolumn{1}{m{0.693cm}|}{  \footnotesize\centering 6-15  } &
+  \multicolumn{1}{m{0.693cm}|}{ \cellcolor{gray!50} \footnotesize\centering 6-15  } &
 
   \multicolumn{1}{m{0.693cm}|}{  \footnotesize\centering 16-17  } &
 
   \multicolumn{1}{m{0.693cm}|}{  \footnotesize\centering 18-20  } &
 
-  \multicolumn{1}{m{0.693cm}|}{  \footnotesize\centering 21-25  } &
-
-  \multicolumn{1}{m{0.693cm}|}{  \footnotesize\centering 26-50  } &
+  \multicolumn{1}{m{0.693cm}|}{  \footnotesize\centering 21-99  } &
 
 ~
-\\\hhline{ ~~-~~------~ }
+\\\hhline{ ~~-~~-----~ }
 \textcolor{myblue2} { Pueblito }
- &~& \cellcolor{myblue1}\footnotesize\centering\color{white}\textbf{ Operación }
+ &~& \cellcolor{myblue1}\footnotesize\centering\color{white}\textbf{ Construcción }
  &~&
 
-\multicolumn{ 8 }{l}{\footnotesize Duración de la obra o actividad: \textcolor{myblue2} {\textbf{ 1,457 días en 5 años}}}
+\multicolumn{ 7 }{l}{\footnotesize Duración de la obra o actividad: \textcolor{myblue2} {\textbf{ 1,457 días en 10 años}}}
 
 
-\\\hhline{ ~~-~~~~~~~~~ }
+\\\hhline{ ~~-~~~~~~~~ }
 
 \end{tabular}
 \end{flushleft}
@@ -79,7 +81,7 @@
 
 \bigskip
 
- \includegraphics{C:/Dropbox (LANCIS)/fserrano/fichas/img/img001.jpg}
+ \includegraphics{C:/Users/arabela/Documents/GitHub/cap2/test_latex_templates/img/img001.jpg}
 
 
 \bigskip
@@ -118,7 +120,7 @@ Se construirán además las obras secundarias de infraestructura eléctrica de b
 \bigskip
 
 
-\begin{tabular}{ |p{ 5cm }|c|c|c|}
+\begin{tabular}{ |p{ 5cm }|d{2.1}|d{2.1}|d{2.1}|}
 \hline
 \multicolumn{ 4 }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ Longitudes de infraestructura a implementar por categoría del POEL (km) }}\\
 \hline
@@ -191,6 +193,7 @@ Se construirán además las obras secundarias de infraestructura eléctrica de b
 
 \hline
 
+
 \end{tabular}
 
 \bigskip
@@ -217,7 +220,7 @@ Se construirán además las obras secundarias de infraestructura eléctrica de b
 
 \bigskip
 
-\begin{tabular}{ |p{ 7cm }|c|}
+\begin{tabular}{ |p{ 7cm }|d{2.1}|}
 \hline
 \multicolumn{ 2 }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ Frecuencia de actividades de obras provisionales }}\\
 \hline
@@ -294,6 +297,7 @@ Se construirán además las obras secundarias de infraestructura eléctrica de b
 
 \hline
 
+
 \end{tabular}
 
 \bigskip
@@ -357,14 +361,15 @@ Previo al inicio de los procesos de obra, las actividades del componente incluye
 
 \bigskip
 
-\begin{tabular}{ |p{ 2.1cm }|p{ 4cm }|c|}
+\begin{tabular}{ |p{ 2.4cm }|p{ 4cm }|c|}
 \hline
 \multicolumn{ 3 }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ Implementación de procesos constructivos por tipo de ecosistema }}\\
 \hline
 \multicolumn{1}{ |c|}{\scriptsize\textcolor{myblue2} { Proceso constructivo } } & \multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { Categoría del POEL } } & \multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { Superficie (ha) } } & 
 \hline
 
-    \multirow{ 4 }{ 2.1cm }{\centering\scriptsize Palafitos } &
+\multirow{ 4 }{ 2.4cm }{\scriptsize Palafitos } &
+    
     
       
       
@@ -412,7 +417,8 @@ Previo al inicio de los procesos de obra, las actividades del componente incluye
     
     \hline
 
-    \multirow{ 3 }{ 2.1cm }{\centering\scriptsize Edificaciones convencionales } &
+\multirow{ 3 }{ 2.4cm }{\scriptsize Edificaciones convencionales } &
+    
     
       
       
@@ -448,7 +454,8 @@ Previo al inicio de los procesos de obra, las actividades del componente incluye
     
     \hline
 
-    \multirow{ 3 }{ 2.1cm }{\centering\scriptsize Vialidades secundarias } &
+\multirow{ 3 }{ 2.4cm }{\scriptsize Vialidades secundarias } &
+    
     
       
       
@@ -484,10 +491,623 @@ Previo al inicio de los procesos de obra, las actividades del componente incluye
     
     \hline
 
+\multirow{ 2 }{ 2.4cm }{\scriptsize Albercas convencionales } &
+    
+    
+      
+      
+        \scriptsize Duna Terciaria Vegetación forestal &
+      
+        \scriptsize 0.01 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Cobertura no forestal &
+      
+        \scriptsize 0.01 &
+      
+      
+    
+    \hline
+
+\scriptsize Cuerpo de agua artificial &
+    
+    
+      
+      
+        \scriptsize Vegetación forestal &
+      
+        \scriptsize 0.02 &
+      
+      
+    
+    \hline
+
+\multirow{ 4 }{ 2.4cm }{\scriptsize Áreas verdes ornamentales } &
+    
+    
+      
+      
+        \scriptsize Vegetación forestal &
+      
+        \scriptsize 0.06 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Duna Terciaria Vegetación forestal &
+      
+        \scriptsize 0.09 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Duna Terciaria Cobertura no forestal &
+      
+        \scriptsize 0 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Cobertura no forestal &
+      
+        \scriptsize 0.03 &
+      
+      
+    
+    \hline
+
+\multirow{ 4 }{ 2.4cm }{\scriptsize Terrazas, patios y explanadas } &
+    
+    
+      
+      
+        \scriptsize Vegetación forestal &
+      
+        \scriptsize 1.38 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Duna Terciaria Vegetación forestal &
+      
+        \scriptsize 1.65 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Duna Terciaria Cobertura no forestal &
+      
+        \scriptsize 0.01 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Cobertura no forestal &
+      
+        \scriptsize 0.49 &
+      
+      
+    
+    \hline
+
+\multirow{ 4 }{ 2.4cm }{\scriptsize Instalación hidrosanitaria y de agua tratada secundaria } &
+    
+    
+      
+      
+        \scriptsize Vegetación forestal &
+      
+        \scriptsize 0 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Duna Terciaria Vegetación forestal &
+      
+        \scriptsize 0 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Duna Terciaria Cobertura no forestal &
+      
+        \scriptsize 0 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Cobertura no forestal &
+      
+        \scriptsize 0 &
+      
+      
+    
+    \hline
+
+\multirow{ 2 }{ 2.4cm }{\scriptsize Instalación eléctrica aérea secundaria } &
+    
+    
+      
+      
+        \scriptsize Vegetación forestal &
+      
+        \scriptsize 0.21 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Cobertura no forestal &
+      
+        \scriptsize 0.08 &
+      
+      
+    
+    \hline
+
+\multirow{ 3 }{ 2.4cm }{\scriptsize Instalación eléctrica y de telecomunicaciones subterránea secundaria } &
+    
+    
+      
+      
+        \scriptsize Vegetación forestal &
+      
+        \scriptsize 0 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Duna Terciaria Vegetación forestal &
+      
+        \scriptsize 0 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Cobertura no forestal &
+      
+        \scriptsize 0 &
+      
+      
+    
+    \hline
+
+\multirow{ 2 }{ 2.4cm }{\scriptsize Demolición de Campamento } &
+    
+    
+      
+      
+        \scriptsize Tortuguero actual Cobertura no forestal &
+      
+        \scriptsize 0.1 &
+      
+      
+        \hhline{|~|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Obras provisionales temporales Cobertura no forestal &
+      
+        \scriptsize 0.24 &
+      
+      
+    
+    \hline
 
 
 \end{tabular}
 
+\bigskip
+
+\begin{tabular}{ |p{ 5cm }|d{2.1}|d{2.1}|}
+\hline
+\multicolumn{ 3 }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ Generación de aguas residuales para esta fase }}\\
+\hline
+\multicolumn{1}{ |c|}{\scriptsize\textcolor{myblue2} { Tipo } } & \multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { Unidad } } & \multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { Cantidad } } & 
+\hline
+
+
+\scriptsize Domésticas &
+
+\scriptsize m³ &
+
+\scriptsize 0 &
+
+\hline
+
+
+\scriptsize Industriales &
+
+\scriptsize m³ &
+
+\scriptsize 628 &
+
+\hline
+
+
+\scriptsize Agrícolas y pecuarias &
+
+\scriptsize m³ &
+
+\scriptsize 0 &
+
+\hline
+
+
+\multicolumn{ 2 }{|r|}{\scriptsize Total } &  \scriptsize 628 & 
+\hline
+
+\end{tabular}
+
+\bigskip
+
+\begin{tabular}{ |p{ 6cm }|d{2.1}|}
+\hline
+\multicolumn{ 2 }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ Generación de residuos para esta fase (t) }}\\
+\hline
+\multicolumn{1}{ |c|}{\scriptsize\textcolor{myblue2} { Tipo } } & \multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { Cantidad } } & 
+\hline
+
+
+\scriptsize Residuos sólidos urbanos &
+
+\scriptsize 4.3 &
+
+\hline
+
+
+\scriptsize Residuos de manejo especial &
+
+\scriptsize 10.6 &
+
+\hline
+
+
+\scriptsize Residuos peligrosos &
+
+\scriptsize 0.0 &
+
+\hline
+
+
+\multicolumn{ 1 }{|r|}{\scriptsize Total } &  \scriptsize 14.9 & 
+\hline
+
+\end{tabular}
+
+\bigskip
+
+
+
+
+
 \end{multicols}
+
+\begin{tabular}{ |p{ 4cm }|c|c|c|c|c|}
+\hline
+\multicolumn{ 6 }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ Personal }}\\
+\hline
+
+
+
+\multirow{2} {*} {\scriptsize\textcolor{myblue2} { Tipo }} &
+
+
+\multicolumn{4} { c|} {\scriptsize\textcolor{myblue2} { Cantidad por categoría del POEL }} &
+
+
+\multirow{2} {*} {\scriptsize\textcolor{myblue2} { Total fase }} &
+
+
+\hhline{ ~----~ }
+
+
+
+
+    ~ &
+  
+
+
+\multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { CNF }} &
+  
+
+
+\multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { SBC }} &
+  
+
+
+\multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { VSS }} &
+  
+
+
+\multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { VFO }} &
+  
+
+
+
+    ~ &
+  
+
+
+\hline
+
+
+
+
+
+\scriptsize Obrero/Jornalero &
+
+\scriptsize 20 &
+
+\scriptsize 10 &
+
+\scriptsize 10 &
+
+\scriptsize 0 &
+
+\scriptsize 39 &
+
+\hline
+
+
+\scriptsize Oficial/Técnico &
+
+\scriptsize 15 &
+
+\scriptsize 8 &
+
+\scriptsize 8 &
+
+\scriptsize 0 &
+
+\scriptsize 31 &
+
+\hline
+
+
+\scriptsize Especializado &
+
+\scriptsize 3 &
+
+\scriptsize 2 &
+
+\scriptsize 2 &
+
+\scriptsize 0 &
+
+\scriptsize 7 &
+
+\hline
+
+
+\multicolumn{ 1 }{|r|}{\scriptsize Total } &  \scriptsize 38 &  \scriptsize 20 &  \scriptsize 20 &  \scriptsize 0 &  \scriptsize 77 & 
+\hline
+
+\end{tabular}
+
+\bigskip
+
+\begin{tabular}{ |p{ 3cm }|p{ 3cm }|c|c|c|}
+\hline
+\multicolumn{ 5 }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ Construcción de producto inmobiliario para esta fase }}\\
+\hline
+
+
+\multirow{2} {*} {\scriptsize\textcolor{myblue2} { Categorías del POEL }} &
+
+
+\multirow{2} {*} {\scriptsize\textcolor{myblue2} { Cobertura del suelo }} &
+
+
+\multicolumn{3} { c|} {\scriptsize\textcolor{myblue2} { Número de cuartos }} &
+
+
+\hhline{ ~~--- }
+
+
+
+
+    ~ &
+  
+
+
+
+    ~ &
+  
+
+
+\multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { Hoteleros }} &
+  
+
+
+\multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { Villas* }} &
+  
+
+
+\multicolumn{1}{ c|}{\scriptsize\textcolor{myblue2} { Total }} &
+  
+
+
+\hline
+
+
+
+    \multirow{ 2 }{ 3cm }{\scriptsize Vegetación forestal } &
+    
+    
+      
+      
+        \scriptsize Matorral crasicaule &
+      
+        \scriptsize 11 &
+      
+        \scriptsize 18 &
+      
+        \scriptsize 56 &
+      
+      
+        \hhline{|~|-|-|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Matorral espinoso costero &
+      
+        \scriptsize 11 &
+      
+        \scriptsize 0 &
+      
+        \scriptsize 11 &
+      
+      
+    
+    \hline
+
+    \multirow{ 2 }{ 3cm }{\scriptsize Duna Terciaria Vegetación forestal } &
+    
+    
+      
+      
+        \scriptsize Matorral crasicaule &
+      
+        \scriptsize 0 &
+      
+        \scriptsize 0 &
+      
+        \scriptsize 0 &
+      
+      
+        \hhline{|~|-|-|-|-| }
+      
+    
+      
+       ~  &
+      
+      
+        \scriptsize Matorral espinoso costero &
+      
+        \scriptsize 40 &
+      
+        \scriptsize 10 &
+      
+        \scriptsize 65 &
+      
+      
+    
+    \hline
+
+    \scriptsize Duna Terciaria Cobertura no forestal &
+    
+    
+      
+      
+        \scriptsize Cobertura alterada &
+      
+        \scriptsize 0 &
+      
+        \scriptsize 0 &
+      
+        \scriptsize 0 &
+      
+      
+    
+    \hline
+
+    \scriptsize Cobertura no forestal &
+    
+    
+      
+      
+        \scriptsize Cobertura alterada &
+      
+        \scriptsize 18 &
+      
+        \scriptsize 0 &
+      
+        \scriptsize 18 &
+      
+      
+    
+    \hline
+
+
+\multicolumn{ 4 }{|r|}{\scriptsize Gran Total } &  \scriptsize 150 & 
+\hline
+
+\end{tabular}
+
+
+
 
 \end{document}

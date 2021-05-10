@@ -1,7 +1,7 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 20.6.29) (preloaded format=xelatex 2021.3.19)  4 APR 2021 19:07
+This is XeTeX, Version 3.14159265-2.6-0.999992 (MiKTeX 20.6.29) (preloaded format=xelatex 2021.3.19)  7 APR 2021 13:39
 entering extended mode
-**"C:/Dropbox (LANCIS)/fserrano/fichas/test_ficha.tex"
-("C:/Dropbox (LANCIS)/fserrano/fichas/test_ficha.tex"
+**C:/Users/arabela/Documents/GitHub/cap2/test_latex_templates/test_ficha.tex
+(C:/Users/arabela/Documents/GitHub/cap2/test_latex_templates/test_ficha.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-06-18>
 ("C:\Program Files\MiKTeX\tex/latex/base\article.cls"
@@ -282,6 +282,9 @@ Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 ("C:\Program Files\MiKTeX\tex/latex/shipunov\boldline.sty"
 Package: boldline 2008/02/04 v0.2 Adjust line width in tables
 )
+("C:\Program Files\MiKTeX\tex/latex/tools\dcolumn.sty"
+Package: dcolumn 2014/10/28 v1.06 decimal alignment package (DPC)
+)
 ("C:\Program Files\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty"
 Package: fancyhdr 2021/01/28 v4.0.1 Extensive control of page headers and foote
 rs
@@ -304,28 +307,28 @@ Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
 )) (test_ficha.aux)
 \openout1 = `test_ficha.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 31.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 3
-1.
+5.
 
 ("C:\Program Files\MiKTeX\tex/latex/base\ts1cmr.fd"
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
 
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -366,143 +369,210 @@ Package fontspec Info: Adjusting the maths setup (use [no-math] to avoid
 
 \symlegacymaths=\mathgroup4
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 31.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 31.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 31.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 31.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 31.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 31.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 31.
-LaTeX Font Info:    Redeclaring math accent \check on input line 31.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 31.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 31.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \colon on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 31.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 31.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 31.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 35.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 35.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 35.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 35.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 35.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 35.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 35.
+LaTeX Font Info:    Redeclaring math accent \check on input line 35.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 35.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 35.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \colon on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 35.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 35.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 35.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 31.
+(Font)              `operators' in the math version `normal' on input line 35.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/Calibri(0)/m/n on input line 31.
+(Font)                  OT1/cmr/m/n --> TU/Calibri(0)/m/n on input line 35.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 31.
+(Font)              `operators' in the math version `bold' on input line 35.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/Calibri(0)/m/n on input line 31.
+(Font)                  OT1/cmr/bx/n --> TU/Calibri(0)/m/n on input line 35.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  TU/Calibri(0)/m/n --> TU/Calibri(0)/m/n on input line 3
-1.
+5.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/Calibri(0)/m/it on input line 31.
+(Font)                  OT1/cmr/m/it --> TU/Calibri(0)/m/it on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/Calibri(0)/b/n on input line 31.
+(Font)                  OT1/cmr/bx/n --> TU/Calibri(0)/b/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 31.
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 31.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 35.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  TU/Calibri(0)/m/n --> TU/Calibri(0)/b/n on input line 3
-1.
+5.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/Calibri(0)/b/it on input line 31.
+(Font)                  OT1/cmr/bx/it --> TU/Calibri(0)/b/it on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 31.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 31.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 39.
+(Font)              <7> on input line 43.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 39.
+(Font)              <5> on input line 43.
 
-Overfull \hbox (0.65613pt too wide) in paragraph at lines 41--41
+Overfull \hbox (0.65613pt too wide) in paragraph at lines 45--45
 []|\TU/Calibri(0)/m/n/8 Etapa:| 
  []
 
 
-Overfull \hbox (30.60129pt too wide) in paragraph at lines 39--69
-[]  
- []
-
-
-Overfull \hbox (15.0pt too wide) in paragraph at lines 71--72
+Overfull \hbox (15.0pt too wide) in paragraph at lines 73--74
 [][]
  []
 
-File: C:/Dropbox (LANCIS)/fserrano/fichas/img/img001.jpg Graphic file (type bmp
-)
-<C:/Dropbox (LANCIS)/fserrano/fichas/img/img001.jpg>
+File: C:/Users/arabela/Documents/GitHub/cap2/test_latex_templates/img/img001.jp
+g Graphic file (type bmp)
+<C:/Users/arabela/Documents/GitHub/cap2/test_latex_templates/img/img001.jpg>
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 121.
+(Font)              <8> on input line 123.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 121.
+(Font)              <6> on input line 123.
 ! Extra alignment tab has been changed to \cr.
 <template> \endtemplate 
                         
-l.125 ...scriptsize\textcolor{myblue2} { CNF } } &
+l.127 ...scriptsize\textcolor{myblue2} { CNF } } &
                                                   
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 133.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 135.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 137.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.135 \scriptsize 0.2 &
+l.137 \scriptsize 0.2 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 144.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 146.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 148.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.146 \scriptsize 0.2 &
+l.148 \scriptsize 0.2 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 155.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 157.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 159.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.157 \scriptsize 0.2 &
+l.159 \scriptsize 0.2 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 166.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 168.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 170.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.168 \scriptsize 0.2 &
+l.170 \scriptsize 0.2 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 177.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 179.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 181.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.179 \scriptsize 0.1 &
+l.181 \scriptsize 0.1 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 188.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 190.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 192.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.190 \scriptsize 0.3 &
+l.192 \scriptsize 0.3 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -514,111 +584,151 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> \endtemplate 
                         
-l.224 ...\textcolor{myblue2} { Jornadas/fase } } &
+l.227 ...\textcolor{myblue2} { Jornadas/fase } } &
                                                   
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 233.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.230 \scriptsize 1457 &
+l.233 \scriptsize 1457 &
                         
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 240.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.237 \scriptsize 1457 &
+l.240 \scriptsize 1457 &
                         
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 247.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.244 \scriptsize 625 &
+l.247 \scriptsize 625 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 254.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.251 \scriptsize 1457 &
+l.254 \scriptsize 1457 &
                         
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 261.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.258 \scriptsize 182 &
+l.261 \scriptsize 182 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 268.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.265 \scriptsize 273 &
+l.268 \scriptsize 273 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 275.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.272 \scriptsize 4372 &
+l.275 \scriptsize 4372 &
                         
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 282.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.279 \scriptsize 31 &
+l.282 \scriptsize 31 &
                       
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 289.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.286 \scriptsize 5 &
+l.289 \scriptsize 5 &
                      
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 296.
+
+
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.293 \scriptsize 165 &
+l.296 \scriptsize 165 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
 
-Overfull \hbox (0.86417pt too wide) in paragraph at lines 220--298
+Overfull \hbox (0.86417pt too wide) in paragraph at lines 223--302
 [][] 
  []
 
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.313 \scriptsize 1.3 &
+l.317 \scriptsize 1.3 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -627,7 +737,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.320 \scriptsize 5.45 &
+l.324 \scriptsize 5.45 &
                         
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -636,7 +746,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.327 \scriptsize Pueblo &
+l.331 \scriptsize Pueblo &
                           
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -645,7 +755,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.334 \scriptsize 101, 151 &
+l.338 \scriptsize 101, 151 &
                             
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -654,7 +764,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.341 \scriptsize 2 &
+l.345 \scriptsize 2 &
                      
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -663,7 +773,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.348 \scriptsize 150 &
+l.352 \scriptsize 150 &
                        
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -672,7 +782,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> \endtemplate 
                         
-l.364 ...extcolor{myblue2} { Superficie (ha) } } &
+l.368 ...extcolor{myblue2} { Superficie (ha) } } &
                                                   
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -681,7 +791,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.373         \scriptsize 0.29 &
+l.378         \scriptsize 0.29 &
                                 
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -690,7 +800,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.385         \scriptsize 0.47 &
+l.390         \scriptsize 0.47 &
                                 
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -699,7 +809,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.397         \scriptsize 0 &
+l.402         \scriptsize 0 &
                              
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -708,7 +818,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.409         \scriptsize 0.24 &
+l.414         \scriptsize 0.24 &
                                 
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -717,7 +827,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.421         \scriptsize 0.27 &
+l.427         \scriptsize 0.27 &
                                 
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -726,7 +836,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.433         \scriptsize 0.02 &
+l.439         \scriptsize 0.02 &
                                 
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -735,7 +845,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.445         \scriptsize 0 &
+l.451         \scriptsize 0 &
                              
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -744,7 +854,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.457         \scriptsize 0.98 &
+l.464         \scriptsize 0.98 &
                                 
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -753,7 +863,7 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.469         \scriptsize 0.31 &
+l.476         \scriptsize 0.31 &
                                 
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
@@ -762,20 +872,497 @@ So I'll assume that you meant to type \cr instead.
 ! Extra alignment tab has been changed to \cr.
 <template> ... width\arrayrulewidth }\endtemplate 
                                                   
-l.481         \scriptsize 0.13 &
+l.488         \scriptsize 0.13 &
                                 
 You have given more \span or & marks than there were
 in the preamble to the \halign or \valign now in progress.
 So I'll assume that you meant to type \cr instead.
 
-[2] (test_ficha.aux) ) 
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.501         \scriptsize 0.01 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.513         \scriptsize 0.01 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.526         \scriptsize 0.02 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.539         \scriptsize 0.06 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.551         \scriptsize 0.09 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.563         \scriptsize 0 &
+                             
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.575         \scriptsize 0.03 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.588         \scriptsize 1.38 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.600         \scriptsize 1.65 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.612         \scriptsize 0.01 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.624         \scriptsize 0.49 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.637         \scriptsize 0 &
+                             
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.649         \scriptsize 0 &
+                             
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.661         \scriptsize 0 &
+                             
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.673         \scriptsize 0 &
+                             
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.686         \scriptsize 0.21 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.698         \scriptsize 0.08 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.711         \scriptsize 0 &
+                             
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.723         \scriptsize 0 &
+                             
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.735         \scriptsize 0 &
+                             
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.748         \scriptsize 0.1 &
+                               
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.760         \scriptsize 0.24 &
+                                
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> \endtemplate 
+                        
+l.775 ...tsize\textcolor{myblue2} { Cantidad } } &
+                                                  
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 781.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 783.
+
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.783 \scriptsize 0 &
+                     
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 790.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 792.
+
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.792 \scriptsize 628 &
+                       
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 799.
+
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 801.
+
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.801 \scriptsize 0 &
+                     
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 806.
+
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.806 ...{\scriptsize Total } &  \scriptsize 628 &
+                                                  
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> \endtemplate 
+                        
+l.817 ...tsize\textcolor{myblue2} { Cantidad } } &
+                                                  
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 823.
+
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.823 \scriptsize 4.3 &
+                       
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 830.
+
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.830 \scriptsize 10.6 &
+                        
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 837.
+
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.837 \scriptsize 0.0 &
+                       
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+LaTeX Font Warning: Command \scriptsize invalid in math mode on input line 842.
+
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.842 ...\scriptsize Total } &  \scriptsize 14.9 &
+                                                  
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+Overfull \vbox (19.19687pt too high) has occurred while \output is active []
+
+
+[2]
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.868 ...size\textcolor{myblue2} { Total fase }} &
+                                                  
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.897     ~ &
+             
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.917 \scriptsize 39 &
+                      
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.932 \scriptsize 31 &
+                      
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.947 \scriptsize 7 &
+                     
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.952 ...e 20 &  \scriptsize 0 &  \scriptsize 77 &
+                                                  
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> \endtemplate 
+                        
+l.971 ...xtcolor{myblue2} { Número de cuartos }} &
+                                                  
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> \endtemplate 
+                        
+l.996 ...criptsize\textcolor{myblue2} { Total }} &
+                                                  
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.1015         \scriptsize 56 &
+                               
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.1031         \scriptsize 11 &
+                               
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.1048         \scriptsize 0 &
+                              
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.1064         \scriptsize 65 &
+                               
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+
+Underfull \hbox (badness 1308) in paragraph at lines 1070--1070
+[]|\TU/Calibri(0)/m/n/7 Duna Terciaria Cobertura no
+ []
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.1081         \scriptsize 0 &
+                              
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.1098         \scriptsize 18 &
+                               
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<template> ... width\arrayrulewidth }\endtemplate 
+                                                  
+l.1105 ...ptsize Gran Total } &  \scriptsize 150 &
+                                                  
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+[3] (test_ficha.aux) ) 
 Here is how much of TeX's memory you used:
- 5605 strings out of 414071
- 134266 string characters out of 2898875
- 505890 words of memory out of 3000000
- 23205 multiletter control sequences out of 15000+200000
+ 5622 strings out of 414071
+ 134692 string characters out of 2898875
+ 560457 words of memory out of 3000000
+ 23219 multiletter control sequences out of 15000+200000
  534313 words of font info for 49 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
- 44i,19n,82p,1011b,479s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,19n,82p,1033b,501s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on test_ficha.pdf (2 pages).
+Output written on test_ficha.pdf (3 pages).

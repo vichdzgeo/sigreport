@@ -3,3 +3,4 @@
 pangea/db.sqlite3
 pangea/pangea/wsgi.py
 pangea/static
+pangea/media

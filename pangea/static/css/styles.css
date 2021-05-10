@@ -164,6 +164,11 @@ a {
   text-decoration: none;
   background-color: transparent;
 }
+a.completo {
+  color: #e0cd23;
+  text-decoration: none;
+  background-color: transparent;
+}
 a:hover {
   color: #467370;
   text-decoration: underline;

@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
+
+# #Descomentar para entorno en casa 
 # STATICFILES_DIRS = (
 #    os.path.join(BASE_DIR,'static'),
 # )
@@ -35,6 +37,7 @@ ALLOWED_HOSTS = ['pangea.mastop','localhost','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,6 +51,51 @@ INSTALLED_APPS = [
     'formulario.apps.FormularioConfig',
     'ficha',
 ]
+
+CKEDITOR_CONFIGS = {
+    # django-ckeditor the default configuration is used 
+    'default': {
+        #  editor width adaptive 
+        #'width':'800px',
+        #'height':'500px',
+        'width': '100% !important',
+        'max-width': '821px !important',
+        # tab key to convert the number of spaces 
+        'tabSpaces': 4,
+        #  toolbar style 
+        'toolbar': 'Custom',
+        #  toolbar button 
+        'toolbar_Custom': [
+            #  the font style 
+            #['Format'],
+            ['Bold', 'Italic', 'Underline','Subscript', 'Superscript'],
+            #  lists
+            ['NumberedList', 'BulletedList']
+        ],
+        #  add the code block plug-in 
+        #'extraPlugins': 'markdown'
+    },
+
+    'unidades': {
+        #  editor width adaptive 
+        'width':'auto',
+        'height':'50px',
+        # tab key to convert the number of spaces 
+        'tabSpaces': 4,
+        #  toolbar style 
+        'toolbar': 'Custom',
+        #  toolbar button 
+        'toolbar_Custom': [
+            #  the font style 
+            #['Format'],
+            ['Subscript', 'Superscript'],
+            #  lists
+            #['NumberedList', 'BulletedList']
+        ],
+        #  add the code block plug-in 
+        #'extraPlugins': 'markdown'
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -113,7 +161,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'UTC'
 
@@ -128,7 +176,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR,'static') ### COMENTAR PARA ENTORNO EN CASA 
+
+LOGIN_REDIRECT_URL ='catalogos:catalogos'
+LOGOUT_REDIRECT_URL ='home'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')

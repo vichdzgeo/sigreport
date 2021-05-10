@@ -1,23 +1,21 @@
-nombre	tipo	tipo_c	fase			
-Imagen de localización y tipos de aprovechamiento	1	1	Construcción			
-Datos generales del componente 	5	1	Construcción			
-Descripción general del componente	7	1	Construcción			
-Lista de tipos de cobertura y abreviaturas	3	1	Construcción			
-Lista de zonificación y abreviaturas	3	1	Construcción			
-Tipos de aprovechamiento por tipo de cobertura y zonificación	6	1	Construcción			
-"Desmonte, despalme, excavación y relleno por tipo de cobertura y zonificación"	6	1	Construcción			
-Procesos constructivos por tipo de cobertura	6	1	Construcción			
-Descripción de procesos constructivos 	7	1	Construcción			
-Insumos requeridos	5	1	Construcción			
-Uso de sustancias químicas peligrosas por cobertura y zonificación	6	1	Construcción			
-Maquinaria por cobertura y zonificación 	6	1	Construcción			
-Personal requerido	6	1	Construcción			
-Generación de residuos por zonificación 	6	1	Construcción			
-Consumo de agua 	5	1	Construcción			
-Generación de aguas residuales	5	1	Construcción			
-Tipos de construcción-edificación por tipo de cobertura	6	2	Construcción			
-Descripción de sistemas constructivos 	7	2	Construcción			
-Superficie de obras provisionales temporales	5	3	Construcción			
-Frecuencia de actividades de obras provisionales	5	3	Construcción			
-Listado florístico en el módulo	5	4	Construcción			
-Longitud de obra de obras lineales	5	5	Construcción			
+nombre	tipo	tipo_c	fase	tag-url	orden	
+Imagen de localización y tipos de aprovechamiento	1	1	Construcción	fig-loc	1	
+Datos generales del componente 	5	1	Construcción	datosgenerales-list	2	
+Descripción general del componente	7	1	Construcción	generales-list	3	
+Tipos de aprovechamiento por tipo de cobertura y zonificación	6	1	Construcción	generales-list	4	
+"Desmonte, despalme, excavación y relleno por tipo de zonificación"	6	1	Construcción	generales-list	13	
+Tipos de construcción-edificación por tipo de cobertura	6	2	Construcción	generales-list	5	
+Procesos constructivos por tipo de cobertura	6	1	Construcción	generales-list	6	
+Descripción de procesos constructivos 	7	1	Construcción	generales-list	7	
+Superficie de obras o edificaciones provisionales temporales	5	3	Construcción	obrastemporales-list	8	
+Frecuencia de actividades de obras provisionales	5	3	Construcción	actividades-list	9	
+Insumos requeridos por zonificación	5	1	Construcción	generales-list	10	
+Uso de sustancias químicas peligrosas por cobertura y zonificación	6	1	Construcción	generales-list	11	
+Maquinaria por zonificación 	6	1	Construcción	maquinaria-list	12	
+Personal requerido por zonificación	6	1	Construcción	personal-list	14	
+Generación de residuos por zonificación 	6	1	Construcción	generales-list	15	
+Consumo de agua 	5	1	Construcción	consumoagua-list	16	
+Generación de aguas residuales	5	1	Construcción	aguaresidual-list	17	
+Selección de sistemas constructivos 	7	1	Construcción	generales-list	18	
+Listado florístico en el módulo	5	4	Construcción	flor-list	19	
+Longitud de obras lineales	5	5	Construcción	obraslineales-list	20	

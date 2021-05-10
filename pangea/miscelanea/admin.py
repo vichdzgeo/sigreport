@@ -12,14 +12,14 @@ class MaquinaAdmin(admin.ModelAdmin):
 class UnidadAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
     list_display = ('title',)
-    search_fields = ('tittle',)
+    search_fields = ('title',)
 
-class EdificacionProvicionalAdmin(admin.ModelAdmin):
+class EdificacionProvisionalAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
     list_display = ('title',)
     search_fields = ('tittle',)
 
-class ActividadProvicionalAdmin(admin.ModelAdmin):
+class ActividadProvisionalAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
     list_display = ('title',)
     search_fields = ('tittle',)
@@ -27,8 +27,8 @@ class ActividadProvicionalAdmin(admin.ModelAdmin):
 
 class TipoAguaAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
-    list_display = ('title',)
-    search_fields = ('tittle',)
+    list_display = ('tipo',)
+    search_fields = ('tipo',)
 
 class InsumosListaAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
@@ -50,23 +50,25 @@ class ListaTipoPersonalAdmin(admin.ModelAdmin):
     list_display = ('tipo',)
     search_fields = ('tipo',)
 
-class ListaSisConstructivoAdmin(admin.ModelAdmin):
+class SisConstructivoAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
+    list_display = ('title',)
+    search_fields = ('title',)
+
+class SisFigurasAdmin(admin.ModelAdmin):
     list_display = ('sistema',)
-    search_fields = ('sistema',)
-
-
 
 admin.site.register(Maquina,MaquinaAdmin)
 admin.site.register(Unidad,UnidadAdmin)
-admin.site.register(EdificacionProvicional,EdificacionProvicionalAdmin)
-admin.site.register(ActividadProvicional,ActividadProvicionalAdmin)
+admin.site.register(EdificacionProvisional,EdificacionProvisionalAdmin)
+admin.site.register(ActividadProvisional,ActividadProvisionalAdmin)
 
 admin.site.register(TipoAgua,TipoAguaAdmin)
 admin.site.register(InsumosLista,InsumosListaAdmin)
 admin.site.register(SustanciasQuimicasP,SustanciasQuimicasPAdmin)
 admin.site.register(ListadoFloristico,ListadoFloristicoAdmin)
 admin.site.register(ListaTipoPersonal,ListaTipoPersonalAdmin)
-admin.site.register(ListaSisConstructivo,ListaSisConstructivoAdmin)
+admin.site.register(SisConstructivo,SisConstructivoAdmin)
+admin.site.register(SisFiguras,SisFigurasAdmin)
 
 admin.site.site_header = 'Administrador Pangea'

@@ -1279,7 +1279,7 @@ def ensamblaficha(request,componente,fase,etapa):
     
     #tex_path = tex_path.replace("/", "\\\\") descomentar para la version local
 
-    
+    #check_call(['xelatex', tex_path], stdin=DEVNULL, stdout=DEVNULL, stderr=STDOUT)
 
     time_old.sleep(1)
     os.chdir(os.path.join(module_dir, 'pdfs'))

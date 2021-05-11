@@ -4,3 +4,11 @@ pangea/db.sqlite3
 pangea/pangea/wsgi.py
 pangea/static
 pangea/media
+pangea/pangea/wsgi.py
+pangea/pangea/settings.py
+pangea/formulario/templates/template_ficha.jinja
+pangea/formulario/pdfs/ficha_61_9_1.tex
+pangea/formulario/pdfs/ficha_61_9_1.pdf
+pangea/formulario/pdfs/ficha_61_9_1.log
+pangea/formulario/pdfs/ficha_61_9_1.aux
+pangea/db.sqlite3

@@ -16,6 +16,15 @@ from django.conf import settings
 import os 
 from django.http import HttpResponse
 from django.shortcuts import redirect
+import pypandoc
+
+import jinja2
+import codecs
+import re
+from jinja2 import Template
+import subprocess
+import time as time_old
+
 def regresa(key,modelo):
     for i in objetos:
         if i.title == key:
@@ -1137,6 +1146,153 @@ def regresa_i(key,objetos):
         if i.title == key:
             return i
 
+## aqui va lo del template
+def getTemplate(tpl_path):
+    path, filename = os.path.split(tpl_path)
+    return jinja2.Environment(
+        loader=jinja2.FileSystemLoader(path or './')
+    ).get_template(filename)
+
+def ensamblaficha(request,componente,fase,etapa):
+   
+    proyecto = "Pangea 4C"
+    module_dir = os.path.dirname(__file__)  
+    jinja_template_path = os.path.join(module_dir, 'templates','template_ficha.jinja')
+    elcomponente = Modulo.objects.filter(id=componente)[0]
+    descripcion_raw = DescripcionGeneral.objects.filter(componente_id=componente,fase_id=fase,etapa_id=etapa)[0].content
+    descripcion_latex = pypandoc.convert_text(descripcion_raw,'latex', format='html', extra_args=['--atx-headers'])
+    descripcion_bits = re.split('(\(fig\d+\))',descripcion_latex)
+    descripcion = []
+    for bit in descripcion_bits:
+        if bit.startswith("(fig"):
+            fig_id = int(bit.replace("(fig","").replace(")",""))
+            path_figura = DescripcionGeneralFiguras.objects.filter(id=fig_id)[0].image.path
+            path_figura = path_figura.replace(os.path.sep,"/")
+            pie = DescripcionGeneralFiguras.objects.filter(id=fig_id)[0].pie
+            
+            descripcion.append("\includegraphics[width=0.5\\textwidth]{"+path_figura+"} \captionof{figure}{"+pie+"}")
+        else:
+            descripcion.append(bit)
+
+    loc_img_path = ImagenLocalizacionC.objects.filter(componente_id=componente,fase_id=fase,etapa_id=etapa)[0].image.path
+    loc_img_path = loc_img_path.replace(os.path.sep,"/")
+    componente_title = elcomponente.title
+    clave = elcomponente.abreviatura
+    fase_title = Fase.objects.filter(id=fase)[0].title
+    etapas = []
+    for e in Etapa.objects.filter(fase_id=fase):
+        etapas.append((e.inicio,e.fin))
+    
+    n_etapas = len(etapas)
+    duracion_obra = DescripcionGeneral.objects.filter(componente_id=componente,fase_id=fase,etapa_id=etapa)[0].duracion
+    hlines = ["~~-~~","~~~~~","~~-~~","~~-~~"]
+    for e in range(0,n_etapas):
+        hlines[0] += "~"
+        hlines[1] += "-"
+        hlines[2] += "-"
+        hlines[3] += "~"
+    hlines[0] += "~"
+    hlines[1] += "~"
+    hlines[2] += "~"
+    hlines[3] += "~"
+
+    datos = DatosGeneral.objects.filter(componente_id=componente,fase_id=fase,etapa_id=etapa)[0]
+    titulo2 = "Datos generales del componente para esta fase"
+    tabla2 = [["Superficie aprovechable total (ha)", datos.sup_aprov_total],
+    ["Superficie edificable (ha)", datos.sup_edi],
+    ["Superficie a construir no edificable (ha)", datos.sup_const_no_edi],
+    ["Niveles máximos construidos", datos.nivel_max],
+    ["Zonificación", datos.zonificacion]]
+    anchos2 = [7,"N"]
+
+    filterProcesos = SeleccionProcesosConstructivos.objects.filter(componente_id=componente,fase_id=fase,etapa_id=etapa)[0] 
+    procesos_c = []
+    for proceso in filterProcesos.procesos.all():
+        procesos_c.append([proceso.title,pypandoc.convert_text(proceso.content,'latex', format='html', extra_args=['--atx-headers'])])
+
+    titulo5 = "Frecuencia de actividades de obras provisionales"
+    frecs_prov = FrecuenciaActividadesC.objects.filter(componente_id=componente,fase_id=fase,etapa_id=etapa)
+    tabla5 = [["Actividades", "Jornadas/fase"]]
+    for frec_prov in frecs_prov:
+        tabla5.append([frec_prov.actividades,frec_prov.horas])
+    anchos5 = [7,"N"]
+
+
+    filterSistemas = SeleccionSistemasConstructivos.objects.filter(componente_id=componente,fase_id=fase,etapa_id=etapa)[0]
+    sistemas_c = []
+    for sistema in filterSistemas.sistemas.all():
+        sistema_raw = sistema.content
+        sistema_latex = pypandoc.convert_text(sistema_raw,'latex', format='html', extra_args=['--atx-headers'])
+        sistema_bits = re.split('(\(fig\d+\))',sistema_latex)
+        sistema_desc = []
+        for bit in sistema_bits:
+            if bit.startswith("(fig"):
+                fig_id = int(bit.replace("(fig","").replace(")",""))
+                path_figura = SisFiguras.objects.filter(id=fig_id)[0].image.path
+                path_figura = path_figura.replace(os.path.sep,"/")
+                pie = SisFiguras.objects.filter(id=fig_id)[0].pie
+                
+                sistema_desc.append("\includegraphics[width=0.5\\textwidth]{"+path_figura+"} \captionof{figure}{"+pie+"}")
+            else:
+                sistema_desc.append("\\footnotesize " + bit)
+        sistemas_c.append([sistema.title,sistema_desc])
+
+
+
+ 
+
+    context = {
+        'loc_img_path': loc_img_path,
+        'proyecto': proyecto,
+        'etapa': etapa,
+        'etapas': etapas,
+        'n_etapas': n_etapas,
+        'hlines': hlines,
+        'componente': componente_title,
+        'clave': clave,
+        'fase': fase_title,
+        'duracion_obra': f"{duracion_obra:,}",
+        'descripcion': descripcion,
+        'titulo2': titulo2,
+        'tabla2': tabla2,
+        'anchos2': anchos2,
+        'titulo5': titulo5,
+        'tabla5': tabla5,
+        'anchos5': anchos5,
+        'procesos_c': procesos_c,
+        'sistemas_c': sistemas_c
+    }
+    
+
+    template = getTemplate(jinja_template_path)
+    tex_path = os.path.join(module_dir, 'pdfs','ficha_'+str(componente)+"_"+str(fase)+"_"+str(etapa)+".tex")
+    
+    with codecs.open (tex_path, "w", "utf-8") as miFile:
+        output = template.render(context)
+        output = re.sub(r'\{§', '{', output)
+        output = re.sub(r'§\}', '}', output)
+
+        # jinja returns unicode - so `output` needs to be encoded to a bytestring
+        # before writing it to a file
+        miFile.write(output)
+
+    
+    tex_path = tex_path.replace("/", "\\\\")
+
+    
+
+    time_old.sleep(1)
+    os.chdir(os.path.join(module_dir, 'pdfs'))
+    subprocess.run(["xelatex", "-interaction=nonstopmode", tex_path],shell=True)
+
+    pdf_path = tex_path.replace(".tex",".pdf")
+
+    with open(pdf_path, 'rb') as pdf:
+        response = HttpResponse(pdf.read(),content_type='application/pdf')
+        response['Content-Disposition'] = 'filename=some_file.pdf'
+        return response
+    #output = pypandoc.convert_text('<h1>Primary Heading</h1>','latex', format='html', extra_args=['--atx-headers'])
+    #return HttpResponse(elcomponente.title+descripcion)
 
 def agregar_estructura(request):
     module_dir = os.path.dirname(__file__)  

@@ -207,15 +207,15 @@
   \multicolumn{1}{m{0.693cm}|}{ {% if etapa == e %}\cellcolor{gray!50}{% endif %} \scriptsize\centering {{etapas[e-1][0]}}-{{etapas[e-1][1]}}  } &
 {% endfor %}
 ~
-\\\hhline{ {{hlines[2]}} }
+\\\hhline{§{{hlines[2]}}§}
 \textcolor{myblue2} { {{componente}} }
- &~& \cellcolor{myblue1}\footnotesize\centering\color{white}\textbf{ {{fase}} }
- &~&
+ & ~ & \cellcolor{myblue1}\footnotesize\centering\color{white}\textbf{ {{fase}} }
+ & ~ &
 
 \multicolumn{ {{n_etapas+2}} }{l}{\footnotesize Duración de la obra o actividad: \textcolor{myblue2} {\textbf{ {{duracion_obra}} días en {{1+etapas[etapa-1][1]-etapas[etapa-1][0]}} años}}}
 
 
-\\\hhline{ {{hlines[3]}} }
+\\\hhline{§{{hlines[3]}}§}
 
 \end{tabular}
 \end{flushleft}

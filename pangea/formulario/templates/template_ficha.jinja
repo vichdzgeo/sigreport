@@ -1,0 +1,288 @@
+\documentclass[twoside]{article}
+\usepackage{supertabular}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[textwidth=20cm,textheight=24cm]{geometry}
+\usepackage{hhline}
+\usepackage{fontspec}
+\setmainfont{Iwona}
+\usepackage[table, dvipsnames]{xcolor}
+\usepackage{multirow}
+\usepackage{boldline}
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{ #1 }}
+\usepackage[font=small,labelfont=bf]{caption}
+\definecolor{myblue1}{RGB}{141,179, 226}
+\definecolor{myblue2}{RGB}{79,129, 189}
+\definecolor{myblue3}{RGB}{74,126, 187}
+\definecolor{mykhaki}{RGB}{168,177, 148}
+\newcommand{\thiscolor}[1]{\texttt{ #1 } \hfill \fcolorbox{black}{ #1 }{\hspace{2mm}}}
+\setlength{\headheight}{15pt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\small \textcolor{mykhaki} {Proyecto {{proyecto}} }}
+\fancyhead[LO,LE]{\small \textcolor{mykhaki} {Manifestación de Impacto Ambiental modalidad regional}}
+\fancyhead[RE,RO]{\begin{tabular}{cc}\small \textcolor{mykhaki} {Capítulo 2  (Sección II)} & \small \textcolor{mykhaki} { Pág. \thepage}\end{tabular}}
+\usepackage{xpatch}
+\xpretocmd\headrule{\color{mykhaki}}{}{\PatchFailed}
+\renewcommand{\figurename}{Figura}
+
+
+
+
+
+{% macro render_table_1(tabla, titulo, anchos, totales = None) -%}
+
+\begin{tabular}{ {% for c in range(0,tabla[0]|length) %}{% if anchos[c] is number -%}|p{ {{ anchos[c] }}cm }{% else -%}|d{2.1}{% endif %}{% endfor %}|}
+\hline
+\multicolumn{ {{tabla[0]|length}} }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ {{titulo}} }}\\
+\hline
+{% for c in range(0,tabla[0]|length) %}\multicolumn{1}{ {% if c == 0 %}|{% endif %}c|}{\scriptsize\textcolor{myblue2} { {{ tabla[0][c] }} } } & {% endfor %}
+\hline
+{% for r in range(1,tabla|length) %}
+{% for cell in tabla[r] %}
+\scriptsize {{ cell }} &
+{% endfor %}
+\hline
+{% endfor %}
+{% if totales != None %}
+\multicolumn{ {{ 1 + tabla[0]|length - totales|length }} }{|r|}{\scriptsize {{totales[0]}} } & {% for c in range(1,totales|length) %} \scriptsize {{ totales[c] }} & {% endfor %}
+\hline
+{% endif %}
+\end{tabular}
+{%- endmacro -%}
+
+{% macro render_table_2(tabla, titulo, anchos) -%}
+\begin{tabular}{ {% for c in range(0,tabla[0]|length) %}{% if anchos[c] is number -%}|p{ {{ anchos[c] }}cm }{% else -%}|c{% endif %}{% endfor %}|}
+\hline
+\multicolumn{ {{tabla[0]|length}} }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ {{titulo}} }}\\
+\hline
+{% for r in range(1,tabla|length) %}
+{% for cell in tabla[r] %}
+\scriptsize {{ cell }} &
+{% endfor %}
+\hline
+{% endfor %}
+\end{tabular}
+{%- endmacro -%}
+
+{% macro render_table_tree(dicc, titulo, anchos, header) -%}
+\begin{tabular}{ {% for c in range(0,header|length) %}{% if anchos[c] is number -%}|p{ {{ anchos[c] }}cm }{% else -%}|c{% endif %}{% endfor %}|}
+\hline
+\multicolumn{ {{header|length}} }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ {{titulo}} }}\\
+\hline
+{% for c in range(0,header|length) %}\multicolumn{1}{ {% if c == 0 %}|{% endif %}c|}{\scriptsize\textcolor{myblue2} { {{ header[c] }} } } & {% endfor %}
+\hline
+{% for key, value in dicc.items() %}
+{% if value|length == 1 -%}
+    \scriptsize {{ key }} &
+    {% else -%}
+    \multirow{ {{ value|length }} }{ {{ anchos[0] }}cm }{\scriptsize {{ key }} } &
+    {% endif %}
+    {% for r in range(0,value|length) %}
+      {% if r > 0 %}
+       ~  &
+      {% endif %}
+      {% for cell in value[r] %}
+        \scriptsize {{ cell }} &
+      {% endfor %}
+      {% if r < value|length - 1  %}
+        \hhline{|~|{% for c in range(1,header|length) %}-|{% endfor %} }
+      {% endif %}
+    {% endfor %}
+    \hline
+{% endfor %}
+
+\end{tabular}
+{%- endmacro -%}
+
+{% macro render_table_tree_custom_header(dicc, titulo, anchos, header, totales = None) -%}
+\begin{tabular}{ {% for c in range(0,header[1]|length) %}{% if anchos[c] is number -%}|p{ {{ anchos[c] }}cm }{% else -%}|c{% endif %}{% endfor %}|}
+\hline
+\multicolumn{ {{header[1]|length}} }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ {{titulo}} }}\\
+\hline
+{% for r in range(0,header|length) %}
+{% for c in range(0,header[r]|length) %}
+{% if header[r][c]|length == 1 -%}
+  {% if header[r][c][0] == "~" %}
+    ~ &
+  {% else -%}
+    \multicolumn{1}{ {% if c == 0 %}|{% endif %}c|}{\scriptsize\textcolor{myblue2} { {{ header[r][c][0] }} }} &
+  {% endif %}
+{% else -%}
+  {{ header[r][c][1] }} {% if "column" in header[r][c][1] -%} { {% if c == 0 %}|{% endif %}c|}{% else -%}{*}{% endif %} {\scriptsize\textcolor{myblue2} { {{ header[r][c][0] }} }} &
+{% endif %}
+{% endfor %}
+{% if r == 0 -%}
+\hhline{ {% for c in range(0,header[r+1]|length) %}{% if header[r+1][c][0] == "~" -%}~{% else -%}-{% endif %}{% endfor %} }
+{% else -%}
+\hline
+{% endif %}
+{% endfor %}
+{% for key, value in dicc.items() %}
+    {% if value|length == 1 -%}
+    \scriptsize {{ key }} &
+    {% else -%}
+    \multirow{ {{ value|length }} }{ {{ anchos[0] }}cm }{\scriptsize {{ key }} } &
+    {% endif %}
+    {% for r in range(0,value|length) %}
+      {% if r > 0 %}
+       ~  &
+      {% endif %}
+      {% for cell in value[r] %}
+        \scriptsize {{ cell }} &
+      {% endfor %}
+      {% if r < value|length - 1  %}
+        \hhline{|~|{% for c in range(1,header[1]|length) %}-|{% endfor %} }
+      {% endif %}
+    {% endfor %}
+    \hline
+{% endfor %}
+{% if totales != None %}
+\multicolumn{ {{ 1 + header[1]|length - totales|length }} }{|r|}{\scriptsize {{totales[0]}} } & {% for c in range(1,totales|length) %} \scriptsize {{ totales[c] }} & {% endfor %}
+\hline
+{% endif %}
+\end{tabular}
+{%- endmacro -%}
+
+{% macro render_table_custom_header(tabla, titulo, anchos, header, totales = None) -%}
+\begin{tabular}{ {% for c in range(0,tabla[0]|length) %}{% if anchos[c] is number -%}|p{ {{ anchos[c] }}cm }{% else -%}|c{% endif %}{% endfor %}|}
+\hline
+\multicolumn{ {{tabla[0]|length}} }{|l|}{\cellcolor{myblue1}\scriptsize\color{white}{ {{titulo}} }}\\
+\hline
+
+{% for r in range(0,header|length) %}
+{% for c in range(0,header[r]|length) %}
+{% if header[r][c]|length == 1 -%}
+  {% if header[r][c][0] == "~" %}
+    ~ &
+  {% else -%}
+    \multicolumn{1}{ {% if c == 0 %}|{% endif %}c|}{\scriptsize\textcolor{myblue2} { {{ header[r][c][0] }} }} &
+  {% endif %}
+{% else -%}
+  {{ header[r][c][1] }} {% if "column" in header[r][c][1] -%} { {% if c == 0 %}|{% endif %}c|}{% else -%}{*}{% endif %} {\scriptsize\textcolor{myblue2} { {{ header[r][c][0] }} }} &
+{% endif %}
+{% endfor %}
+{% if r == 0 -%}
+\hhline{ {% for c in range(0,header[r+1]|length) %}{% if header[r+1][c][0] == "~" -%}~{% else -%}-{% endif %}{% endfor %} }
+{% else -%}
+\hline
+{% endif %}
+{% endfor %}
+
+{% for r in range(0,tabla|length) %}
+{% for cell in tabla[r] %}
+\scriptsize {{ cell }} &
+{% endfor %}
+\hline
+{% endfor %}
+{% if totales != None %}
+\multicolumn{ {{ 1 + tabla[0]|length - totales|length }} }{|r|}{\scriptsize {{totales[0]}} } & {% for c in range(1,totales|length) %} \scriptsize {{ totales[c] }} & {% endfor %}
+\hline
+{% endif %}
+\end{tabular}
+{%- endmacro -%}
+
+
+
+
+
+
+\begin{document}
+\begin{flushleft}
+\tablefirsthead{}
+\tablehead{}
+\tabletail{}
+\tablelasttail{}
+\arrayrulecolor{myblue3}
+
+\begin{tabular}{m{7.7320004cm}m{0.091000006cm}|m{2.421cm}|m{0.089cm}m{0.694cm}m{0.693cm} {% for e in range(1,n_etapas+1) %}m{0.703cm}{% endfor %} }
+\hhline{§{{hlines[0]}}§}
+ ~&~ & \multirow{2}{*}{\centering\textcolor{myblue2}{Clave: {{clave}}  }}&~ &\footnotesize Etapa:&\footnotesize\textcolor{myblue2} {\textbf{ {{etapa}} }} {% for e in range(1,n_etapas+1) %}&~{% endfor %}
+\\\hhline{§{{hlines[1]}}§}
+\textcolor{myblue2} {Componente:}&~& &~&\multicolumn{1}{m{0.694cm}|}{\footnotesize Años: } &
+{% for e in range(1,n_etapas+1) %}
+  \multicolumn{1}{m{0.693cm}|}{ {% if etapa == e %}\cellcolor{gray!50}{% endif %} \scriptsize\centering {{etapas[e-1][0]}}-{{etapas[e-1][1]}}  } &
+{% endfor %}
+~
+\\\hhline{ {{hlines[2]}} }
+\textcolor{myblue2} { {{componente}} }
+ &~& \cellcolor{myblue1}\footnotesize\centering\color{white}\textbf{ {{fase}} }
+ &~&
+
+\multicolumn{ {{n_etapas+2}} }{l}{\footnotesize Duración de la obra o actividad: \textcolor{myblue2} {\textbf{ {{duracion_obra}} días en {{1+etapas[etapa-1][1]-etapas[etapa-1][0]}} años}}}
+
+
+\\\hhline{ {{hlines[3]}} }
+
+\end{tabular}
+\end{flushleft}
+
+{\color{myblue2} \rule{\linewidth}{0.6mm} }
+
+\begin{multicols}{2}
+
+\bigskip
+
+\footnotesize\textcolor{myblue2} {\textbf{ Localización}}
+
+
+\bigskip
+
+ \includegraphics{§{{loc_img_path}}§}
+
+
+\bigskip
+
+
+\bigskip
+
+\footnotesize Categorías del POEL: Duna embrionaria (DEM); dunas terciarias/vegetación forestal (DTF); dunas terciarias/cobertura no forestal (DTN); dunas terciarias/vegetación secundaria de selva (DTS); primer cordón de dunas (PCD); selva baja caducifolia (SBC); vegetación forestal (VFO); cobertura no forestal (CNF); vegetación secundaria de selva (VSS).
+
+
+\bigskip
+
+
+\bigskip
+
+\textcolor{myblue2} {\textbf{Descripción general del componente para esta fase}}
+
+
+\bigskip
+
+{% for pedazo in descripcion %}
+  \footnotesize {{pedazo}}
+  \bigskip
+{% endfor %}
+\bigskip
+
+{{ render_table_2(tabla2, titulo2, anchos2) }}
+
+\bigskip
+
+{% for p in procesos_c %}
+  \textcolor{myblue2} {\textbf{ {{p[0]}} }}
+  \footnotesize {{p[1]}}
+  \bigskip
+{% endfor %}
+
+{{ render_table_1(tabla5, titulo5, anchos5) }}
+
+\bigskip
+
+{% for s in sistemas_c %}
+  \textcolor{myblue2} {\textbf{ {{s[0]}} }}
+  {% for bit in s[1] %}
+    {{bit}}
+    \bigskip
+  {% endfor %}
+{% endfor %}
+
+
+
+\end{multicols}
+
+
+\end{document}

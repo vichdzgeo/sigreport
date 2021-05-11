@@ -1277,7 +1277,7 @@ def ensamblaficha(request,componente,fase,etapa):
         miFile.write(output)
 
     
-    tex_path = tex_path.replace("/", "\\\\")
+    #tex_path = tex_path.replace("/", "\\\\") descomentar para la version local
 
     
 

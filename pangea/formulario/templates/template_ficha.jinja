@@ -1,4 +1,7 @@
 \documentclass[twoside]{article}
+\usepackage[sfdefault]{cabin}
+\usepackage[T1]{fontenc}
+\renewcommand{\familydefault}{\sfdefault}
 \usepackage{supertabular}
 \usepackage{array}
 \usepackage{multicol}
@@ -20,13 +23,13 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[C]{\small \textcolor{mykhaki} {Proyecto {{proyecto}} }}
-\fancyhead[LO,LE]{\small \textcolor{mykhaki} {Manifestación de Impacto Ambiental modalidad regional}}
-\fancyhead[RE,RO]{\begin{tabular}{cc}\small \textcolor{mykhaki} {Capítulo 2  (Sección II)} & \small \textcolor{mykhaki} { Pág. \thepage}\end{tabular}}
+\fancyhead[C]{\small \textcolor{mykhaki} {\textsf{Proyecto {{proyecto}} }}}
+\fancyhead[LO,LE]{\small \textcolor{mykhaki} {\textsf{Manifestación de Impacto Ambiental modalidad regional}}}
+\fancyhead[RE,RO]{\begin{tabular}{cc}\small \textcolor{mykhaki} {\textsf{Capítulo 2  (Sección II)}} & \small \textcolor{mykhaki} {\textsf{ Pág. \thepage}}\end{tabular}}
 \usepackage{xpatch}
 \xpretocmd\headrule{\color{mykhaki}}{}{\PatchFailed}
-\renewcommand{\figurename}{Figura}
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\captionsetup[figure]{font={footnotesize,sf},name=Figura,format=hang,justification=raggedright,margin=15pt,indention=0pt}
 
 
 
@@ -207,8 +210,8 @@
 ~
 \\\hhline{§{{hlines[2]}}§}
 \textcolor{myblue2} { {{componente}} }
- & ~ & \cellcolor{myblue1}\footnotesize\centering\color{white}\textbf{ {{fase}} }
- & ~ &
+ &~& \cellcolor{myblue1}\footnotesize\centering\color{white}\textbf{ {{fase}} }
+ &~&
 
 \multicolumn{ {{n_etapas+2}} }{l}{\footnotesize Duración de la obra o actividad: \textcolor{myblue2} {\textbf{ {{duracion_obra}} días en {{1+etapas[etapa-1][1]-etapas[etapa-1][0]}} años}}}
 

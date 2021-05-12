@@ -1185,11 +1185,11 @@ def ensamblaficha(request,componente,fase,etapa):
     
     n_etapas = len(etapas)
     duracion_obra = DescripcionGeneral.objects.filter(componente_id=componente,fase_id=fase,etapa_id=etapa)[0].duracion
-    hlines = ["~~-~~","~~~~~","~~-~~","~~-~~"]
+    hlines = ["~~|-|~~","~~|~|~~","~~|-|~~","~~|-|~~"]
     for e in range(0,n_etapas):
         hlines[0] += "~"
-        hlines[1] += "-"
-        hlines[2] += "-"
+        hlines[1] += "|-"
+        hlines[2] += "|-"
         hlines[3] += "~"
     hlines[0] += "~"
     hlines[1] += "~"

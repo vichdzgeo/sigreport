@@ -1271,7 +1271,7 @@ def ensamblaficha(request,componente,fase,etapa):
         output = template.render(context)
         output = re.sub(r'\{§', '{', output)
         output = re.sub(r'§\}', '}', output)
-
+        output = re.sub(r'×', r'\\( \\times \\)', output)
         # jinja returns unicode - so `output` needs to be encoded to a bytestring
         # before writing it to a file
         miFile.write(output)
@@ -1283,7 +1283,7 @@ def ensamblaficha(request,componente,fase,etapa):
 
     time_old.sleep(1)
     os.chdir(os.path.join(module_dir, 'pdfs'))
-    subprocess.run(["xelatex", "-interaction=nonstopmode", tex_path])
+    subprocess.run(["xelatex", "-interaction=nonstopmode", tex_path], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     pdf_path = tex_path.replace(".tex",".pdf")
 

@@ -1277,13 +1277,13 @@ def ensamblaficha(request,componente,fase,etapa):
         miFile.write(output)
 
     
-    #tex_path = tex_path.replace("/", "\\\\") descomentar para la version local
+    #tex_path = tex_path.replace("/", "\\\\") ##descomentar para la version local
 
     #check_call(['xelatex', tex_path], stdin=DEVNULL, stdout=DEVNULL, stderr=STDOUT)
 
     time_old.sleep(1)
     os.chdir(os.path.join(module_dir, 'pdfs'))
-    subprocess.run(["xelatex", "-interaction=nonstopmode", tex_path],shell=True)
+    subprocess.run(["xelatex", "-interaction=nonstopmode", tex_path])
 
     pdf_path = tex_path.replace(".tex",".pdf")
 

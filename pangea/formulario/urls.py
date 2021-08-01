@@ -6,6 +6,7 @@ formulario_patterns = ([
     path('fig-loc/<int:pk>/', LocalizacionCListView.as_view(), name='fig-loc'),
     path('fig-update/<int:pk>/',LocalizacionCUpdate.as_view(),name='fig-update'),
     path('fichas/', EstructuraView.as_view(), name='fichas'),
+    path('ficha/<int:componente>/<int:fase>/<int:etapa>/',ensamblaficha , name='ficha'),
     path('crear-estructura/',agregar_estructura),
     path('completo/<int:pk>/', CatFormUpdate.as_view(),name='completo'),
     path('actividades-list/<int:pk>/',  FrecuenciaActividadesCListView.as_view(), name='actividades-list'),

@@ -25,12 +25,12 @@ loc_img_path = os.path.join(scriptDirectory,"img","img001.jpg")
 loc_img_path = loc_img_path.replace(os.path.sep,"/")
 print(loc_img_path)
 proyecto = "Colibrí de la Montaña"
-etapas = [(1,5),(6,15),(16,17),(18,20),(21,25),(26,50)]
+etapas = [(1,5),(6,15),(16,17),(18,20),(21,99)]
 n_etapas = len(etapas)
-etapa = 1
+etapa = 2
 duracion_obra = 1457
 modulo = "Pueblito"
-fase = "Operación"
+fase = "Construcción"
 texto1 = """El componente “Pueblo” se construirá a lo largo de dos fases (años 1 al 10) e integrará edificaciones relacionadas con actividades hoteleras y residenciales, actividades sociales, deportivas, artísticas y culturales, actividades comerciales y de servicios, pesca y venta de productos frescos del mar.
 
 La fase 1 incluirá la construcción de dos hoteles boutique así como múltiples villas residenciales para alojar a visitantes (véase la tabla Construcción de producto inmobiliario para esta fase), familias de pescadores locales, trabajadores y operadores del condominio. Para las actividades comerciales y de servicios se construirán 25 edificaciones consistentes en tres restaurantes, cuatro mercados de misceláneos y productos del mar, siete comercios de productos diversos, una capilla, un módulo de escamoche, almacén y lavado de pescado, dos bodegas de refrigeración, un módulo de baños públicos y bodega, cinco establecimientos de servicios varios tales como un consultorio de atención médica de primer contacto, delegación municipal, una lavandería y dos oficinas. Para las actividades recreativas y culturales, en esta fase se construirá un gimnasio. Se construirá un estacionamiento para facilitar el ingreso a los hoteles boutique y áreas aledañas.
@@ -105,10 +105,75 @@ dicc4 = {"Palafitos": [["Vegetación forestal", 0.29],
 	                             ["Cobertura no forestal", 0]],
 "Vialidades secundarias":	[["Vegetación forestal", 0.98],
 	                         ["Duna Terciaria Vegetación forestal", 0.31],
-	                         ["Cobertura no forestal", 0.13]]}
+	                         ["Cobertura no forestal", 0.13]],
+"Albercas convencionales": [["Duna Terciaria Vegetación forestal", 0.01],
+                            ["Cobertura no forestal", 0.01]],
+"Cuerpo de agua artificial": [["Vegetación forestal", 0.02]],
+"Áreas verdes ornamentales": [["Vegetación forestal", 0.06],
+                            ["Duna Terciaria Vegetación forestal", 0.09],
+                            ["Duna Terciaria Cobertura no forestal", 0],
+                            ["Cobertura no forestal", 0.03]],
+"Terrazas, patios y explanadas": [["Vegetación forestal", 1.38],
+                                ["Duna Terciaria Vegetación forestal", 1.65],
+                                ["Duna Terciaria Cobertura no forestal", 0.01],
+                                ["Cobertura no forestal", 0.49]],
+"Instalación hidrosanitaria y de agua tratada secundaria": [["Vegetación forestal", 0],
+                                                            ["Duna Terciaria Vegetación forestal", 0],
+                                                            ["Duna Terciaria Cobertura no forestal", 0],
+                                                            ["Cobertura no forestal", 0]],
+"Instalación eléctrica aérea secundaria": [["Vegetación forestal", 0.21],
+                                           ["Cobertura no forestal", 0.08]],
+"Instalación eléctrica y de telecomunicaciones subterránea secundaria": [["Vegetación forestal", 0],
+                                                                        ["Duna Terciaria Vegetación forestal", 0],
+                                                                        ["Cobertura no forestal", 0]],
+"Demolición de Campamento": [["Tortuguero actual Cobertura no forestal", 0.10],
+                            ["Obras provisionales temporales Cobertura no forestal", 0.24]]}
 
 
-anchos4 = [2.1,4,"N"]
+anchos4 = [2.4,4,"N"]
+
+titulo5 = "Generación de aguas residuales para esta fase"
+tabla5 = [["Tipo", "Unidad", "Cantidad"],
+["Domésticas", "m³", 0],
+["Industriales", "m³", 628],
+["Agrícolas y pecuarias", "m³", 0]]
+totales5 = ["Total", 628]
+anchos5 = [5,"N","N"]
+
+
+titulo6 = "Generación de residuos para esta fase (t)"
+tabla6 = [["Tipo", "Cantidad"],
+["Residuos sólidos urbanos", 4.3],
+["Residuos de manejo especial", 10.6],
+["Residuos peligrosos", 0.0]]
+totales6 = ["Total", 14.9]
+anchos6 = [6,"N"]
+
+titulo7 = "Personal"
+header7 = [[["Tipo","\multirow{2}"],["Cantidad por categoría del POEL","\multicolumn{4}"],["Total fase","\multirow{2}"]],
+           [["~"],["CNF"],["SBC"],["VSS"],["VFO"],["~"]]]
+tabla7 = [["Obrero/Jornalero", 20, 10, 10, 0, 39],
+["Oficial/Técnico", 15, 8, 8, 0, 31],
+["Especializado", 3, 2, 2, 0, 7]]
+totales7 = ["Total", 38, 20, 20, 0, 77]
+anchos7 = [4,"N","N","N","N","N"]
+
+
+
+titulo8 = "Construcción de producto inmobiliario para esta fase"
+header8 = [[["Categorías del POEL","\multirow{2}"], ["Cobertura del suelo","\multirow{2}"], ["Número de cuartos", "\multicolumn{3}"]],
+            [["~"],["~"],["Hoteleros"], ["Villas*"], ["Total"]]]
+
+
+dicc8 = {"Vegetación forestal":         [["Matorral crasicaule", 11, 18, 56],
+                                        ["Matorral espinoso costero", 11, 0, 11]],
+"Duna Terciaria Vegetación forestal":   [["Matorral crasicaule", 0, 0, 0],
+                                        ["Matorral espinoso costero", 40, 10, 65]],
+"Duna Terciaria Cobertura no forestal": [["Cobertura alterada", 0, 0, 0]],
+"Cobertura no forestal":                [["Cobertura alterada", 18, 0, 18]]}
+totales8 = ["Gran Total", 150]
+anchos8 = [3,3,"N","N","N"]
+
 
 
 #######################################              end parameters                     #######################
@@ -149,7 +214,25 @@ context = {
     'titulo4': titulo4,
     'anchos4': anchos4,
     'dicc4': dicc4,
-    'header4': header4
+    'header4': header4,
+    'titulo5': titulo5,
+    'tabla5': tabla5,
+    'totales5': totales5,
+    'anchos5': anchos5,
+    'titulo6': titulo6,
+    'tabla6': tabla6,
+    'totales6': totales6,
+    'anchos6': anchos6,
+    'titulo7': titulo7,
+    'tabla7': tabla7,
+    'totales7': totales7,
+    'anchos7': anchos7,
+    'header7': header7,
+    'titulo8': titulo8,
+    'header8': header8,
+    'dicc8': dicc8,
+    'totales8': totales8,
+    'anchos8': anchos8
 }
 tex_path = os.path.join(scriptDirectory,"test_ficha.tex")
 print(tex_path)

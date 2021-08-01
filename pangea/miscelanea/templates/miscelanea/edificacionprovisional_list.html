@@ -19,7 +19,7 @@
       <tbody>
       {% for edificio in edificacionprovisional_list %}
           <tr>
-            <th scope="row" class="align-middle text-center"><a href="{% url 'catalogos:edificio-update' edificio.id %}">{{edificio.title}} </a></th>
+            <th scope="row"><a href="{% url 'catalogos:edificio-update' edificio.id %}">{{edificio.title}} </a></th>
           </tr>
       {% endfor %}
       </tbody>

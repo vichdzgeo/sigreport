@@ -7,7 +7,7 @@
   
   <div class="container mb-4">
     <h2 class="mt-3">{{p_title}}</h2>
-    <p class="mt-3">{{p_componente}} - {{p_fase}} - {{p_etapa}}</p>
+    <p class="mt-3">{{p_componente}} {{p_etapa}}</p>
     <div class="agregar mb-4 text-right">
       {% if not request.user.is_staff %}
         <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
@@ -22,20 +22,20 @@
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col">Personal</th>
-          <th scope="col">PROT</th>
-          <th scope="col">REST</th>
-          <th scope="col">APRO</th>
+          <th scope="col" class="text-center">Personal</th>
+          <th scope="col" class="text-center">PROT</th>
+          <th scope="col" class="text-center">REST</th>
+          <th scope="col" class="text-center">APRO</th>
         </tr>
       </thead>
       <tbody>
       {% for i in personalrequerido_list %}
         {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
           <tr>
-            <th scope="row"><a href="{% url 'forms:personal-update' i.id %}">{{i.personal}} </a></th>
-            <td>{{i.n_prot}}</td>
-            <td>{{i.n_rest}}</td>
-            <td>{{i.n_apro}}</td>
+            <td class = "text-center"  scope="row"><a href="{% url 'forms:personal-update' i.id %}">{{i.personal}} </a></td>
+            <td class = "text-center" >{{i.n_prot}}</td>
+            <td class = "text-center" >{{i.n_rest}}</td>
+            <td class = "text-center" >{{i.n_apro}}</td>
           </tr> 
         {% endif %}
       {% endfor %}

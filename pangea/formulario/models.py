@@ -299,7 +299,6 @@ class PersonalRequerido(models.Model):
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     personal = models.ForeignKey(ListaTipoPersonal, on_delete=models.CASCADE,default="")
-    cobertura = models.ForeignKey(ListaTiposCobertura, on_delete=models.CASCADE,default='')
     n_prot = models.IntegerField(verbose_name="Número de personal por zonificación Protección - PROT",default=0)
     n_rest = models.IntegerField(verbose_name="Número de personal por zonificación Uso restringido -  REST",default=0)
     n_apro = models.IntegerField(verbose_name="Número de personal por zonificación Uso Aprovechamiento controlado - APRO",default=0)
@@ -314,7 +313,7 @@ class PersonalRequerido(models.Model):
     def __str__(self):
         return str(self.id)
 
-#MaquinariaCobertura
+#MaquinariaZonificacion
         
 class MaquinariaZonificacion(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
@@ -353,6 +352,62 @@ class ObrasLinealesLongitudes(models.Model):
         return self.obra
 
 
+class InsumosZonificacion(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    insumo = models.ForeignKey(InsumosLista, on_delete=models.CASCADE,default='')
+    n_prot = models.IntegerField(verbose_name="Cantidad por zonificación Protección - PROT",default=0)
+    n_rest = models.IntegerField(verbose_name="Cantidad por zonificación Uso restringido -  REST",default=0)
+    n_apro = models.IntegerField(verbose_name="Cantidad por zonificación Uso Aprovechamiento controlado - APRO",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Insumos requeridos por zonificación"
+        verbose_name_plural = "Insumos requeridos por zonificación"
+        ordering = ['created']
+
+    def __str__(self):
+        return self.insumo
+
+class MovimientoTierraZonificacion(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    tipo = models.ForeignKey(MovimientoTierra, on_delete=models.CASCADE,default='')
+    n_prot = models.IntegerField(verbose_name="PROT",default=0)
+    n_rest = models.IntegerField(verbose_name="REST",default=0)
+    n_apro = models.IntegerField(verbose_name="APRO",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Desmonte, despalme, excavación y relleno por tipo de zonificación"
+        verbose_name_plural = "Desmonte, despalme, excavación y relleno por tipo de zonificación"
+        ordering = ['created']
+
+    def __str__(self):
+        return self.tipo
+### Residuos sólidos ####
+class ResiduosSolidosZonificacion(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    residuo = models.ForeignKey(ListaTipoResiduosSolidos, on_delete=models.CASCADE,default='')
+    n_prot = models.IntegerField(verbose_name="PROT",default=0)
+    n_rest = models.IntegerField(verbose_name="REST",default=0)
+    n_apro = models.IntegerField(verbose_name="APRO",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Generación de residuos sólidos por zonificación"
+        verbose_name_plural = "Generación de residuos sólidos por zonificación"
+        ordering = ['created']
+
+    def __str__(self):
+        return self.residuo
 
 def agrega_estructura():
     module_dir = os.path.dirname(__file__)  
@@ -533,3 +588,4 @@ def models_modulo_changed(sender,**kwargs):
     CatForm.objects.filter(componente=i_componente,tipo_c__in=lista_false).delete()
     agrega_estructura()
 post_save.connect(models_modulo_changed,sender=Modulo)
+

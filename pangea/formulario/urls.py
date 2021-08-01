@@ -54,4 +54,15 @@ formulario_patterns = ([
     path('obraslineales/<int:pk>/', ObrasLinealesLongitudesCreate.as_view(),name='obraslineales'),
     path('obraslineales-update/<int:pk>/', ObrasLinealesLongitudesUpdate.as_view(),name='obraslineales-update'),
 
+    path('insumo-list/<int:pk>/',  InsumosZonificacionListView.as_view(), name='insumo-list'),
+    path('insumo/<int:pk>/', InsumosZonificacionCreate.as_view(),name='insumo'),
+    path('insumo-update/<int:pk>/', InsumosZonificacionUpdate.as_view(),name='insumo-update'),
+    path('mtierra-list/<int:pk>/',  MovimientoTierraZonificacionListView.as_view(), name='mtierra-list'),
+    path('mtierra/<int:pk>/', MovimientoTierraZonificacionCreate.as_view(),name='mtierra'),
+    path('mtierra-update/<int:pk>/', MovimientoTierraZonificacionUpdate.as_view(),name='mtierra-update'),
+
+    path('rsolidos-list/<int:pk>/',  ResiduosSolidosZonificacionListView.as_view(), name='rsolidos-list'),
+    path('rsolidos/<int:pk>/', ResiduosSolidosZonificacionCreate.as_view(),name='rsolidos'),
+    path('rsolidos-update/<int:pk>/', ResiduosSolidosZonificacionUpdate.as_view(),name='rsolidos-update'),
+
 ],'forms')

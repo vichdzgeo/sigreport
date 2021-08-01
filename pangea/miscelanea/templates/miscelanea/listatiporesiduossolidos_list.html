@@ -17,7 +17,7 @@
       <tbody>
       {% for i in listatiporesiduossolidos_list %}
           <tr>
-            <th scope="row"><a href="{% url 'catalogos:residuo-update' i.id %}">{{i.tipo}} </a></th>
+            <th scope="row"><a href="{% url 'catalogos:residuossolidos-update' i.id %}">{{i.tipo}} </a></th>
           </tr>
       {% endfor %}
       </tbody>

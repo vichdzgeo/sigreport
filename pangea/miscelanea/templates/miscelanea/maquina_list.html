@@ -11,19 +11,19 @@
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col">Tipo</th>
-          <th scope="col">Combustible/Energía</th>
-          <th scope="col">hp</th>
-          <th scope="col">kW·h</th>
+          <th scope="col" class = "text-center">Tipo</th>
+          <th scope="col" class = "text-center">Combustible/Energía</th>
+          <th scope="col" class = "text-center">hp</th>
+          <th scope="col" class = "text-center">kW·h</th>
         </tr>
       </thead>
       <tbody>
       {% for maquina in maquina_list %}
           <tr>
-            <th scope="row"><a href="{% url 'catalogos:maquina-update' maquina.id %}">{{maquina.tipo}} </a></th>
-            <td>{{maquina.combustible}}</td>
-            <td>{{maquina.hp}}</td>
-            <td>{{maquina.kwh}}</td>
+            <th scope="row" class = "text-center"><a href="{% url 'catalogos:maquina-update' maquina.id %}">{{maquina.tipo}} </a></th>
+            <td class = "text-center">{{maquina.combustible}}</td>
+            <td class = "text-center">{{maquina.hp}}</td>
+            <td class = "text-center">{{maquina.kwh}}</td>
           </tr>
       {% endfor %}
       </tbody>

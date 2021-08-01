@@ -17,10 +17,28 @@
             <div class="alert alert-success text-center" role="alert">{{txt_exitoso}}</div>
           {% endif %}
           <form action="" method="post">{% csrf_token %}
-              <table>
-                  {{ form.as_p }}
-              </table>
-              <div class = "text-center">
+            <div class="row g-3">
+              <div class = "col-12">
+                {{ form.personal.label}}
+                {{ form.personal }}
+              </div>
+              <div class = "col-12 mt-2">
+                <p>Ingresar número de horas por zonificación</p>
+              </div>
+              <div class = "col-sm-4 text-center">
+                {{ form.n_prot.label}}
+                {{ form.n_prot }}
+              </div>
+              <div class = "col-sm-4 text-center">
+                {{ form.n_rest.label}}
+                {{ form.n_rest }}
+              </div>
+              <div class = "col-sm-4 text-center">
+                {{ form.n_apro.label}}
+                {{ form.n_apro }}
+              </div>
+            </div>
+              <div class = "text-center mt-5">
                 <input type="submit" class = "btn btn-primary btn-block"value="Agregar" />
               </div>
           </form>

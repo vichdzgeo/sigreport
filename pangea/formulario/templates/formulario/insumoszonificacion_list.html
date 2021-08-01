@@ -7,37 +7,37 @@
   
   <div class="container mb-4">
     <h2 class="mt-3">{{p_title}}</h2>
-    <p class="mt-3">{{p_componente}} - {{p_fase}} - {{p_etapa}}</p>
+    <p class="mt-3">{{p_componente}}  {{p_etapa}}</p>
     <div class="agregar mb-4 text-right">
       {% if not request.user.is_staff %}
         <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
-        <a class='ml-2' href="{% url 'forms:actividades' id_f %}">Agregar</a>
+        <a class='ml-2' href="{% url 'forms:insumo' id_f %}">Agregar</a>
       {% else %}
         <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
-        <a class='ml-2' href="{% url 'forms:actividades' id_f %}">Agregar</a>
+        <a class='ml-2' href="{% url 'forms:insumo' id_f %}">Agregar</a>
         <a class='ml-2' href="{% url 'forms:completo' id_f %}">Estado</a>
       {% endif %}
     </div>    
+    
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col" >Actividad</th>
-          <th scope="col" class = "text-right">Jornadas/Etapa</th>
-          {% comment %} <th scope="col">Fase</th>
-          <th scope="col">Etapa</th>
-          <th scope="col">Componente</th> {% endcomment %}
+          <th scope="col" class = "text-center" >Insumo</th>
+          <th scope="col"class = "text-center">Unidad</th>
+          <th scope="col" class = "text-center" >PROT</th>
+          <th scope="col" class = "text-center" >REST</th>
+          <th scope="col" class = "text-center" >APRO</th>
         </tr>
       </thead>
       <tbody>
-      {% for actividad in frecuenciaactividadesc_list %}
-        {% if actividad.componente == p_componente and actividad.fase == p_fase and actividad.etapa == p_etapa %}
+      {% for i in insumoszonificacion_list %}
+        {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
           <tr>
-            <th scope="row"><a href="{% url 'forms:actividad-update' actividad.id %}">{{actividad.actividades}} </a></th>
-            <td class = "text-right">{{actividad.horas}}</td>
-            {% comment %} <td>{{actividad.fase}}</td>
-            <td>{{actividad.etapa}}</td>
-            <td>{{actividad.componente}}</td>
-          </tr> {% endcomment %}
+            <th scope="row" class = "text-center" ><a href="{% url 'forms:insumo-update' i.id %}">{{ i.insumo.title }} </a></th>
+            <td class = "text-center" >{{i.insumo.unidad}}</td>
+            <td class = "text-center" >{{i.n_prot}}</td>
+            <td class = "text-center" >{{i.n_rest}}</td>
+            <td class = "text-center" >{{i.n_apro}}</td>
         {% endif %}
       {% endfor %}
       </tbody>

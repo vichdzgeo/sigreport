@@ -129,6 +129,9 @@ class ModuloUpdate(UpdateView):
 
 
 
+
+
+
 ### Maquinas
 @method_decorator(login_required,name='dispatch')
 class MaquinaListView(ListView):
@@ -568,7 +571,7 @@ class ListaTipoResiduosSolidosCreate(CreateView):
 @method_decorator(login_required,name='dispatch')
 class ListaTipoResiduosSolidosUpdate(UpdateView):
     model = ListaTipoResiduosSolidos
-    form_class = ListaTipoResiduosSolidosForm
+    form_class = ListaTipoResiduosSolidosForm 
     template_name_suffix = '_update_form'
     
     def get_context_data(self, **kwargs):
@@ -587,7 +590,8 @@ class ListaTipoResiduosSolidosUpdate(UpdateView):
 @method_decorator(login_required,name='dispatch')
 class ListaTipoResiduosListView(ListView):
     model = ListaTipoResiduos
-    template_name = "miscelanea/listatiporesiduos_list.html"
+    template_name_suffix = '_update_form'
+    
     paginate_by = 20
 
     def get_context_data(self, **kwargs):

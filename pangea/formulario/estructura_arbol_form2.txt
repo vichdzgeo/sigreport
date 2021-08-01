@@ -9,9 +9,9 @@ Procesos constructivos por tipo de cobertura	6	1	Construcción	pendiente	6
 Selección de procesos constructivos	7	1	Construcción	selecprocesos	7	
 Superficie de obras o edificaciones provisionales temporales	5	3	Construcción	obrastemporales-list	8	
 Frecuencia de actividades de obras provisionales	5	3	Construcción	actividades-list	9	
-Insumos requeridos por zonificación	5	1	Construcción	pendiente	10	
+Insumos requeridos por zonificación	5	1	Construcción	insumo-list	10	
 Uso de sustancias químicas peligrosas por cobertura y zonificación	6	1	Construcción	pendiente	11	
-Maquinaria por zonificación	6	1	Construcción	pendiente	12	
+Maquinaria por zonificación	6	1	Construcción	maquinaria-list	12	
 Personal requerido por zonificación	6	1	Construcción	pendiente	14	
 Generación de residuos por zonificación	6	1	Construcción	pendiente	15	
 Consumo de agua	5	1	Construcción	consumoagua-list	16	

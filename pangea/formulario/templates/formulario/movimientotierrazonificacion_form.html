@@ -12,18 +12,18 @@
       <h3 class="">Etapa:{{p_etapa}}</h3>
     <div class="row mt-3 mb-5">
       <div class="col-md-9 mx-auto">
-        <div class="agregar mb-4 text-right"><a href="{% url 'forms:maquinaria-list' id_f %}">Ver lista</a></div>
+        <div class="agregar mb-4 text-right"><a href="{% url 'forms:mtierra-list' id_f %}">Ver lista</a></div>
           {% if 'ok' in request.GET %}
             <div class="alert alert-success text-center" role="alert">{{txt_exitoso}}</div>
           {% endif %}
           <form action="" method="post">{% csrf_token %}
             <div class="row g-3">
               <div class = "col-12">
-                {{ form.maquinaria.label}}
-                {{ form.maquinaria }}
+                {{ form.tipo.label}}
+                {{ form.tipo }}
               </div>
               <div class = "col-12 mt-2">
-                <p>Ingresar número de horas por zonificación</p>
+                <p>Cantidad en m³ por zonificación</p>
               </div>
               <div class = "col-sm-4 text-center">
                 {{ form.n_prot.label}}

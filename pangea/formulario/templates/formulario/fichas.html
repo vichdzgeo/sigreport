@@ -38,7 +38,7 @@
 
                                                     {% if not avance.completo %}
                                                         <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="id_{{avance|slugify}}">
+                                                        <input class="form-check-input" type="checkbox" value="" id="id_{{avance|slugify}}" disabled>
                                                         <label class="form-check-label" for="id_{{avance|slugify}}">
                                                             {% if avance.nurl == "pendiente" %}
                                                                 <a>{{avance}}</a>

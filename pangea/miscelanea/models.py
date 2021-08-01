@@ -23,7 +23,7 @@ class Maquina(models.Model):
         ('Gasolina', 'Gasolina'),
         ('Diésel', 'Diésel'),
         ('Gas LP', 'Gas LP'),
-        ('Gas natural', 'Gas naturals'),
+        ('Gas natural', 'Gas natural'),
         ('Electricidad', 'Electricidad'),
         ('Solar', 'Solar'),
         ('Eólica', 'Eólica'),
@@ -98,7 +98,7 @@ class InsumosLista(models.Model):
         ordering = ["title"]
     
     def __str__(self):
-        return self.title
+        return self.title +' ('+self.unidad.title+')'
 
 class SustanciasQuimicasP(models.Model):
     title = models.CharField(max_length=1500,verbose_name = "Tipo")
@@ -121,8 +121,10 @@ class ListadoFloristico(models.Model):
         ('Individuos', 'Individuos'),
         ('Semillas', 'Semillas'),
         ('Estacas', 'Estacas'),
+        ('Esquejes', 'Esquejes'),
         ('Individuos o semillas', 'Individuos o semillas'),
         ('Individuos, semillas o estacas', 'Individuos, semillas o estacas'),
+        ('Individuos, semillas o esquejes', 'Individuos, semillas o esquejes'),
     )
     familia = models.CharField(max_length=1500,verbose_name = "Familia")
     especie = models.CharField(max_length=1500,verbose_name = "Especie")
@@ -221,7 +223,7 @@ class ListaTipoResiduosSolidos(models.Model):
         verbose_name_plural = "Lista de tipos de residuos sólidos"
         ordering = ["tipo"]
     def __str__(self):
-        return self.tipo
+        return self.tipo +' ('+self.unidad.title+')'
 
 
 class ListaTipoResiduos(models.Model):

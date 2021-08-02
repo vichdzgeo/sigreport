@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.join(PROJECT_DIR, 'pangea'))
 
 activate_this = os.path.join( PROJECT_DIR, 'venv/bin', 'activate_this.py' )
 execfile( activate_this )
-#'''
+
 
 
 from django.core.wsgi import get_wsgi_application

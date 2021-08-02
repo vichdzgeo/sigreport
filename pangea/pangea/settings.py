@@ -17,9 +17,9 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 
 # #Descomentar para entorno en casa 
-STATICFILES_DIRS = (
-   os.path.join(BASE_DIR,'static'),
-)
+# STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR,'static'),
+# )
 
 
 # Quick-start development settings - unsuitable for production
@@ -58,8 +58,8 @@ CKEDITOR_CONFIGS = {
         #  editor width adaptive 
         #'width':'800px',
         #'height':'500px',
-        'width': '100% !important',
-        'max-width': '821px !important',
+        #'width': '100% !important',
+        #'max-width': '821px !important',
         # tab key to convert the number of spaces 
         'tabSpaces': 4,
         #  toolbar style 
@@ -176,7 +176,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR,'static') ### COMENTAR PARA ENTORNO EN CASA 
+STATIC_ROOT = os.path.join(BASE_DIR,'static') ### COMENTAR PARA ENTORNO EN CASA 
 
 LOGIN_REDIRECT_URL ='catalogos:catalogos'
 LOGOUT_REDIRECT_URL ='home'

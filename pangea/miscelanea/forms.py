@@ -4,6 +4,7 @@ from cap2.models import Modulo,Etapa,Fase
 
 
 
+### -- GENERALES -- ### 
 
 class EtapaForm(forms.ModelForm):
 
@@ -21,12 +22,6 @@ class EtapaForm(forms.ModelForm):
                     'title':"Ingresar el número de la etapa",
                     'inicio':"Ingresar el año de inicio",
                     'fin':'Ingresar el año  de fin'}
-        
-        
-
-
-
-
 class ModuloForm(forms.ModelForm):
 
     class Meta:
@@ -52,7 +47,6 @@ class ModuloForm(forms.ModelForm):
             if Modulo.objects.filter(title = title).exists():
                 raise forms.ValidationError("Este componente ya esta registrado")
         return title
-
 class ObrasLinealesForm(forms.ModelForm):
 
     class Meta:
@@ -71,17 +65,17 @@ class ObrasLinealesForm(forms.ModelForm):
             if ObrasLineales.objects.filter(tipo = tipo).exists():
                 raise forms.ValidationError("Este tipo ya esta registrado")
         return tipo
-
 class MaquinaForm(forms.ModelForm):
 
     class Meta:
         model = Maquina
-        fields = ['tipo','combustible','hp','kwh']
+        fields = ['tipo','combustible','hp','kwh','fase']
         widgets = {
             'tipo':forms.TextInput(attrs={'class': 'form-control',}),
             'combustible':forms.Select(attrs={'class': 'form-control'}),
             'hp':forms.TextInput(attrs={'class': 'form-control'}),
             'kwh':forms.TextInput(attrs={'class': 'form-control'}),
+            'fase':forms.Select(attrs={'class': 'form-control'})
         }
 
         labels = {
@@ -89,15 +83,17 @@ class MaquinaForm(forms.ModelForm):
             'combustible':'Seleccionar el tipo de Energía o Combustible',
             'hp':'Agregar hp (caballos de fuerza) para maquinaria operada con gasolina, diésel, gas LP o gas natural',
             'kwh':'Agregar kW·h (kilovatio hora) para maquinaria operada con eléctricidad, solar o eólica',
+            'fase':'Seleccionar fase'
 
 
         }
         
     def clean_tipo(self):
         tipo = self.cleaned_data.get("tipo")
+        fase = self.data.get("fase")
         if 'tipo' in self.changed_data:
-            if Maquina.objects.filter(tipo = tipo).exists():
-                raise forms.ValidationError("Esta maquina ya esta registrada")
+            if Maquina.objects.filter(fase=fase).filter(tipo = tipo).exists():
+                raise forms.ValidationError("Esta maquina ya esta registrada para esta fase")
         return tipo
 class UnidadForm(forms.ModelForm):
 
@@ -155,20 +151,24 @@ class InsumosListaForm(forms.ModelForm):
 
     class Meta:
         model = InsumosLista
-        fields = ['title','unidad']
+        fields = ['title','unidad','fase']
         widgets = {
             'title':forms.TextInput(attrs={'class': 'form-control'}),
             'unidad':forms.Select(attrs={'class': 'form-control'}),
+            'fase':forms.Select(attrs={'class': 'form-control'}),
 
         }
-        labels ={'title':'Agregar insumo de construcción',
-        'unidad':'Seleccionar unidad de medida',}
-        
+        labels ={'title':'Agregar insumo',
+        'unidad':'Seleccionar unidad de medida',
+        'fase':'Seleccionar la fase'}
+    
+    
     def clean_title(self):
         title = self.cleaned_data.get("title")
+        fase = self.data.get("fase")
         if 'title' in self.changed_data:
-            if InsumosLista.objects.filter(title = title).exists():
-                raise forms.ValidationError("Esten insumo ya esta registrado")
+            if InsumosLista.objects.filter(fase=fase).filter(title = title).exists():
+                raise forms.ValidationError("Esten insumo ya esta registrado para esta fase")
         return title
 class SustanciasQuimicasPForm(forms.ModelForm):
 
@@ -234,8 +234,6 @@ class ListaTipoPersonalForm(forms.ModelForm):
             if ListaTipoPersonal.objects.filter(tipo = tipo).exists():
                 raise forms.ValidationError("Este tipo de personal ya fue registrado")
         return tipo
-
-
 class ProcConstructivoForm(forms.ModelForm):
 
     class Meta:
@@ -256,9 +254,6 @@ class ProcConstructivoForm(forms.ModelForm):
             if ProcConstructivo.objects.filter(title = title).exists():
                 raise forms.ValidationError("Este proceso ya esta registrado")
         return title
-
-
-
 class SisConstructivoForm(forms.ModelForm):
 
     class Meta:
@@ -279,9 +274,6 @@ class SisConstructivoForm(forms.ModelForm):
             if SisConstructivo.objects.filter(title = title).exists():
                 raise forms.ValidationError("Este sistema ya esta registrado")
         return title
-
-
-
 class SisFigurasForm(forms.ModelForm):
 
     class Meta:
@@ -292,7 +284,6 @@ class SisFigurasForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
             'pie': forms.TextInput(attrs={'class':'form-control'}),         
         }
-
 class ListaProcesoConstructivoForm(forms.ModelForm):
 
     class Meta:
@@ -311,7 +302,6 @@ class ListaProcesoConstructivoForm(forms.ModelForm):
                 raise forms.ValidationError("Este proceso ya esta registrado")
         return proceso
 class ListaTipoResiduosForm(forms.ModelForm):
-
     class Meta:
         model = ListaTipoResiduos
         fields =  '__all__'
@@ -338,7 +328,6 @@ class ListaTipoResiduosForm(forms.ModelForm):
             if ListaTipoResiduos.objects.filter(tipo = tipo).exists():
                 raise forms.ValidationError("Este tipo ya esta registrado")
         return tipo
-
 class ListaTipoResiduosSolidosForm(forms.ModelForm):
 
     class Meta:
@@ -359,7 +348,6 @@ class ListaTipoResiduosSolidosForm(forms.ModelForm):
             if ListaTipoResiduosSolidos.objects.filter(tipo = tipo).exists():
                 raise forms.ValidationError("Este tipo ya esta registrado")
         return tipo
-
 class TipoAguaForm(forms.ModelForm):
 
     class Meta:
@@ -394,7 +382,6 @@ class TipoAguaResidualForm(forms.ModelForm):
             if TipoAguaResidual.objects.filter(tipo = tipo).exists():
                 raise forms.ValidationError("Este tipo ya esta registrado")
         return tipo
-
 class ListaTiposAprovechamientoForm(forms.ModelForm):
 
     class Meta:
@@ -415,7 +402,6 @@ class ListaTiposAprovechamientoForm(forms.ModelForm):
     #         if ListaTiposAprovechamiento.objects.filter(tipo = tipo).exists():
     #             raise forms.ValidationError("Este tipo ya esta registrado")
     #     return tipo
-
 class ListaTiposCoberturaForm(forms.ModelForm):
     class Meta:
         model = ListaTiposCobertura
@@ -434,8 +420,6 @@ class ListaTiposCoberturaForm(forms.ModelForm):
             if ListaTiposCobertura.objects.filter(tipo = tipo).exists():
                 raise forms.ValidationError("Este tipo ya esta registrado")
         return tipo
-
-
 class ListaZonificacionForm(forms.ModelForm):
     class Meta:
         model = ListaZonificacion
@@ -454,7 +438,6 @@ class ListaZonificacionForm(forms.ModelForm):
             if ListaZonificacion.objects.filter(zona = zona).exists():
                 raise forms.ValidationError("Este zona ya esta registrado")
         return zona
-
 class MovimientoTierraForm(forms.ModelForm):
     class Meta:
         model = MovimientoTierra
@@ -473,7 +456,6 @@ class MovimientoTierraForm(forms.ModelForm):
             if MovimientoTierra.objects.filter(tipo = tipo).exists():
                 raise forms.ValidationError("Este tipo ya esta registrado")
         return tipo
-
 class ListaTiposConsEdifForm(forms.ModelForm):
     class Meta:
         model = ListaTiposConsEdif

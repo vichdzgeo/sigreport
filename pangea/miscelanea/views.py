@@ -86,7 +86,7 @@ class EtapaUpdate(UpdateView):
 
 
 
-#### -- PARA MODULOS - ######
+#### -- PARA COMPONENTES - ######
 @method_decorator(login_required,name='dispatch')
 class ModuloListView(ListView):
     model = Modulo

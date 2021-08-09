@@ -36,9 +36,7 @@ catalogos_patterns = ([
     path('personal/', ListaTipoPersonalListView.as_view(), name='personal'),
     path('personal-create/',ListaTipoPersonalCreate.as_view(),name='personal-create'),
     path('personal-update/<int:pk>/',ListaTipoPersonalUpdate.as_view(),name='personal-update'),
-    #path('sistema/', ListaSisConstructivoListView.as_view(), name='sistema'),
-    #path('sistema-create/',ListaSisConstructivoCreate.as_view(),name='sistema-create'),
-    #path('sistema-update/<int:pk>/',ListaSisConstructivoUpdate.as_view(),name='sistema-update'),
+
 
     path('descsistema/', SisConstructivoListView.as_view(), name='descsistema'),
     path('descsistema-create/',SisConstructivoCreate.as_view(),name='descsistema-create'),
@@ -50,9 +48,7 @@ catalogos_patterns = ([
 
     path('sistemasfiguras-create/<int:pk>/',SisFigurasCreate.as_view(),name='sistemasfiguras-create'),
     path('sistemasfiguras-update/<int:pk>/',SisFigurasUpdate.as_view(),name='sistemasfiguras-update'),
-    # path('procesos/', ListaProcesoConstructivoListView.as_view(), name='procesos'),
-    # path('proceso-create/',ListaProcesoConstructivoCreate.as_view(),name='proceso-create'),
-    # path('proceso-update/<int:pk>/',ListaProcesoConstructivoUpdate.as_view(),name='proceso-update'),
+
     path('residuos/', ListaTipoResiduosListView.as_view(), name='residuos'),
     path('residuo-create/',ListaTipoResiduosCreate.as_view(),name='residuo-create'),
     path('residuo-update/<int:pk>/',ListaTipoResiduosUpdate.as_view(),name='residuo-update'),

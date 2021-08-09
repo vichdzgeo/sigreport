@@ -129,8 +129,8 @@ class InsumosLista(models.Model):
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 
     class Meta:
-        verbose_name = "Lista de insumos de construcción"
-        verbose_name_plural = "Lista de insumos de construcción"
+        verbose_name = "Lista de insumos"
+        verbose_name_plural = "Lista de insumos"
         ordering = ["title"]
     
     def __str__(self):

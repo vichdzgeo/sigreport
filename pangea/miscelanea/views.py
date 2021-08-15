@@ -48,7 +48,7 @@ class CatalogosPageView(TemplateView):
 class EtapaListView(ListView):
     model = Etapa
     template_name = "miscelanea/etapa_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -91,7 +91,7 @@ class EtapaUpdate(UpdateView):
 class ModuloListView(ListView):
     model = Modulo
     template_name = "miscelanea/modulo_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -137,7 +137,7 @@ class ModuloUpdate(UpdateView):
 class MaquinaListView(ListView):
     model = Maquina
     template_name = "miscelanea/maquina_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
 @method_decorator(login_required,name='dispatch')
 class MaquinaCreate(CreateView):
@@ -165,7 +165,7 @@ class MaquinaUpdate(UpdateView):
 class ObrasLinealesListView(ListView):
     model = ObrasLineales
     template_name = "miscelanea/obraslineales_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -205,7 +205,7 @@ class ObrasLinealesUpdate(UpdateView):
 class UnidadListView(ListView):
     model = Unidad
     template_name = "miscelanea/unidad_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -246,7 +246,7 @@ class UnidadUpdate(UpdateView):
 class EdiProvisionalListView(ListView):
     model = EdificacionProvisional
     template_name = "miscelanea/edificacionprovisional_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -286,7 +286,7 @@ class EdiProvisionalUpdate(UpdateView):
 class ActProvisionalListView(ListView):
     model = ActividadProvisional
     template_name = "miscelanea/actividadprovisional_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -328,7 +328,7 @@ class ActProvisionalUpdate(UpdateView):
 class InsumosListaListView(ListView):
     model = InsumosLista
     template_name = "miscelanea/insumoslista_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -371,7 +371,7 @@ class InsumosListaUpdate(UpdateView):
 class SustanciasQuimicasPListView(ListView):
     model = SustanciasQuimicasP
     template_name = "miscelanea/sustanciasquimicasp_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -413,7 +413,7 @@ class SustanciasQuimicasPUpdate(UpdateView):
 class  ListadoFloristicoListView(ListView):
     model =  ListadoFloristico
     template_name = "miscelanea/listadofloristico_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -456,7 +456,7 @@ class  ListadoFloristicoUpdate(UpdateView):
 class  ListaTipoPersonalListView(ListView):
     model =  ListaTipoPersonal
     template_name = "miscelanea/listatipopersonal_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -501,7 +501,7 @@ class  ListaTipoPersonalUpdate(UpdateView):
 class ListaProcesoConstructivoListView(ListView):
     model = ListaProcesoConstructivo
     template_name = "miscelanea/listaprocesoconstructivo_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -546,7 +546,7 @@ class ListaProcesoConstructivoUpdate(UpdateView):
 class ListaTipoResiduosSolidosListView(ListView):
     model = ListaTipoResiduosSolidos
     template_name = "miscelanea/listatiporesiduossolidos_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -560,7 +560,7 @@ class ListaTipoResiduosSolidosCreate(CreateView):
     model = ListaTipoResiduosSolidos
     form_class = ListaTipoResiduosSolidosForm
     template_name = "miscelanea/listatiporesiduos_form.html"
-    paginate_by = 20
+    paginate_by = 100
     success_url = reverse_lazy('catalogos:residuossolidos')
 
     def get_context_data(self, **kwargs):
@@ -591,8 +591,8 @@ class ListaTipoResiduosSolidosUpdate(UpdateView):
 class ListaTipoResiduosListView(ListView):
     model = ListaTipoResiduos
     template_name_suffix = '_update_form'
-    
-    paginate_by = 20
+    template_name = "miscelanea/listatiporesiduos_list.html"
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -634,7 +634,7 @@ class ListaTipoResiduosUpdate(UpdateView):
 class TipoAguaListView(ListView):
     model = TipoAgua
     template_name = "miscelanea/tipoagua_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -675,7 +675,7 @@ class TipoAguaUpdate(UpdateView):
 class TipoAguaResidualListView(ListView):
     model = TipoAguaResidual
     template_name = "miscelanea/tipoaguaresidual_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -716,7 +716,7 @@ class TipoAguaResidualUpdate(UpdateView):
 class ListaTiposAprovechamientoListView(ListView):
     model = ListaTiposAprovechamiento
     template_name = "miscelanea/listatiposaprovechamiento_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -755,7 +755,7 @@ class ListaTiposAprovechamientoUpdate(UpdateView):
 class ListaTiposCoberturaListView(ListView):
     model = ListaTiposCobertura
     template_name = "miscelanea/listatiposcobertura_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -795,7 +795,7 @@ class ListaTiposCoberturaUpdate(UpdateView):
 class ListaZonificacionListView(ListView):
     model = ListaZonificacion
     template_name = "miscelanea/listazonificacion_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -835,7 +835,7 @@ class ListaZonificacionUpdate(UpdateView):
 class MovimientoTierraListView(ListView):
     model = MovimientoTierra
     template_name = "miscelanea/movimientotierra_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -875,7 +875,7 @@ class MovimientoTierraUpdate(UpdateView):
 class ListaTiposConsEdifListView(ListView):
     model = ListaTiposConsEdif
     template_name = "miscelanea/listatiposconsedif_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -916,7 +916,7 @@ class ListaTiposConsEdifUpdate(UpdateView):
 # class ListaSisConstructivoListView(ListView):
 #     model = ListaSisConstructivo
 #     template_name = "miscelanea/listasisconstructivo_list.html"
-#     paginate_by = 20
+#     paginate_by = 100
 
 #     def get_context_data(self, **kwargs):
 #         context = super().get_context_data(**kwargs)
@@ -960,7 +960,7 @@ class ListaTiposConsEdifUpdate(UpdateView):
 class ProcConstructivoListView(ListView):
     model = ProcConstructivo
     template_name = "miscelanea/procconstructivo_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1009,7 +1009,7 @@ class ProcConstructivoUpdate(UpdateView):
 class SisConstructivoListView(ListView):
     model = SisConstructivo
     template_name = "miscelanea/sisconstructivo_list.html"
-    paginate_by = 20
+    paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

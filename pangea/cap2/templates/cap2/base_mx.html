@@ -2,6 +2,7 @@
 
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="{% static 'cap2/css/custom_ckeditor.css' %}" rel="stylesheet">
 <!DOCTYPE html>
 <html lang="es">
@@ -70,5 +71,15 @@
       <!--<script src="{% static 'core/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>-->
       <script src="{% static 'js/scripts.js'%}"></script>
       <!--<script src="{% static 'core/js/main.js' %}"></script>-->
+      <script>
+        $(document).ready(function(){
+          $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+      </script>
   </body>
 </html>

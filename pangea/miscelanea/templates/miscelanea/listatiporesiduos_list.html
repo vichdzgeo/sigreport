@@ -2,19 +2,21 @@
 {% load static %}
 {% block title %}{{p_title}}{% endblock %}
 {% block content %}
-{% comment %} {% include 'pages/includes/pages_menu.html'%} {% endcomment %}
+{% comment %} {% include 'pages/includes/pages_menu.html'%} RESIDUOS TOXICOS {% endcomment %}
 <main role="main">
   
   <div class="container mb-4">
     <h2 class="mt-3">{{p_title}}</h2>
     <div class="agregar mb-4 text-right"><a href="{% url 'catalogos:residuo-create' %}">Agregar</a></div>
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
+    <br>
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
           <th scope="col" class="text-center">Tipo de residuo</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="myTable">
       {% for i in listatiporesiduos_list %}
           <tr>
             <th scope="row"><a href="{% url 'catalogos:residuo-update' i.id %}">{{i.tipo}} </a></th>

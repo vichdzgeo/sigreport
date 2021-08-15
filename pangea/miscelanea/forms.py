@@ -220,19 +220,22 @@ class ListaTipoPersonalForm(forms.ModelForm):
 
     class Meta:
         model = ListaTipoPersonal
-        fields = ['tipo','descripcion']
+        fields = ['tipo','descripcion','fase']
         widgets = {
             'tipo':forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion':forms.TextInput(attrs={'class': 'form-control'}),
+            'fase':forms.Select(attrs={'class': 'form-control'}),
 
         }
         labels ={'tipo':'Agregar tipo de personal',
-        'descripcion':'Agregar descripción'}
+        'descripcion':'Agregar descripción',
+        'fase':'Seleccionar la fase'}
     def clean_tipo(self):
         tipo = self.cleaned_data.get("tipo")
+        fase = self.data.get("fase")
         if 'tipo' in self.changed_data:
-            if ListaTipoPersonal.objects.filter(tipo = tipo).exists():
-                raise forms.ValidationError("Este tipo de personal ya fue registrado")
+            if ListaTipoPersonal.objects.filter(fase=fase).filter(tipo = tipo).exists():
+                raise forms.ValidationError("Este tipo de personal ya fue registrado para esta fase")
         return tipo
 class ProcConstructivoForm(forms.ModelForm):
 

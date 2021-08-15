@@ -180,6 +180,7 @@ class ListaTipoPersonal(models.Model):
     
     tipo = models.CharField(max_length=100,verbose_name = "Tipo")
     descripcion = models.CharField(max_length=280,verbose_name = "Descripcion",default='')
+    fase = models.ForeignKey(Fase,on_delete=models.PROTECT,default=regresa("Construcción",Fase))
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
     class Meta:

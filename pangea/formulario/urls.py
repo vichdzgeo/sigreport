@@ -25,6 +25,7 @@ formulario_patterns = ([
     path('personale-create/<int:pk>/', PersonalCreate.as_view(),name='personale-create'),
     path('personale-update/<int:pk>/', PersonalUpdate.as_view(),name='personale-update'),
 
+
     path('completo/<int:pk>/', CatFormUpdate.as_view(),name='completo'),
     path('actividades-list/<int:pk>/',  FrecuenciaActividadesCListView.as_view(), name='actividades-list'),
     path('actividades/<int:pk>/', FrecuenciaActividadesCCreate.as_view(),name='actividades'),

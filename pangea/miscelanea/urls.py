@@ -10,6 +10,7 @@ catalogos_patterns = ([
     path('componente-create/',ModuloCreate.as_view(),name='componente-create'),
     path('componente-update/<int:pk>/',ModuloUpdate.as_view(),name='componente-update'),
     
+    
     path('tiposv/', ListaTipoVehiculoListView.as_view(), name='tiposv'),
     path('tipov-create/',ListaTipoVehiculoCreate.as_view(),name='tipov-create'),
     path('tipov-update/<int:pk>/',ListaTipoVehiculoUpdate.as_view(),name='tipov-update'),

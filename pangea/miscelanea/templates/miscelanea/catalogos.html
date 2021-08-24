@@ -17,7 +17,7 @@
                 <a href="{% url 'catalogos:cobertura' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de cobertura y abreviaturas<span class="badge badge-light">{{num_cobertura}}</a>
                 <a href="{% url 'catalogos:zona' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de zonificación y abreviaturas<span class="badge badge-light">{{num_zona}}</a>
                 <a href="{% url 'catalogos:residuossolidos' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de residuos sólidos<span class="badge badge-light">{{num_residuossol}}</a>
-                <a href="#" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de vehículos<span class="badge badge-light">{{num_tiposv}}</a>
+                <a href="{% url 'catalogos:tiposv' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de vehículos<span class="badge badge-light">{{num_tiposv}}</a>
                 <a href="{% url 'catalogos:vehiculos' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de vehículos por tipo<span class="badge badge-light">{{num_vehiculos}}</a>
                 <a href="{% url 'catalogos:ins-especiales' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de instalaciones especiales y abreviaturas<span class="badge badge-light">{{num_insespeciales}}</a>
                 <a href="{% url 'catalogos:resespecial' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de residuos peligrosos por instalación especial<span class="badge badge-light">{{num_resespeciales}}</a>

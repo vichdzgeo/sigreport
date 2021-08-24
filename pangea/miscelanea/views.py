@@ -224,8 +224,8 @@ class VehiculoPorTipoListView(ListView):
         context['actualizar']='catalogos:vehiculo-update'
         campos_exc = ['id','created','updated']
 
-        context['campos']=[field.verbose_name for field in VehiculoPorTipo._meta.get_fields() if field.name not in campos_exc]
-        context['col']=[field.name for field in VehiculoPorTipo._meta.get_fields() if field.name not in campos_exc]
+        context['campos']=[field.verbose_name for field in VehiculoPorTipo._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in VehiculoPorTipo._meta.concrete_fields if field.name not in campos_exc]
         return context
 
 @method_decorator(login_required,name='dispatch')

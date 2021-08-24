@@ -12,3 +12,6 @@ pangea/formulario/pdfs/ficha_61_9_1.pdf
 pangea/formulario/pdfs/ficha_61_9_1.log
 pangea/formulario/pdfs/ficha_61_9_1.aux
 pangea/db.sqlite3
+pangea/db.sqlite3
+pangea/pangea/settings.py
+pangea/pangea/wsgi.py

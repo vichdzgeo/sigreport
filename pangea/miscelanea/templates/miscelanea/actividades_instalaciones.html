@@ -2,26 +2,27 @@
 {% load static %}
 {% block title %}{{p_title}}{% endblock %}
 {% block content %}
-{% comment %} {% include 'pages/includes/pages_menu.html'%} {% endcomment %}
+
 <main role="main">
   
   <div class="container mb-4">
     <h2 class="mt-3">{{p_title}}</h2>
-    <div class="agregar mb-4 text-right"><a href="{% url 'catalogos:edificio-create' %}">Agregar</a></div>
+    <div class="agregar mb-4 text-right"><a href="{% url crear %}">Agregar</a></div>
     <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
     <br>
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col-4" class="text-center">Edificación</th>
-
-
+          {% for c in campos %}
+            <th scope="col">{{c}}</th>
+          {% endfor %}
         </tr>
       </thead>
       <tbody id="myTable">
-      {% for edificio in edificacionprovisional_list %}
-          <tr>
-            <th scope="row"><a href="{% url 'catalogos:edificio-update' edificio.id %}">{{edificio.title}} </a></th>
+      {% for i in object_list %}
+          <tr>            
+            <th scope="row"><a href="{% url actualizar i.id %}">{{i.actividad}}</a></th>
+            <th scope="row">{{i.abreviatura}}</th>
           </tr>
       {% endfor %}
       </tbody>

@@ -51,6 +51,12 @@ class Modulo(models.Model):
     t_obras = models.BooleanField(default=False,verbose_name="Incluye obras provisionales temporales")
     t_areas_verdes = models.BooleanField(default=False,verbose_name="Incluye áreas verdes ornamentales")
     t_aprov_lineal = models.BooleanField(default=False,verbose_name="Incluye aprovechamiento líneal")
+    t_semipermanentes = models.BooleanField(default=False,verbose_name="Incluye obras provisionales semipermanentes")
+    t_via_senderos = models.BooleanField(default=False,verbose_name="Incluye vialidades y senderos")
+    t_hospedaje = models.BooleanField(default=False,verbose_name="Incluye actividades de alojamiento a visitantes (solo aplica para operación)")
+    t_actividad = models.BooleanField(default=False,verbose_name="Incluye actividades de servicios, comerciales, recreativas o culturales (solo aplica en operación)")
+    t_aguas = models.BooleanField(default=False,verbose_name="Incluye plantas de tratamiento y manejo de aguas residuales (solo aplica en mantenimiento)")
+    t_plantas = models.BooleanField(default=False,verbose_name="Incluye planta potabilizadora (solo aplica en mantenimiento)")
 
     class Meta:
         verbose_name = "Componente"

@@ -9,6 +9,48 @@ catalogos_patterns = ([
     path('componentes/', ModuloListView.as_view(), name='componentes'),
     path('componente-create/',ModuloCreate.as_view(),name='componente-create'),
     path('componente-update/<int:pk>/',ModuloUpdate.as_view(),name='componente-update'),
+    
+    path('tiposv/', ListaTipoVehiculoListView.as_view(), name='tiposv'),
+    path('tipov-create/',ListaTipoVehiculoCreate.as_view(),name='tipov-create'),
+    path('tipov-update/<int:pk>/',ListaTipoVehiculoUpdate.as_view(),name='tipov-update'),
+
+    path('vehiculos/', VehiculoPorTipoListView.as_view(), name='vehiculos'),
+    path('vehiculo-create/',VehiculoPorTipoCreate.as_view(),name='vehiculo-create'),
+    path('vehiculo-update/<int:pk>/',VehiculoPorTipoUpdate.as_view(),name='vehiculo-update'),
+
+    path('ins-especiales/', ListInsEspListView.as_view(), name='ins-especiales'),
+    path('iespecial-create/',ListInsEspCreate.as_view(),name='iespecial-create'),
+    path('iespecial-update/<int:pk>/',ListInsEspUpdate.as_view(),name='iespecial-update'),
+
+    path('act-fase/', ListaActividadesListView.as_view(), name='act-fase'),
+    path('act-create/',ListaActividadesCreate.as_view(),name='act-create'),
+    path('act-update/<int:pk>/',ListaActividadesUpdate.as_view(),name='act-update'),
+
+    path('resespecial/', ResiduosPeligrososListView.as_view(), name='resespecial'),
+    path('resespecial-create/',ResiduosPeligrososCreate.as_view(),name='resespecial-create'),
+    path('resespecial-update/<int:pk>/',ResiduosPeligrososUpdate.as_view(),name='resespecial-update'),
+
+    path('ptrata/', ListaPTARListView.as_view(), name='ptrata'),
+    path('ptrata-create/',ListaPTARCreate.as_view(),name='ptrata-create'),
+    path('ptrata-update/<int:pk>/',ListaPTARUpdate.as_view(),name='ptrata-update'),
+
+    path('actservic/', ListaAct_scrcListView.as_view(), name='actservic'),
+    path('actservic-create/',ListaAct_scrcCreate.as_view(),name='actservic-create'),
+    path('actservic-update/<int:pk>/',ListaAct_scrcUpdate.as_view(),name='actservic-update'),
+
+    path('actvisita/', ListActVisitantesListView.as_view(), name='actvisita'),
+    path('actvisita-create/',ListActVisitantesCreate.as_view(),name='actvisita-create'),
+    path('actvisita-update/<int:pk>/',ListActVisitantesUpdate.as_view(),name='actvisita-update'),
+
+    path('areasm/', ListaAreasManejoPeligrosasListView.as_view(), name='areasm'),
+    path('areasm-create/',ListaAreasManejoPeligrosasCreate.as_view(),name='areasm-create'),
+    path('areasm-update/<int:pk>/',ListaAreasManejoPeligrosasUpdate.as_view(),name='areasm-update'),
+
+    path('actespeciales/', ListaActInsEspListView.as_view(), name='actespeciales'),
+    path('actespeciales-create/',ListaActInsEspCreate.as_view(),name='actespeciales-create'),
+    path('actespeciales-update/<int:pk>/',ListaActInsEspUpdate.as_view(),name='actespeciales-update'),
+
+
     path('maquinas/', MaquinaListView.as_view(), name='maquinas'),
     path('maquina-create/',MaquinaCreate.as_view(),name='maquina-create'),
     path('maquina-update/<int:pk>/',MaquinaUpdate.as_view(),name='maquina-update'),

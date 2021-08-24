@@ -2,7 +2,7 @@ from django import forms
 from .models import *
 from cap2.models import Modulo,Fase,Etapa
 from ckeditor.widgets import CKEditorWidget
-
+from miscelanea.models import InsumosLista
 def regresa_instancia_title(key,modelo):
     objetos = modelo.objects.all()
 
@@ -11,6 +11,75 @@ def regresa_instancia_title(key,modelo):
             return i
 
 
+
+## GENERALES #####################
+
+class FrecuenciaActividadesForm(forms.ModelForm):
+
+    class Meta:
+        model = FrecuenciaActividades
+        fields = ['actividades','horas']
+        
+        widgets = {
+            'actividades': forms.Select(attrs={'class':'form-control'}),
+            'horas': forms.NumberInput(attrs={'class':'form-control'}),           
+        }
+
+        labels ={'actividades':'Seleccionar una actividad',
+        'horas':'Ingresar Jornadas/Etapa',}
+
+class InsumosRequeridosAlmacenadosForm(forms.ModelForm):
+
+    class Meta:
+        model = InsumosRequeridosAlmacenados
+        fields = ['insumo','cantidad','max_almacenado']
+        
+        widgets = {
+            'insumo': forms.Select(attrs={'class':'form-control'}),
+            'cantidad': forms.NumberInput(attrs={'class':'form-control'}),           
+            'max_almacenado': forms.Select(attrs={'class':'form-control'}),
+        }
+
+        labels ={'insumo':'Seleccionar un insumo',
+        'cantidad':'Ingresar la cantidad',
+        'max_almacenado':'Seleccionar Máximo almacenado'}
+
+class UsoSustanciasQuimicasForm(forms.ModelForm):
+
+    class Meta:
+        model = UsoSustanciasQuimicas
+        fields = ['sustancia','cantidad','max_almacenado']
+        
+        widgets = {
+            'sustancia': forms.Select(attrs={'class':'form-control'}),
+            'cantidad': forms.NumberInput(attrs={'class':'form-control'}),           
+            'max_almacenado': forms.Select(attrs={'class':'form-control'}),
+        }
+
+        labels ={'sustancia':'Seleccionar una sustancia',
+        'cantidad':'Ingresar la cantidad',
+        'max_almacenado':'Seleccionar Máximo almacenado'}
+
+class PersonalForm(forms.ModelForm):
+
+    class Meta:
+        model = Personal
+        fields = ['personal','cantidad_temporal','porcentaje_anual','cantidad_permanente']
+        
+        widgets = {
+            'personal': forms.Select(attrs={'class':'form-control'}),
+            'cantidad_temporal': forms.NumberInput(attrs={'class':'form-control'}),  
+            'porcentaje_anual': forms.Select(attrs={'class':'form-control'}),
+            'cantidad_permanente': forms.NumberInput(attrs={'class':'form-control'}),           
+        }
+
+        labels ={'personal':'Seleccionar tipo de personal',
+        'cantidad_temporal':'Ingresar cantidad temporal',
+        'porcentaje_anual':'Seleccionar porcentaje del año',
+        'cantidad_permanente':'Ingresar cantidad permanente',}
+
+
+####################################
 
 
 class SeleccionProcesosConstructivosForm(forms.ModelForm):
@@ -226,17 +295,18 @@ class PersonalRequeridoForm(forms.ModelForm):
 
 
 class InsumosZonificacionForm(forms.ModelForm):
+
     class Meta:
         model = InsumosZonificacion
+        
+
         fields = ['insumo','n_prot','n_rest','n_apro']
-     
         widgets = {
 
             'insumo': forms.Select(attrs={'class':'form-control'}),
             'n_prot': forms.NumberInput(attrs={'class':'form-control'}),
             'n_rest': forms.NumberInput(attrs={'class':'form-control'}),
             'n_apro': forms.NumberInput(attrs={'class':'form-control'}),
-            
         }
 
         labels={
@@ -245,8 +315,8 @@ class InsumosZonificacionForm(forms.ModelForm):
             'n_rest':'REST',
             'n_apro':'APRO',
 
-
         }
+    
 
 
 class MaquinariaZonificacionForm(forms.ModelForm):

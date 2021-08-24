@@ -8,19 +8,23 @@
   <div class="container mb-4">
     <h2 class="mt-3">{{p_title}}</h2>
     <div class="agregar mb-4 text-right"><a href="{% url 'catalogos:quimica-create' %}">Agregar</a></div>
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
+    <br>
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col" class="text-center">Sustancia quimica peligrosa</th>
-          <th scope="col" class="text-center">Unidad</th>
+          <th scope="col" >Sustancia quimica peligrosa</th>
+          <th scope="col" >Unidad</th>
+          <th scope="col" >Fase</th>
           
         </tr>
       </thead>
-      <tbody>
+      <tbody id="myTable">
       {% for sustancia in sustanciasquimicasp_list %}
           <tr>
             <td scope="row"><a href="{% url 'catalogos:quimica-update' sustancia.id %}">{{sustancia.title}} </a></td>
             <td>{{sustancia.unidad}}</td>
+            <td>{{sustancia.fase}}</td>
           </tr>
       {% endfor %}
       </tbody>

@@ -7,7 +7,24 @@ formulario_patterns = ([
     path('fig-update/<int:pk>/',LocalizacionCUpdate.as_view(),name='fig-update'),
     path('fichas/', EstructuraView.as_view(), name='fichas'),
     path('ficha/<int:componente>/<int:fase>/<int:etapa>/',ensamblaficha , name='ficha'),
-    path('crear-estructura/',agregar_estructura),
+    #path('crear-estructura/',agregar_estructura),
+    ### GENERALES###
+    path('actividadf-list/<int:pk>/',  FrecuenciaActividadesListView.as_view(), name='actividadf-list'),
+    path('actividadf-create/<int:pk>/', FrecuenciaActividadesCreate.as_view(),name='actividadf-create'),
+    path('actividadf-update/<int:pk>/', FrecuenciaActividadesUpdate.as_view(),name='actividadf-update'),
+
+    path('insreqalm-list/<int:pk>/',  InsumosRequeridosAlmacenadosListView.as_view(), name='insreqalm-list'),
+    path('insreqalm-create/<int:pk>/', InsumosRequeridosAlmacenadosCreate.as_view(),name='insreqalm-create'),
+    path('insreqalm-update/<int:pk>/', InsumosRequeridosAlmacenadosUpdate.as_view(),name='insreqalm-update'),
+
+    path('usosusquim-list/<int:pk>/',  UsoSustanciasQuimicasListView.as_view(), name='usosusquim-list'),
+    path('usosusquim-create/<int:pk>/', UsoSustanciasQuimicasCreate.as_view(),name='usosusquim-create'),
+    path('usosusquim-update/<int:pk>/', UsoSustanciasQuimicasUpdate.as_view(),name='usosusquim-update'),
+
+    path('personale-list/<int:pk>/',  PersonalListView.as_view(), name='personale-list'),
+    path('personale-create/<int:pk>/', PersonalCreate.as_view(),name='personale-create'),
+    path('personale-update/<int:pk>/', PersonalUpdate.as_view(),name='personale-update'),
+
     path('completo/<int:pk>/', CatFormUpdate.as_view(),name='completo'),
     path('actividades-list/<int:pk>/',  FrecuenciaActividadesCListView.as_view(), name='actividades-list'),
     path('actividades/<int:pk>/', FrecuenciaActividadesCCreate.as_view(),name='actividades'),

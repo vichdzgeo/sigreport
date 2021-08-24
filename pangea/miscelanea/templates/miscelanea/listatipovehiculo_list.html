@@ -1,27 +1,27 @@
 {% extends 'cap2/base_mx.html' %}
 {% load static %}
-{% block title %}{{p_title}}{% endblock %}
+{% block title %}Tipos de vehículos{% endblock %}
 {% block content %}
 {% comment %} {% include 'pages/includes/pages_menu.html'%} {% endcomment %}
 <main role="main">
   
   <div class="container mb-4">
-    <h2 class="mt-3">{{p_title}}</h2>
-    <div class="agregar mb-4 text-right"><a href="{% url 'catalogos:edificio-create' %}">Agregar</a></div>
+    <h2 class="mt-3">Lista de tipos de vehículos</h2>
+    <div class="agregar mb-4 text-right"><a href="{% url 'catalogos:tipov-create' %}">Agregar</a></div>
     <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
     <br>
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col-4" class="text-center">Edificación</th>
-
-
+          <th scope="col" class = "text-center">Tipo</th>
+          <th scope="col" class = "text-center">Descripción</th>
         </tr>
       </thead>
       <tbody id="myTable">
-      {% for edificio in edificacionprovisional_list %}
+      {% for i in listatipovehiculo_list %}
           <tr>
-            <th scope="row"><a href="{% url 'catalogos:edificio-update' edificio.id %}">{{edificio.title}} </a></th>
+            <th scope="row" class = "text-ligth"><a href="{% url 'catalogos:tipov-update' i.id %}">{{i.tipo}} </a></th>
+            <td class = "text-ligth">{{i.descripcion}}</td>
           </tr>
       {% endfor %}
       </tbody>

@@ -20,7 +20,15 @@ class CatalogosPageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['num_etapas']=len(Etapa.objects.all())
         context['num_componentes']=len(Modulo.objects.all())
+        context['fases']=[x.title for x in Fase.objects.all()]
+        context['num_tiposv']=len(ListaTipoVehiculo.objects.all())
+        context['num_vehiculos']=len(VehiculoPorTipo.objects.all())
+        context['num_insespeciales']=len(ListInsEsp.objects.all())
+        context['num_resespeciales']=len(ResiduosPeligrosos.objects.all())
+        context['num_plantas_trata']=len(ListaPTAR.objects.all())
+
         context['num_macquina']=len(Maquina.objects.all())
+
         context['num_unidades']=len(Unidad.objects.all())
         context['num_edificios']=len(EdificacionProvisional.objects.all())
         context['num_actividades']=len(ActividadProvisional.objects.all())
@@ -40,9 +48,17 @@ class CatalogosPageView(TemplateView):
         context['num_tierra']=len(MovimientoTierra.objects.all())
         context['num_consedi']=len(ListaTiposConsEdif.objects.all())
         context['num_obraslineales']=len(ObrasLineales.objects.all())
+
+        context['num_actcom']=len(ListaAct_scrc.objects.all())
+        context['num_actvis']=len(ListActVisitantes.objects.all())
+        context['num_areasmanejo']=len(ListaAreasManejoPeligrosas.objects.all())
+        context['num_actesp']=len(ListaActInsEsp.objects.all())
+        
         return context
 
 
+
+##### --- GENERALES --- ####
 #### -- PARA etapas - ######
 @method_decorator(login_required,name='dispatch')
 class EtapaListView(ListView):
@@ -126,79 +142,6 @@ class ModuloUpdate(UpdateView):
 
         return reverse_lazy('catalogos:componente-update',args=[self.object.id]) + '?ok'
 
-
-
-
-
-
-
-### Maquinas
-@method_decorator(login_required,name='dispatch')
-class MaquinaListView(ListView):
-    model = Maquina
-    template_name = "miscelanea/maquina_list.html"
-    paginate_by = 100
-
-@method_decorator(login_required,name='dispatch')
-class MaquinaCreate(CreateView):
-    model = Maquina
-    form_class = MaquinaForm
-    success_url = reverse_lazy('catalogos:maquinas')
-
-@method_decorator(login_required,name='dispatch')
-class MaquinaUpdate(UpdateView):
-    model = Maquina
-    form_class = MaquinaForm
-    template_name_suffix = '_update_form'
-    
-    
-    def get_success_url(self):
-
-        return reverse_lazy('catalogos:maquina-update',args=[self.object.id]) + '?ok'
-
-
-
-
-## Obras lineales
-
-@method_decorator(login_required,name='dispatch')
-class ObrasLinealesListView(ListView):
-    model = ObrasLineales
-    template_name = "miscelanea/obraslineales_list.html"
-    paginate_by = 100
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ObrasLineales._meta.verbose_name
-        
-        return context
-@method_decorator(login_required,name='dispatch')
-class ObrasLinealesCreate(CreateView):
-    model = ObrasLineales
-    form_class = ObrasLinealesForm
-    success_url = reverse_lazy('catalogos:obraslineales')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']="Agregar obra lineal"
-        return context
-
-@method_decorator(login_required,name='dispatch')
-class ObrasLinealesUpdate(UpdateView):
-    model = ObrasLineales
-    form_class = ObrasLinealesForm
-    template_name_suffix = '_update_form'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar"
-        context['txt_actualizacion']="registro actualizado correctamente"
-        return context
-    
-    def get_success_url(self):
-
-        return reverse_lazy('catalogos:obraslineales-update',args=[self.object.id]) + '?ok'
-
 ## unidades
 
 @method_decorator(login_required,name='dispatch')
@@ -240,87 +183,291 @@ class UnidadUpdate(UpdateView):
         return reverse_lazy('catalogos:unidad-update',args=[self.object.id]) + '?ok'
 
 
-## Edificacion Provisional
-
+## Tipos de vehículos
 @method_decorator(login_required,name='dispatch')
-class EdiProvisionalListView(ListView):
-    model = EdificacionProvisional
-    template_name = "miscelanea/edificacionprovisional_list.html"
+class ListaTipoVehiculoListView(ListView):
+    model = ListaTipoVehiculo
+    template_name = "miscelanea/listatipovehiculo_list.html"
     paginate_by = 100
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']=EdificacionProvisional._meta.verbose_name
-        
+      
         return context
 
 @method_decorator(login_required,name='dispatch')
-class EdiProvisionalCreate(CreateView):
-    model = EdificacionProvisional
-    form_class = EdificacionProvisionalForm
-    success_url = reverse_lazy('catalogos:edificaciones')
+class ListaTipoVehiculoCreate(CreateView):
+    model =ListaTipoVehiculo
+    form_class =ListaTipoVehiculoForm
+    template_name = "miscelanea/listatipovehiculo_form.html"
+    success_url = reverse_lazy('catalogos:tiposv')
 
+@method_decorator(login_required,name='dispatch')
+class ListaTipoVehiculoUpdate(UpdateView):
+    model =ListaTipoVehiculo
+    form_class =ListaTipoVehiculoForm
+    template_name_suffix = '_update_form'
+    
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:tipov-update',args=[self.object.id]) + '?ok'
+## Vehículos por tipo
+@method_decorator(login_required,name='dispatch')
+class VehiculoPorTipoListView(ListView):
+    model = VehiculoPorTipo
+    template_name = "miscelanea/vehiculoportipo_list.html"
+    paginate_by = 100
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']="Agregar edificación"
+        context['p_title']="Lista de vehículos por tipo"
+        context['crear']='catalogos:vehiculo-create'
+        context['actualizar']='catalogos:vehiculo-update'
+        campos_exc = ['id','created','updated']
+
+        context['campos']=[field.verbose_name for field in VehiculoPorTipo._meta.get_fields() if field.name not in campos_exc]
+        context['col']=[field.name for field in VehiculoPorTipo._meta.get_fields() if field.name not in campos_exc]
         return context
 
 @method_decorator(login_required,name='dispatch')
-class EdiProvisionalUpdate(UpdateView):
-    model = EdificacionProvisional
-    form_class = EdificacionProvisionalForm
+class VehiculoPorTipoCreate(CreateView):
+    model =VehiculoPorTipo
+    form_class =VehiculoPorTipoForm
+    template_name = "miscelanea/vehiculoportipo_form.html"
+    success_url = reverse_lazy('catalogos:vehiculos')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar vehículo"
+        return context
+
+
+@method_decorator(login_required,name='dispatch')
+class VehiculoPorTipoUpdate(UpdateView):
+    model =VehiculoPorTipo
+    form_class =VehiculoPorTipoForm
     template_name_suffix = '_update_form'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar edificación"
-        context['txt_actualizacion']="Edificación actualizada correctamente"
+        context['p_title']="Actualizar vehículo"
+        context['regresar']='catalogos:vehiculos'
+        context['txt_actualizacion']="Vehículo actualizado correctamente"
         return context
-    
     def get_success_url(self):
 
-        return reverse_lazy('catalogos:edificio-update',args=[self.object.id]) + '?ok'
+        return reverse_lazy('catalogos:vehiculo-update',args=[self.object.id]) + '?ok'
 
-## Actividad Provisional
+
+## Instalación especial
+
 @method_decorator(login_required,name='dispatch')
-class ActProvisionalListView(ListView):
-    model = ActividadProvisional
-    template_name = "miscelanea/actividadprovisional_list.html"
+class ListInsEspListView(ListView):
+    model = ListInsEsp
+    template_name = "miscelanea/listsnsesp_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=self.model._meta.verbose_name
+        context['crear']='catalogos:iespecial-create'
+        context['actualizar']='catalogos:iespecial-update'
+        campos_exc = ['id','created','updated']
+        context['campos']=[field.verbose_name for field in ListInsEsp._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ListInsEsp._meta.concrete_fields if field.name not in campos_exc]
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListInsEspCreate(CreateView):
+    model =ListInsEsp
+    form_class =ListInsEspForm
+    template_name = "miscelanea/listinsesp_form.html"
+    success_url = reverse_lazy('catalogos:ins-especiales')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar Instalación"
+        return context
+
+
+@method_decorator(login_required,name='dispatch')
+class ListInsEspUpdate(UpdateView):
+    model =ListInsEsp
+    form_class =ListInsEspForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar Instalación"
+        context['regresar']='catalogos:ins-especiales'
+        context['txt_actualizacion']="Instalación actualizada correctamente"
+        return context
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:iespecial-update',args=[self.object.id]) + '?ok'
+
+
+
+## Tipos de agua
+
+@method_decorator(login_required,name='dispatch')
+class TipoAguaListView(ListView):
+    model = TipoAgua
+    template_name = "miscelanea/tipoagua_list.html"
     paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']="Lista de actividades provisionales"
+        context['p_title']=TipoAgua._meta.verbose_name
         
         return context
 
 @method_decorator(login_required,name='dispatch')
 
-class ActProvisionalCreate(CreateView):
-    model = ActividadProvisional
-    form_class = ActividadProvisionalForm
-    success_url = reverse_lazy('catalogos:actividades')
+class TipoAguaCreate(CreateView):
+    model = TipoAgua
+    form_class = TipoAguaForm
+    success_url = reverse_lazy('catalogos:tagua')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']="Agregar actividad"
+        context['p_title']=TipoAgua._meta.verbose_name
         return context
 
 @method_decorator(login_required,name='dispatch')
-class ActProvisionalUpdate(UpdateView):
-    model = ActividadProvisional
-    form_class = ActividadProvisionalForm
+class TipoAguaUpdate(UpdateView):
+    model = TipoAgua
+    form_class = TipoAguaForm
     template_name_suffix = '_update_form'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar actividad"
-        context['txt_actualizacion']="Actividad provisional actualizada correctamente"
+        context['p_title']="Actualizar"
+        context['txt_actualizacion']="Registro actualizado correctamente"
         return context
     
     def get_success_url(self):
 
-        return reverse_lazy('catalogos:actividad-update',args=[self.object.id]) + '?ok'
+        return reverse_lazy('catalogos:tagua-update',args=[self.object.id]) + '?ok'
+
+## Tipos de agua residual
+@method_decorator(login_required,name='dispatch')
+class TipoAguaResidualListView(ListView):
+    model = TipoAguaResidual
+    template_name = "miscelanea/tipoaguaresidual_list.html"
+    paginate_by = 100
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=TipoAguaResidual._meta.verbose_name
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class TipoAguaResidualCreate(CreateView):
+    model = TipoAguaResidual
+    form_class = TipoAguaResidualForm
+    success_url = reverse_lazy('catalogos:tagresidual')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=TipoAguaResidual._meta.verbose_name
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class TipoAguaResidualUpdate(UpdateView):
+    model = TipoAguaResidual
+    form_class = TipoAguaResidualForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar"
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:tagresidual-update',args=[self.object.id]) + '?ok'
+
+## Tipos de cobertura
+@method_decorator(login_required,name='dispatch')
+class ListaTiposCoberturaListView(ListView):
+    model = ListaTiposCobertura
+    template_name = "miscelanea/listatiposcobertura_list.html"
+    paginate_by = 100
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ListaTiposCobertura._meta.verbose_name
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaTiposCoberturaCreate(CreateView):
+    model = ListaTiposCobertura
+    form_class = ListaTiposCoberturaForm
+    success_url = reverse_lazy('catalogos:cobertura')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ListaTiposCobertura._meta.verbose_name
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaTiposCoberturaUpdate(UpdateView):
+    model = ListaTiposCobertura
+    form_class = ListaTiposCoberturaForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar"
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:cobertura-update',args=[self.object.id]) + '?ok'
+
+## Tipos zonificación
+@method_decorator(login_required,name='dispatch')
+class ListaZonificacionListView(ListView):
+    model = ListaZonificacion
+    template_name = "miscelanea/listazonificacion_list.html"
+    paginate_by = 100
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ListaZonificacion._meta.verbose_name
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaZonificacionCreate(CreateView):
+    model = ListaZonificacion
+    form_class = ListaZonificacionForm
+    success_url = reverse_lazy('catalogos:zona')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ListaZonificacion._meta.verbose_name
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaZonificacionUpdate(UpdateView):
+    model = ListaZonificacion
+    form_class = ListaZonificacionForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar"
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:zona-update',args=[self.object.id]) + '?ok'
+
 
 ## Insumos lista
 
@@ -363,8 +510,6 @@ class InsumosListaUpdate(UpdateView):
     def get_success_url(self):
 
         return reverse_lazy('catalogos:insumo-update',args=[self.object.id]) + '?ok'
-
-
 ## Sustancias quimicas
 
 @method_decorator(login_required,name='dispatch')
@@ -406,50 +551,6 @@ class SustanciasQuimicasPUpdate(UpdateView):
     def get_success_url(self):
 
         return reverse_lazy('catalogos:quimica-update',args=[self.object.id]) + '?ok'
-
-## listado floristico
-
-@method_decorator(login_required,name='dispatch')
-class  ListadoFloristicoListView(ListView):
-    model =  ListadoFloristico
-    template_name = "miscelanea/listadofloristico_list.html"
-    paginate_by = 100
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ListadoFloristico._meta.verbose_name
-        
-        return context
-
-@method_decorator(login_required,name='dispatch')
-class  ListadoFloristicoCreate(CreateView):
-    model =  ListadoFloristico
-    form_class = ListadoFloristicoForm
-    success_url = reverse_lazy('catalogos:flores')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']="Agregar"
-        return context
-
-
-
-@method_decorator(login_required,name='dispatch')
-class  ListadoFloristicoUpdate(UpdateView):
-    model =  ListadoFloristico
-    form_class =  ListadoFloristicoForm
-    template_name_suffix = '_update_form'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar"
-        context['txt_actualizacion']="Registro actualizado correctamente"
-        return context
-    
-    def get_success_url(self):
-
-        return reverse_lazy('catalogos:flor-update',args=[self.object.id]) + '?ok'
-
 ## ListaTipoPersonal
 
 @method_decorator(login_required,name='dispatch')
@@ -492,53 +593,6 @@ class  ListaTipoPersonalUpdate(UpdateView):
     def get_success_url(self):
 
         return reverse_lazy('catalogos:personal-update',args=[self.object.id]) + '?ok'
-
-
-
-## PROCESOS constructivos
-
-@method_decorator(login_required,name='dispatch')
-class ListaProcesoConstructivoListView(ListView):
-    model = ListaProcesoConstructivo
-    template_name = "miscelanea/listaprocesoconstructivo_list.html"
-    paginate_by = 100
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ListaProcesoConstructivo._meta.verbose_name
-        
-        return context
-
-@method_decorator(login_required,name='dispatch')
-
-class ListaProcesoConstructivoCreate(CreateView):
-    model = ListaProcesoConstructivo
-    form_class = ListaProcesoConstructivoForm
-    success_url = reverse_lazy('catalogos:procesos')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ListaProcesoConstructivo._meta.verbose_name
-        return context
-
-@method_decorator(login_required,name='dispatch')
-class ListaProcesoConstructivoUpdate(UpdateView):
-    model = ListaProcesoConstructivo
-    form_class = ListaProcesoConstructivoForm
-    template_name_suffix = '_update_form'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar"
-        context['txt_actualizacion']="Registro actualizado correctamente"
-        return context
-    
-    def get_success_url(self):
-
-        return reverse_lazy('catalogos:proceso-update',args=[self.object.id]) + '?ok'
-
-
-
 
 ## Tipos de residuos solidos
 
@@ -628,36 +682,339 @@ class ListaTipoResiduosUpdate(UpdateView):
 
         return reverse_lazy('catalogos:residuo-update',args=[self.object.id]) + '?ok'
 
-## Tipos de agua
+
+## Actividades 
 
 @method_decorator(login_required,name='dispatch')
-class TipoAguaListView(ListView):
-    model = TipoAgua
-    template_name = "miscelanea/tipoagua_list.html"
+class ListaActividadesListView(ListView):
+    model = ListaActividades
+    template_name = "miscelanea/listaactividades_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=self.model._meta.verbose_name
+        context['crear']='catalogos:act-create'
+        context['actualizar']='catalogos:act-update'
+        campos_exc = ['id','created','updated']
+        context['campos']=[field.verbose_name for field in ListaActividades._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ListaActividades._meta.concrete_fields if field.name not in campos_exc]
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaActividadesCreate(CreateView):
+    model =ListaActividades
+    form_class =ListaActividadesForm
+    template_name = "miscelanea/template_form.html"
+    success_url = reverse_lazy('catalogos:act-fase')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar Actividad"
+        context['regresar']='catalogos:act-fase'
+        return context
+
+
+@method_decorator(login_required,name='dispatch')
+class ListaActividadesUpdate(UpdateView):
+    model =ListaActividades
+    form_class =ListaActividadesForm
+    template_name = "miscelanea/template_update_form.html"
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar actividad"
+        context['regresar']='catalogos:act-fase'
+        context['txt_actualizacion']="Actividad actualizada correctamente"
+        return context
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:act-update',args=[self.object.id]) + '?ok'
+## Residuos peligrosos por instalación especial 
+
+@method_decorator(login_required,name='dispatch')
+class ResiduosPeligrososListView(ListView):
+    model = ResiduosPeligrosos
+    template_name = "miscelanea/residuospeligrosos_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=self.model._meta.verbose_name
+        context['crear']='catalogos:resespecial-create'
+        context['actualizar']='catalogos:resespecial-update'
+        campos_exc = ['id','created','updated']
+        context['campos']=[field.verbose_name for field in ResiduosPeligrosos._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ResiduosPeligrosos._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ResiduosPeligrososCreate(CreateView):
+    model =ResiduosPeligrosos
+    form_class =ResiduosPeligrososForm
+    template_name = "miscelanea/template_form.html"
+    success_url = reverse_lazy('catalogos:resespecial')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar residuo peligroso"
+        context['regresar']='catalogos:resespecial'
+        return context
+
+
+@method_decorator(login_required,name='dispatch')
+class ResiduosPeligrososUpdate(UpdateView):
+    model =ResiduosPeligrosos
+    form_class =ResiduosPeligrososForm
+    template_name = "miscelanea/template_update_form.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar residuo"
+        context['regresar']='catalogos:resespecial'
+        context['txt_actualizacion']="Residuo actualizado correctamente"
+        return context
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:resespecial-update',args=[self.object.id]) + '?ok'
+## Plantas de tratamiento
+
+@method_decorator(login_required,name='dispatch')
+class ListaPTARListView(ListView):
+    model = ListaPTAR
+    template_name = "miscelanea/listaptar_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=self.model._meta.verbose_name
+        context['crear']='catalogos:ptrata-create'
+        context['actualizar']='catalogos:ptrata-update'
+        campos_exc = ['id','created','updated']
+        context['campos']=[field.verbose_name for field in ListaPTAR._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ListaPTAR._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaPTARCreate(CreateView):
+    model =ListaPTAR
+    form_class =ListaPTARForm
+    template_name = "miscelanea/template_form.html"
+    success_url = reverse_lazy('catalogos:ptrata')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar planta de tratamiento"
+        context['regresar']='catalogos:ptrata'
+        return context
+
+
+@method_decorator(login_required,name='dispatch')
+class ListaPTARUpdate(UpdateView):
+    model =ListaPTAR
+    form_class =ListaPTARForm
+    template_name = "miscelanea/template_update_form.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar planta"
+        context['regresar']='catalogos:ptrata'
+        context['txt_actualizacion']="Planta actualizado correctamente"
+        return context
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:ptrata-update',args=[self.object.id]) + '?ok'
+
+###  TERMINA GENERALES ---------------------#####
+###################################################
+
+############# INICIA CONTRUCCIÓN ######################
+##########################################################
+### Maquinas
+@method_decorator(login_required,name='dispatch')
+class MaquinaListView(ListView):
+    model = Maquina
+    template_name = "miscelanea/maquina_list.html"
+    paginate_by = 100
+
+@method_decorator(login_required,name='dispatch')
+class MaquinaCreate(CreateView):
+    model = Maquina
+    form_class = MaquinaForm
+    success_url = reverse_lazy('catalogos:maquinas')
+
+@method_decorator(login_required,name='dispatch')
+class MaquinaUpdate(UpdateView):
+    model = Maquina
+    form_class = MaquinaForm
+    template_name_suffix = '_update_form'
+    
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:maquina-update',args=[self.object.id]) + '?ok'
+
+
+
+
+## Obras lineales
+
+@method_decorator(login_required,name='dispatch')
+class ObrasLinealesListView(ListView):
+    model = ObrasLineales
+    template_name = "miscelanea/obraslineales_list.html"
     paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']=TipoAgua._meta.verbose_name
+        context['p_title']=ObrasLineales._meta.verbose_name
+        
+        return context
+@method_decorator(login_required,name='dispatch')
+class ObrasLinealesCreate(CreateView):
+    model = ObrasLineales
+    form_class = ObrasLinealesForm
+    success_url = reverse_lazy('catalogos:obraslineales')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar obra lineal"
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ObrasLinealesUpdate(UpdateView):
+    model = ObrasLineales
+    form_class = ObrasLinealesForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar"
+        context['txt_actualizacion']="registro actualizado correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:obraslineales-update',args=[self.object.id]) + '?ok'
+
+
+
+## Edificacion Provisional
+
+@method_decorator(login_required,name='dispatch')
+class EdiProvisionalListView(ListView):
+    model = EdificacionProvisional
+    template_name = "miscelanea/edificacionprovisional_list.html"
+    paginate_by = 100
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=EdificacionProvisional._meta.verbose_name
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class EdiProvisionalCreate(CreateView):
+    model = EdificacionProvisional
+    form_class = EdificacionProvisionalForm
+    success_url = reverse_lazy('catalogos:edificaciones')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar edificación"
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class EdiProvisionalUpdate(UpdateView):
+    model = EdificacionProvisional
+    form_class = EdificacionProvisionalForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar edificación"
+        context['txt_actualizacion']="Edificación actualizada correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:edificio-update',args=[self.object.id]) + '?ok'
+
+## Actividad Provisional
+@method_decorator(login_required,name='dispatch')
+class ActProvisionalListView(ListView):
+    model = ActividadProvisional
+    template_name = "miscelanea/actividadprovisional_list.html"
+    paginate_by = 100
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Lista de actividades provisionales"
         
         return context
 
 @method_decorator(login_required,name='dispatch')
 
-class TipoAguaCreate(CreateView):
-    model = TipoAgua
-    form_class = TipoAguaForm
-    success_url = reverse_lazy('catalogos:tagua')
+class ActProvisionalCreate(CreateView):
+    model = ActividadProvisional
+    form_class = ActividadProvisionalForm
+    success_url = reverse_lazy('catalogos:actividades')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']=TipoAgua._meta.verbose_name
+        context['p_title']="Agregar actividad"
         return context
 
 @method_decorator(login_required,name='dispatch')
-class TipoAguaUpdate(UpdateView):
-    model = TipoAgua
-    form_class = TipoAguaForm
+class ActProvisionalUpdate(UpdateView):
+    model = ActividadProvisional
+    form_class = ActividadProvisionalForm
+    template_name_suffix = '_update_form'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar actividad"
+        context['txt_actualizacion']="Actividad provisional actualizada correctamente"
+        return context
+    
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:actividad-update',args=[self.object.id]) + '?ok'
+
+
+
+
+## listado floristico
+
+@method_decorator(login_required,name='dispatch')
+class  ListadoFloristicoListView(ListView):
+    model =  ListadoFloristico
+    template_name = "miscelanea/listadofloristico_list.html"
+    paginate_by = 100
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ListadoFloristico._meta.verbose_name
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class  ListadoFloristicoCreate(CreateView):
+    model =  ListadoFloristico
+    form_class = ListadoFloristicoForm
+    success_url = reverse_lazy('catalogos:flores')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar"
+        return context
+
+
+
+@method_decorator(login_required,name='dispatch')
+class  ListadoFloristicoUpdate(UpdateView):
+    model =  ListadoFloristico
+    form_class =  ListadoFloristicoForm
     template_name_suffix = '_update_form'
     
     def get_context_data(self, **kwargs):
@@ -668,36 +1025,41 @@ class TipoAguaUpdate(UpdateView):
     
     def get_success_url(self):
 
-        return reverse_lazy('catalogos:tagua-update',args=[self.object.id]) + '?ok'
+        return reverse_lazy('catalogos:flor-update',args=[self.object.id]) + '?ok'
 
-## Tipos de agua residual
+
+
+
+## PROCESOS constructivos
+
 @method_decorator(login_required,name='dispatch')
-class TipoAguaResidualListView(ListView):
-    model = TipoAguaResidual
-    template_name = "miscelanea/tipoaguaresidual_list.html"
+class ListaProcesoConstructivoListView(ListView):
+    model = ListaProcesoConstructivo
+    template_name = "miscelanea/listaprocesoconstructivo_list.html"
     paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']=TipoAguaResidual._meta.verbose_name
+        context['p_title']=ListaProcesoConstructivo._meta.verbose_name
         
         return context
 
 @method_decorator(login_required,name='dispatch')
-class TipoAguaResidualCreate(CreateView):
-    model = TipoAguaResidual
-    form_class = TipoAguaResidualForm
-    success_url = reverse_lazy('catalogos:tagresidual')
+
+class ListaProcesoConstructivoCreate(CreateView):
+    model = ListaProcesoConstructivo
+    form_class = ListaProcesoConstructivoForm
+    success_url = reverse_lazy('catalogos:procesos')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']=TipoAguaResidual._meta.verbose_name
+        context['p_title']=ListaProcesoConstructivo._meta.verbose_name
         return context
 
 @method_decorator(login_required,name='dispatch')
-class TipoAguaResidualUpdate(UpdateView):
-    model = TipoAguaResidual
-    form_class = TipoAguaResidualForm
+class ListaProcesoConstructivoUpdate(UpdateView):
+    model = ListaProcesoConstructivo
+    form_class = ListaProcesoConstructivoForm
     template_name_suffix = '_update_form'
     
     def get_context_data(self, **kwargs):
@@ -708,7 +1070,11 @@ class TipoAguaResidualUpdate(UpdateView):
     
     def get_success_url(self):
 
-        return reverse_lazy('catalogos:tagresidual-update',args=[self.object.id]) + '?ok'
+        return reverse_lazy('catalogos:proceso-update',args=[self.object.id]) + '?ok'
+
+
+
+
 
 
 ## Tipos de aprovechamiento
@@ -750,85 +1116,7 @@ class ListaTiposAprovechamientoUpdate(UpdateView):
     def get_success_url(self):
         return reverse_lazy('catalogos:aprovechamiento-update',args=[self.object.id]) + '?ok'
 
-## Tipos de cobertura
-@method_decorator(login_required,name='dispatch')
-class ListaTiposCoberturaListView(ListView):
-    model = ListaTiposCobertura
-    template_name = "miscelanea/listatiposcobertura_list.html"
-    paginate_by = 100
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ListaTiposCobertura._meta.verbose_name
-        
-        return context
-
-@method_decorator(login_required,name='dispatch')
-class ListaTiposCoberturaCreate(CreateView):
-    model = ListaTiposCobertura
-    form_class = ListaTiposCoberturaForm
-    success_url = reverse_lazy('catalogos:cobertura')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ListaTiposCobertura._meta.verbose_name
-        return context
-
-@method_decorator(login_required,name='dispatch')
-class ListaTiposCoberturaUpdate(UpdateView):
-    model = ListaTiposCobertura
-    form_class = ListaTiposCoberturaForm
-    template_name_suffix = '_update_form'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar"
-        context['txt_actualizacion']="Registro actualizado correctamente"
-        return context
-    
-    def get_success_url(self):
-
-        return reverse_lazy('catalogos:cobertura-update',args=[self.object.id]) + '?ok'
-
-## Tipos zonificación
-@method_decorator(login_required,name='dispatch')
-class ListaZonificacionListView(ListView):
-    model = ListaZonificacion
-    template_name = "miscelanea/listazonificacion_list.html"
-    paginate_by = 100
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ListaZonificacion._meta.verbose_name
-        
-        return context
-
-@method_decorator(login_required,name='dispatch')
-class ListaZonificacionCreate(CreateView):
-    model = ListaZonificacion
-    form_class = ListaZonificacionForm
-    success_url = reverse_lazy('catalogos:zona')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']=ListaZonificacion._meta.verbose_name
-        return context
-
-@method_decorator(login_required,name='dispatch')
-class ListaZonificacionUpdate(UpdateView):
-    model = ListaZonificacion
-    form_class = ListaZonificacionForm
-    template_name_suffix = '_update_form'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar"
-        context['txt_actualizacion']="Registro actualizado correctamente"
-        return context
-    
-    def get_success_url(self):
-
-        return reverse_lazy('catalogos:zona-update',args=[self.object.id]) + '?ok'
 
 ## Tipos de movimienttos de tierra
 @method_decorator(login_required,name='dispatch')
@@ -909,50 +1197,6 @@ class ListaTiposConsEdifUpdate(UpdateView):
     def get_success_url(self):
 
         return reverse_lazy('catalogos:consedi-update',args=[self.object.id]) + '?ok'
-
-## Sistemas constructivos
-
-# @method_decorator(login_required,name='dispatch')
-# class ListaSisConstructivoListView(ListView):
-#     model = ListaSisConstructivo
-#     template_name = "miscelanea/listasisconstructivo_list.html"
-#     paginate_by = 100
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['p_title']=ListaSisConstructivo._meta.verbose_name
-        
-#         return context
-
-# @method_decorator(login_required,name='dispatch')
-
-# class ListaSisConstructivoCreate(CreateView):
-#     model = ListaSisConstructivo
-#     form_class = ListaSisConstructivoForm
-#     success_url = reverse_lazy('catalogos:sistema')
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['p_title']=ListaSisConstructivo._meta.verbose_name
-#         return context
-
-# @method_decorator(login_required,name='dispatch')
-# class ListaSisConstructivoUpdate(UpdateView):
-#     model = ListaSisConstructivo
-#     form_class = ListaSisConstructivoForm
-#     template_name_suffix = '_update_form'
-    
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['p_title']="Actualizar"
-#         context['txt_actualizacion']="Registro actualizado correctamente"
-#         return context
-    
-#     def get_success_url(self):
-
-#         return reverse_lazy('catalogos:sistema-update',args=[self.object.id]) + '?ok'
-
-
 
 ## Descripción de Procesos constructivos
 
@@ -1100,3 +1344,288 @@ class SisFigurasUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('miscelanea:sistemasfiguras-update',args=[self.object.id]) + '?ok'
+
+
+###### FINALIZA CONTRUCCIÓN #######
+
+###### COMIENZA OPERACIÓN #################
+
+## actividades de servicios, comerciales, recreativas o culturales
+
+@method_decorator(login_required,name='dispatch')
+class ListaAct_scrcListView(ListView):
+    model = ListaAct_scrc
+    template_name = "miscelanea/listaact_scrc_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=self.model._meta.verbose_name
+        context['crear']='catalogos:actservic-create'
+        context['actualizar']='catalogos:actservic-update'
+        campos_exc = ['id','created','updated']
+        context['campos']=[field.verbose_name for field in ListaAct_scrc._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ListaAct_scrc._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaAct_scrcCreate(CreateView):
+    model =ListaAct_scrc
+    form_class =ListaAct_scrcForm
+    template_name = "miscelanea/template_form.html"
+    success_url = reverse_lazy('catalogos:actservic')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar actividad de sevicio, comercial, recreativa o cultural"
+        context['regresar']='catalogos:actservic'
+        return context
+
+
+@method_decorator(login_required,name='dispatch')
+class ListaAct_scrcUpdate(UpdateView):
+    model =ListaAct_scrc
+    form_class =ListaAct_scrcForm
+    template_name = "miscelanea/template_update_form.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar planta"
+        context['regresar']='catalogos:actservic'
+        context['txt_actualizacion']="Actividad actualizada correctamente"
+        return context
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:actservic-update',args=[self.object.id]) + '?ok'
+
+
+## actividades de visitantes
+
+@method_decorator(login_required,name='dispatch')
+class ListActVisitantesListView(ListView):
+    model = ListActVisitantes
+    template_name = "miscelanea/listactvisitantes_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=self.model._meta.verbose_name
+        context['crear']='catalogos:actvisita-create'
+        context['actualizar']='catalogos:actvisita-update'
+        campos_exc = ['id','created','updated','fase']
+        context['campos']=[field.verbose_name for field in ListActVisitantes._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ListActVisitantes._meta.concrete_fields if field.name not in campos_exc]
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListActVisitantesCreate(CreateView):
+    model =ListActVisitantes
+    form_class =ListActVisitantesForm
+    template_name = "miscelanea/template_form.html"
+    success_url = reverse_lazy('catalogos:actvisita')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar actividad de visitante"
+        context['regresar']='catalogos:actvisita'
+        return context
+
+
+@method_decorator(login_required,name='dispatch')
+class ListActVisitantesUpdate(UpdateView):
+    model =ListActVisitantes
+    form_class =ListActVisitantesForm
+    template_name = "miscelanea/template_update_form.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar planta"
+        context['regresar']='catalogos:actvisita'
+        context['txt_actualizacion']="Actividad actualizada correctamente"
+        return context
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:actvisita-update',args=[self.object.id]) + '?ok'
+
+## áreas de manejo
+
+@method_decorator(login_required,name='dispatch')
+class ListaAreasManejoPeligrosasListView(ListView):
+    model = ListaAreasManejoPeligrosas
+    template_name = "miscelanea/areas_manejo.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=self.model._meta.verbose_name
+        context['crear']='catalogos:areasm-create'
+        context['actualizar']='catalogos:areasm-update'
+        campos_exc = ['id','created','updated']
+        context['campos']=[field.verbose_name for field in ListaAreasManejoPeligrosas._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ListaAreasManejoPeligrosas._meta.concrete_fields if field.name not in campos_exc]
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaAreasManejoPeligrosasCreate(CreateView):
+    model =ListaAreasManejoPeligrosas
+    form_class =ListaAreasManejoPeligrosasForm
+    template_name = "miscelanea/template_form.html"
+    success_url = reverse_lazy('catalogos:areasm')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar área de manejo"
+        context['regresar']='catalogos:areasm'
+        return context
+
+
+@method_decorator(login_required,name='dispatch')
+class ListaAreasManejoPeligrosasUpdate(UpdateView):
+    model =ListaAreasManejoPeligrosas
+    form_class =ListaAreasManejoPeligrosasForm
+    template_name = "miscelanea/template_update_form.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar área de manejo"
+        context['regresar']='catalogos:areasm'
+        context['txt_actualizacion']="Área de manejo actualizada correctamente"
+        return context
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:areasm-update',args=[self.object.id]) + '?ok'
+
+## actividades en instalaciones peligrosas
+
+@method_decorator(login_required,name='dispatch')
+class ListaActInsEspListView(ListView):
+    model = ListaActInsEsp
+    template_name = "miscelanea/actividades_instalaciones.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=self.model._meta.verbose_name
+        context['crear']='catalogos:actespeciales-create'
+        context['actualizar']='catalogos:actespeciales-update'
+        campos_exc = ['id','created','updated']
+        context['campos']=[field.verbose_name for field in ListaActInsEsp._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ListaActInsEsp._meta.concrete_fields if field.name not in campos_exc]
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ListaActInsEspCreate(CreateView):
+    model =ListaActInsEsp
+    form_class =ListaActInsEspForm
+    template_name = "miscelanea/template_form.html"
+    success_url = reverse_lazy('catalogos:actespeciales')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Agregar actividad en instalación especial"
+        context['regresar']='catalogos:actespeciales'
+        return context
+
+
+@method_decorator(login_required,name='dispatch')
+class ListaActInsEspUpdate(UpdateView):
+    model =ListaActInsEsp
+    form_class =ListaActInsEspForm
+    template_name = "miscelanea/template_update_form.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']="Actualizar área de manejo"
+        context['regresar']='catalogos:actespeciales'
+        context['txt_actualizacion']="Actividad actualizada correctamente"
+        return context
+    def get_success_url(self):
+
+        return reverse_lazy('catalogos:actespeciales-update',args=[self.object.id]) + '?ok'
+
+# ## Sustancias quimicas
+
+# @method_decorator(login_required,name='dispatch')
+# class SustanciasQuimicasPListView(ListView):
+#     model = SustanciasQuimicasP
+#     template_name = "miscelanea/sustanciasquimicasp_list.html"
+#     paginate_by = 100
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['p_title']=SustanciasQuimicasP._meta.verbose_name
+        
+#         return context
+
+# @method_decorator(login_required,name='dispatch')
+
+# class SustanciasQuimicasPCreate(CreateView):
+#     model = SustanciasQuimicasP
+#     form_class = SustanciasQuimicasPForm
+#     success_url = reverse_lazy('catalogos:quimicas')
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['p_title']=SustanciasQuimicasP._meta.verbose_name
+#         return context
+
+# @method_decorator(login_required,name='dispatch')
+# class SustanciasQuimicasPUpdate(UpdateView):
+#     model = SustanciasQuimicasP
+#     form_class = SustanciasQuimicasPForm
+#     template_name_suffix = '_update_form'
+    
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['p_title']="Actualizar"
+#         context['txt_actualizacion']="Registro actualizado correctamente"
+#         return context
+    
+#     def get_success_url(self):
+
+#         return reverse_lazy('catalogos:quimica-update',args=[self.object.id]) + '?ok'
+
+
+## Sistemas constructivos
+
+# @method_decorator(login_required,name='dispatch')
+# class ListaSisConstructivoListView(ListView):
+#     model = ListaSisConstructivo
+#     template_name = "miscelanea/listasisconstructivo_list.html"
+#     paginate_by = 100
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['p_title']=ListaSisConstructivo._meta.verbose_name
+        
+#         return context
+
+# @method_decorator(login_required,name='dispatch')
+
+# class ListaSisConstructivoCreate(CreateView):
+#     model = ListaSisConstructivo
+#     form_class = ListaSisConstructivoForm
+#     success_url = reverse_lazy('catalogos:sistema')
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['p_title']=ListaSisConstructivo._meta.verbose_name
+#         return context
+
+# @method_decorator(login_required,name='dispatch')
+# class ListaSisConstructivoUpdate(UpdateView):
+#     model = ListaSisConstructivo
+#     form_class = ListaSisConstructivoForm
+#     template_name_suffix = '_update_form'
+    
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['p_title']="Actualizar"
+#         context['txt_actualizacion']="Registro actualizado correctamente"
+#         return context
+    
+#     def get_success_url(self):
+
+#         return reverse_lazy('catalogos:sistema-update',args=[self.object.id]) + '?ok'
+
+

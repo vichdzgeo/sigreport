@@ -18,4 +18,11 @@ Consumo de agua	5	1	Construcción	consumoagua-list	16
 Generación de aguas residuales	5	1	Construcción	aguaresidual-list	17	
 Selección de sistemas constructivos	7	1	Construcción	selecsistemas	18	
 Listado florístico	5	4	Construcción	flor-list	19	
-Longitud de obras lineales	5	5	Construcción	obraslineales-list	20	
+Longitud de obras lineales	5	5	Construcción	obraslineales-list	20  
+Imagen de localización y tipos de aprovechamiento	1	1	Operación	localizacion	21	
+Frecuencia de actividades	1	1	Operación	actividadf-list	22	
+Insumos requeridos y almacenados	1	1	Operación	insreqalm-list	23	
+Uso de sustancias químicas peligrosas	1	1	Operación	usosusquim-list	24	
+Personal	1	1	Operación	personale-list	25	
+Consumo de agua	5	1	Operación	consumoagua-list	26	
+Generación de aguas residuales	5	1	Operación	aguaresidual-list	27	

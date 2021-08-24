@@ -17,6 +17,11 @@
                 <a href="{% url 'catalogos:cobertura' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de cobertura y abreviaturas<span class="badge badge-light">{{num_cobertura}}</a>
                 <a href="{% url 'catalogos:zona' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de zonificación y abreviaturas<span class="badge badge-light">{{num_zona}}</a>
                 <a href="{% url 'catalogos:residuossolidos' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de residuos sólidos<span class="badge badge-light">{{num_residuossol}}</a>
+                <a href="{% url 'catalogos:tiposv' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de vehículos<span class="badge badge-light">{{num_tiposv}}</a>
+                <a href="{% url 'catalogos:vehiculos' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de vehículos por tipo<span class="badge badge-light">{{num_vehiculos}}</a>
+                <a href="{% url 'catalogos:ins-especiales' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de instalaciones especiales y abreviaturas<span class="badge badge-light">{{num_insespeciales}}</a>
+                <a href="{% url 'catalogos:resespecial' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de residuos peligrosos por instalación especial<span class="badge badge-light">{{num_resespeciales}}</a>
+                <a href="{% url 'catalogos:ptrata' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de plantas de tratamiento<span class="badge badge-light">{{num_plantas_trata}}</a>
             </div>
         <h3 class= "mt-3">Catálogos generales por fase</h3>
             <div class="list-group">
@@ -26,18 +31,39 @@
                 <a href="{% url 'catalogos:flores' %}" class="list-group-item list-group-item-action border-0 text-primary">Listado florístico <span class="badge badge-light">{{num_flores}}</a>
                 <a href="{% url 'catalogos:personal' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de personal <span class="badge badge-light">{{num_personal}}</a>
                 <a href="{% url 'catalogos:residuos' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipo de residuos tóxicos<span class="badge badge-light">{{num_residuos}}</a>
+                <a href="{% url 'catalogos:act-fase' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de actividades<span class="badge badge-light">{{num_vehiculos}}</a>
+                <a href="{% url 'catalogos:maquinas' %}" class="list-group-item list-group-item-action border-0 text-info">Lista de maquinaria <span class="badge badge-light">{{num_macquina}}</span></a>
             </div>
-        <h3 class= "mt-3">Catálogos de fase: Construcción</h3>
+        {% if "Construcción" in fases %}
+            <h3 class= "mt-3">Catálogos de fase: Construcción</h3>
             <div class="list-group">
-                <a href="{% url 'catalogos:consedi' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de construcción-edificación<span class="badge badge-light">{{num_consedi}}</a>
-                <a href="{% url 'catalogos:obraslineales' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de obras lineales<span class="badge badge-light">{{num_obraslineales}}</a>
-                <a href="{% url 'catalogos:descproceso' %}" class="list-group-item list-group-item-action border-0 text-primary">Descripción de procesos constructivos<span class="badge badge-light">{{num_procesos}}</a>
-                <a href="{% url 'catalogos:descsistema' %}" class="list-group-item list-group-item-action border-0 text-primary">Descripción de sistemas constructivos<span class="badge badge-light">{{num_descsistemas}}</a>
-                <a href="{% url 'catalogos:maquinas' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de maquinaria <span class="badge badge-light">{{num_macquina}}</span></a>
-                <a href="{% url 'catalogos:edificaciones' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de obras provisionales <span class="badge badge-light">{{num_edificios}}</a>
-                <a href="{% url 'catalogos:actividades' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de actividades provisionales <span class="badge badge-light">{{num_actividades}}</a>
-                <a href="{% url 'catalogos:tierra' %}" class="list-group-item list-group-item-action border-0 text-primary">Catálogo de desmonte, despalme, excavación y relleno<span class="badge badge-light">{{num_tierra}}</a>
+                <a href="{% url 'catalogos:consedi' %}" class="list-group-item list-group-item-action border-0 text-info">Lista de tipos de construcción-edificación<span class="badge badge-light">{{num_consedi}}</a>
+                <a href="{% url 'catalogos:obraslineales' %}" class="list-group-item list-group-item-action border-0 text-info">Lista de obras lineales<span class="badge badge-light">{{num_obraslineales}}</a>
+                <a href="{% url 'catalogos:descproceso' %}" class="list-group-item list-group-item-action border-0 text-info">Descripción de procesos constructivos<span class="badge badge-light">{{num_procesos}}</a>
+                <a href="{% url 'catalogos:descsistema' %}" class="list-group-item list-group-item-action border-0 text-info">Descripción de sistemas constructivos<span class="badge badge-light">{{num_descsistemas}}</a>
+                <a href="{% url 'catalogos:edificaciones' %}" class="list-group-item list-group-item-action border-0 text-info">Lista de obras provisionales <span class="badge badge-light">{{num_edificios}}</a>
+                <a href="{% url 'catalogos:actividades' %}" class="list-group-item list-group-item-action border-0 text-info">Lista de actividades provisionales <span class="badge badge-light">{{num_actividades}}</a>
+                <a href="{% url 'catalogos:tierra' %}" class="list-group-item list-group-item-action border-0 text-info">Catálogo de desmonte, despalme, excavación y relleno<span class="badge badge-light">{{num_tierra}}</a>
             </div>
+        {%endif%}
+        {% if "Operación" in fases %}
+            <h3 class= "mt-3">Catálogos de fase: Operación</h3>
+                <div class="list-group">
+                    <a href="{% url 'catalogos:actservic' %}" class="list-group-item list-group-item-action border-0 text-secundary">Lista y descripción de actividades de servicios, comerciales, recreativas o culturales<span class="badge badge-light">{{num_actcom}}</a>
+                    <a href="{% url 'catalogos:actvisita' %}" class="list-group-item list-group-item-action border-0 text-secundary">Lista de actividades de visitantes<span class="badge badge-light">{{num_actvis}}</a>
+                    <a href="{% url 'catalogos:actespeciales' %}" class="list-group-item list-group-item-action border-0 text-secundary">Lista de actividades en instalaciones especiales<span class="badge badge-light">{{num_actesp}}</a>
+                    <a href="{% url 'catalogos:areasm' %}" class="list-group-item list-group-item-action border-0 text-secundary">Lista de áreas de manejo de sustancias peligrosas<span class="badge badge-light">{{num_areasmanejo}}</a>
+                </div>
+        {%endif%}
+        {% if "Mantenimiento" in fases %}
+            <h3 class= "mt-3">Catálogos de fase: Mantenimiento</h3>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action border-0 text-success">Lista de residuos peligrosos por instalación especial<span class="badge badge-light">0</a>
+                    <a href="#" class="list-group-item list-group-item-action border-0 text-success">Lista de actividades en instalaciones especiales<span class="badge badge-light">0</a>
+                    <a href="#" class="list-group-item list-group-item-action border-0 text-success">Lista de áreas de manejo de sustancias peligrosas<span class="badge badge-light">0</a>
+                    <a href="#" class="list-group-item list-group-item-action border-0 text-success">Lista de plantas de tratamiento<span class="badge badge-light">0</a>
+                </div>
+        {%endif%}
   </div>
 </main>
 

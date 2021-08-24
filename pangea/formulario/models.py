@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django import VERSION
 from django.db import models
 from cap2.models import Etapa,Fase,Modulo
 from ficha.models import CrearFicha
@@ -30,9 +31,228 @@ def regresa(key,modelo):
 # Create your models here.
 
 
+#### GENERALES #####
 
+class FrecuenciaActividades(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")   
+    actividades = models.ForeignKey(ListaActividades, on_delete=models.CASCADE,default="",verbose_name="Actividad")
+    horas = models.IntegerField(verbose_name = "Jornadas/Etapa")
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+
+    class Meta:
+        verbose_name = "Frecuencia de actividades"
+        verbose_name_plural = "Frecuencia de actividades"
+        ordering = ["-created"]
+    
+    def __str__(self):
+        return str(self.actividades)
+
+
+class InsumosRequeridosAlmacenados(models.Model):
+    OPT_ALM = (
+        ('0%', '0%'),
+        ('10%', '10%'),
+        ('20%', '20%'),
+        ('30%', '30%'),
+        ('40%', '40%'),
+        ('50%', '50%'),
+        ('60%', '60%'),
+        ('70%', '70%'),
+        ('80%', '80%'),
+        ('90%', '90%'),
+        ('100%', '100%'),
+        )
+    #opt_alm_order = sorted(OPT_ALM)
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")   
+    insumo = models.ForeignKey(InsumosLista, on_delete=models.CASCADE,default="",verbose_name="Insumo")
+    cantidad = models.IntegerField(verbose_name = "cantidad",default=0)
+    max_almacenado = models.CharField(max_length=10, choices=OPT_ALM,verbose_name = "Máximo almacenado",default='0%')
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+
+    class Meta:
+        verbose_name = "Insumos requeridos y almacenados"
+        verbose_name_plural = "Insumos requeridos y almacenados"
+        ordering = ["-created"]
+    
+    def __str__(self):
+        return str(self.insumo)
+
+
+class UsoSustanciasQuimicas(models.Model):
+    OPT_ALM = (
+        ('0%', '0%'),
+        ('10%', '10%'),
+        ('20%', '20%'),
+        ('30%', '30%'),
+        ('40%', '40%'),
+        ('50%', '50%'),
+        ('60%', '60%'),
+        ('70%', '70%'),
+        ('80%', '80%'),
+        ('90%', '90%'),
+        ('100%', '100%'),
+        )
+    #opt_alm_order = sorted(OPT_ALM)
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")   
+    sustancia = models.ForeignKey(SustanciasQuimicasP, on_delete=models.CASCADE,default="",verbose_name="Insumo")
+    cantidad = models.IntegerField(verbose_name = "cantidad",default=0)
+    max_almacenado = models.CharField(max_length=10, choices=OPT_ALM,verbose_name = "Máximo almacenado",default='0%')
+    created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
+    updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+
+    class Meta:
+        verbose_name = "Uso de sustancias químicas peligrosas"
+        verbose_name_plural = "Uso de sustancias químicas peligrosas"
+        ordering = ["-created"]
+    
+    def __str__(self):
+        return str(self.sustancia)
+
+## Personal por etapa
+class Personal(models.Model):
+    OPT_ALM = (
+        ('0%', '0%'),
+        ('10%', '10%'),
+        ('20%', '20%'),
+        ('30%', '30%'),
+        ('40%', '40%'),
+        ('50%', '50%'),
+        ('60%', '60%'),
+        ('70%', '70%'),
+        ('80%', '80%'),
+        ('90%', '90%'),
+        ('100%', '100%'),
+        )
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    personal = models.ForeignKey(ListaTipoPersonal, on_delete=models.CASCADE,default="",verbose_name="Personal")
+    cantidad_temporal = models.IntegerField(verbose_name = "Cantidad temporal",default=0)
+    porcentaje_anual = models.CharField(max_length=10, choices=OPT_ALM,verbose_name = "Porcentaje del año",default='0%')
+    cantidad_permanente = models.IntegerField(verbose_name = "Cantidad permanente",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Personal"
+        verbose_name_plural = "Personal"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.personal)
+
+
+### Residuos sólidos por zonificación####  PENDIENTE
+class GeneracionResiduos(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    residuo = models.ForeignKey(ListaTipoResiduosSolidos, on_delete=models.CASCADE,default='',verbose_name="Tipo")
+    cantidad = models.IntegerField(verbose_name = "Cantidad",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Generación de residuos sólidos"
+        verbose_name_plural = "Generación de residuos sólidos"
+        ordering = ['created']
+
+    def __str__(self):
+        return self.residuo
+
+#### MAQUINARIA POR ETAPA   PENDIENTE
+        
+class UsoMaquinaria(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    maquinaria = models.ForeignKey(Maquina, on_delete=models.CASCADE,default='', verbose_name="Tipo")
+    horas = models.IntegerField(verbose_name = "Horas",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Uso de maquinaria"
+        verbose_name_plural = "Uso de maquinaria"
+        ordering = ['created']
+
+    def __str__(self):
+        return self.maquinaria
+#### Vehiculos restringidos   PENDIENTE
+class VehiculosRestrigidosZonificacion(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    tipov = models.ForeignKey(ListaTipoVehiculo,on_delete=models.CASCADE,verbose_name="Tipo de vehículo")
+    restriccion = models.CharField(max_length=300,verbose_name="Condición")
+    cobertura = models.ForeignKey(ListaTiposCobertura,on_delete=models.CASCADE, default='')
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+    class Meta:
+        verbose_name = "Selección de vehículos restringidos por zonificación o tipo de cobertura"
+        verbose_name_plural = "Selección de vehículos restringidos por zonificación o tipo de cobertura"
+        ordering = ['created']
+
+    def __str__(self):
+        return self.restriccion
+
+## Aforo vehicular   PENDIENTE
+class AforoAlmacenamientoVehicular(models.Model):
+    OPT_ALM = (
+        ('0%', '0%'),
+        ('10%', '10%'),
+        ('20%', '20%'),
+        ('30%', '30%'),
+        ('40%', '40%'),
+        ('50%', '50%'),
+        ('60%', '60%'),
+        ('70%', '70%'),
+        ('80%', '80%'),
+        ('90%', '90%'),
+        ('100%', '100%'),
+        )
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    vehiculo = models.ForeignKey(VehiculoPorTipo, on_delete=models.CASCADE,default="",verbose_name="Vehículo")
+    cantidad = models.IntegerField(verbose_name = "Cantidad",default=0)
+    porcion_almacenada = models.CharField(max_length=10, choices=OPT_ALM,verbose_name = "Porción almacenada",default='0%')
+    frec_operacion = models.IntegerField(verbose_name = "Frecuencia de operación (horas/año)",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Aforo y almacenamiento vehicular"
+        verbose_name_plural = "Aforo y almacenamiento vehicular"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.vehiculo)
+class ExtracciónAgua(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    pozo = models.CharField(max_length=300,verbose_name="Pozo")
+    velocidad = models.IntegerField(verbose_name = "L/s",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Velocidad de extracción de agua"
+        verbose_name_plural = "Velocidad de extracción de agua"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.pozo)
 ### Formulario de Descripción de procesos constructivos
-
 class DescripcionProcesosConstructivos(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default="")
@@ -48,8 +268,6 @@ class DescripcionProcesosConstructivos(models.Model):
     
     def __str__(self):
         return str(self.id)
-
-
 ###  seleccion procesos const
 class SeleccionProcesosConstructivos(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
@@ -66,10 +284,6 @@ class SeleccionProcesosConstructivos(models.Model):
     
     def __str__(self):
         return str(self.id)
-
-
-
-
 ### Sistemas constructivos seleccion
 class SeleccionSistemasConstructivos(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
@@ -86,7 +300,6 @@ class SeleccionSistemasConstructivos(models.Model):
     
     def __str__(self):
         return str(self.id)
-
 class CatForm(models.Model):
     TIPO_FORMULARIO = (
 
@@ -127,9 +340,244 @@ class CatForm(models.Model):
     
     def __str__(self):
         return str(self.title)
+## Frecuencia de actividades comerciales o de servicio
+class FrecuenciaActCom(models.Model):
+
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    actividad = models.ForeignKey(ListaAct_scrc, on_delete=models.CASCADE,default="",verbose_name="Actividad comercial o de servicio")
+    cantidad = models.IntegerField(verbose_name = "Jornadas/fase",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Frecuencia de actividades de servicios, comerciales, recreativas o culturales"
+        verbose_name_plural = "Frecuencia de actividades de servicios, comerciales, recreativas o culturales"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.personal)
+## Ocupacion estimada de alojamiento
+class OcupacionAloja(models.Model):
+
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    cobertura = models.ForeignKey(ListaTiposCobertura,on_delete=models.CASCADE, default='')
+    oferta =models.CharField(max_length=500,verbose_name="Oferta de alojamiento (equivalencia en cuarto doble/2 personas)")
+    huespedes_dia = models.IntegerField(verbose_name = "Número de huéspedes diarios",default=0)
+    huespedes_etapa = models.IntegerField(verbose_name = "Numero de huéspedes por etapa",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Ocupación estimada en componentes con alojamiento"
+        verbose_name_plural = "Ocupación estimada en componentes con alojamiento"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.personal)
+
+### AFORO VISITANTES
+class AforoVisitantes(models.Model):
+
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    actividad = models.ForeignKey(ListActVisitantes,on_delete=models.CASCADE, default='')
+    maximo_etapa = models.IntegerField(verbose_name = "Máximo de visitantes por etapa",default=0)
+    promedio_diario = models.IntegerField(verbose_name = "Promedio de visitantes diarioS",default=0)
+    maximo_diario = models.IntegerField(verbose_name = "Máximo de visitantes diarioS",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Aforo máximo de visitantes por actividad"
+        verbose_name_plural = "Aforo máximo de visitantes por actividad"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.actividad)
 
 
 
+
+#### AFORO MAXIMO VEHICULAR
+class AforoTipoVehiMaxDiario(models.Model):
+
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    vehiculo = models.ForeignKey(ListaTipoVehiculo, on_delete=models.CASCADE,default="",verbose_name="Vehículo")
+    cantidad = models.IntegerField(verbose_name = "Cantidad de vehículos diariamente",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Aforo vehicular máximo diario por tipo de vehículo"
+        verbose_name_plural = "Aforo vehicular máximo diario por tipo de vehículo"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.vehiculo)
+
+
+#### AFORO DIARIO VEHICULAR
+class AforoTipoVehi(models.Model):
+
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    vehiculo = models.ForeignKey(ListaTipoVehiculo, on_delete=models.CASCADE,default="",verbose_name="Vehículo")
+    cantidad = models.IntegerField(verbose_name = "Horas",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Aforo vehicular total por tipo de vehículo"
+        verbose_name_plural = "Aforo vehicular total por tipo de vehículo"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.vehiculo)
+#### PERSONAL TRANSPORTADO 
+class PersonalTransportado(models.Model):
+
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    minimo = models.IntegerField(verbose_name = "Personal mínimo",default=0)
+    maximo = models.IntegerField(verbose_name = "Personal máximo",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Personal transportado mínimo-máximo diario por fase"
+        verbose_name_plural = "Personal transportado mínimo-máximo diario por fase"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.maximo)
+
+class ManejoSustanciasEspeciales(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    instalacion = models.ForeignKey(ListInsEsp, on_delete=models.CASCADE,verbose_name="Instalación especial")
+    area = models.ForeignKey(ListaAreasManejoPeligrosas, on_delete=models.CASCADE,verbose_name="Área de manejo")
+    actividad_especial = models.ForeignKey(ListaActInsEsp, on_delete=models.CASCADE,verbose_name="Tipo de actividades")
+    manejo_sustancias = models.CharField(max_length=1500,verbose_name="Manejo de sustancias",default="No aplica")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+    
+    class Meta:
+        verbose_name = "Manejo de sustancias químicas peligrosas en instalaciones especiales"
+        verbose_name_plural = "Manejo de sustancias químicas peligrosas en instalaciones especiales"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.area)
+
+class CapacidadAlmSustanciasEspeciales(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    instalacion = models.ForeignKey(ListInsEsp, on_delete=models.CASCADE,verbose_name="Instalación especial")
+    sustancia = models.ForeignKey(SustanciasQuimicasP, on_delete=models.CASCADE,verbose_name="Sustancia química peligrosa")
+    capacidad_alm = models.IntegerField(verbose_name="Capacidad de almacenamiento",default=0)
+    recargas = models.IntegerField(verbose_name="Número derecargas al año",default=0)
+    recargas_totales = models.IntegerField(verbose_name="Total de recargas en la etapa",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+    
+    class Meta:
+        verbose_name = "Capacidad de almacenamiento de sustancias químicas peligrosas en instalaciones especiales"
+        verbose_name_plural = "Capacidad de almacenamiento de sustancias químicas peligrosas en instalaciones especiales"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.sustancia)
+#### capacidad de almacenamiento
+class CapacidadAlmResiduosEspeciales(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    instalacion = models.ForeignKey(ListInsEsp, on_delete=models.CASCADE,verbose_name="Instalación especial")
+    residuo = models.ForeignKey(ResiduosPeligrosos, on_delete=models.CASCADE,verbose_name="Residuo peligroso")
+    capacidad_veh = models.IntegerField(verbose_name="Capacidad de almacenamiento",default=0)
+    viajes_anual = models.IntegerField(verbose_name="Número de viajes al año",default=0)
+    viajes_totales = models.IntegerField(verbose_name="Total de viajes en la etapa",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+    
+    class Meta:
+        verbose_name = "Capacidad de almacenamiento de residuos peligrosos en instalaciones especiales"
+        verbose_name_plural = "Capacidad de almacenamiento de residuos peligrosos en instalaciones especiales"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.residuo)
+
+#### FRECUENCIA DE INGRESO DE SUSTANCIAS EN INSTALACIONES ESPECIALES
+class FrecuenciaIngresoSusEspeciales(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    instalacion = models.ForeignKey(ListInsEsp, on_delete=models.CASCADE,verbose_name="Instalación especial")
+    sustancia = models.ForeignKey(SustanciasQuimicasP, on_delete=models.CASCADE,verbose_name="Sustancia química peligrosa")
+    capacidad_veh = models.IntegerField(verbose_name="Capacidad de almacenamiento",default=0)
+    viajes_anual = models.IntegerField(verbose_name="Número de viajes al año",default=0)
+    viajes_totales = models.IntegerField(verbose_name="Total de viajes en la etapa",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+    
+    class Meta:
+        verbose_name = "Frecuencia de ingreso de sustancias peligrosas  en instalaciones especiales"
+        verbose_name_plural = "Frecuencia de ingreso de sustancias peligrosas  en instalaciones especiales"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.sustancia)
+#### FRECUENCIA DE INGRESO DE RESIDUOS EN INSTALACIONES ESPECIALES
+class FrecuenciaIngresoResEspeciales(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    instalacion = models.ForeignKey(ListInsEsp, on_delete=models.CASCADE,verbose_name="Instalación especial")
+    residuo = models.ForeignKey(ResiduosPeligrosos, on_delete=models.CASCADE,verbose_name="Residuo peligroso")
+    capacidad_veh = models.IntegerField(verbose_name="Capacidad de almacenamiento",default=0)
+    viajes_anual = models.IntegerField(verbose_name="Número de viajes al año",default=0)
+    viajes_totales = models.IntegerField(verbose_name="Total de viajes en la etapa",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+    
+    class Meta:
+        verbose_name = "Frecuencia de ingreso de residuos peligrosos  en instalaciones especiales"
+        verbose_name_plural = "Frecuencia de ingreso de residuos peligrosos  en instalaciones especiales"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.residuo)
+
+class MaquinariaViajesEsp(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    instalacion = models.ForeignKey(ListInsEsp, on_delete=models.CASCADE,verbose_name="Instalación especial")
+    maquinaria = models.ForeignKey(Maquina, on_delete=models.CASCADE,verbose_name="Tipo de maquinaria")
+    unidades = models.IntegerField(verbose_name="Número de unidades",default=0)
+    viajes = models.IntegerField(verbose_name="Número de viajes por unidad",default=0)
+    gasolina = models.IntegerField(verbose_name="Gasolina (L)",default=0)
+    diesel = models.IntegerField(verbose_name="Diésel (L)",default=0)
+    aceites = models.IntegerField(verbose_name="Aceites (L)",default=0)
+    anticongelante = models.IntegerField(verbose_name="Anticongelante (L)",default=0)
+    aceites = models.IntegerField(verbose_name="Anticongelante (L)",default=0)
+    liq_frenos = models.IntegerField(verbose_name="Líquido de frenos (L)")
+    lubricantes = models.IntegerField(verbose_name="Lubricantes (L)")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+    
 # ###  INICIA FORMULARIOS PARA CONSTRUCCIÓN
 
 class DatosGeneral(models.Model):
@@ -389,7 +837,7 @@ class MovimientoTierraZonificacion(models.Model):
 
     def __str__(self):
         return self.tipo
-### Residuos sólidos ####
+### Residuos sólidos por zonificación####
 class ResiduosSolidosZonificacion(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
@@ -411,20 +859,17 @@ class ResiduosSolidosZonificacion(models.Model):
 
 def agrega_estructura():
     module_dir = os.path.dirname(__file__)  
-    file_path = os.path.join(module_dir, 'estructura_arbol_form2.txt')
+    file_path = os.path.join(module_dir, 'estructura_arbol_form3.txt')
     estructura = pd.read_csv(file_path, delimiter='\t',encoding='utf-8')
     estructura.sort_values(by='nombre',ascending=False)
     l_componentes  = Modulo.objects.all()
     l_etapas = Etapa.objects.all()
     l_fases = Fase.objects.all()
-    dicc_fases ={}
 
-    
     for componente_i in l_componentes:
         print(componente_i.title,componente_i.etapas.all())
         for etapa_i in l_etapas:
             print("for etapa",componente_i.title,etapa_i)
-
             if etapa_i in componente_i.etapas.all():
                 print("si esta")
                 for index, row in estructura.iterrows():
@@ -439,9 +884,7 @@ def agrega_estructura():
                         tag_url = str(row['tag-url'])
                         orden = int(row['orden'])
 
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
 
                             agrega_form = CatForm(
                                 title = nombre_f,
@@ -464,9 +907,8 @@ def agrega_estructura():
                         etapa_f = etapa_i  # 5
                         tag_url = str(row['tag-url'])
                         orden = int(row['orden'])
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
 
                             agrega_form = CatForm(
                                 title = nombre_f,
@@ -489,9 +931,8 @@ def agrega_estructura():
                         etapa_f = etapa_i  # 5
                         tag_url = str(row['tag-url'])
                         orden = int(row['orden'])
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+                        
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
 
                             agrega_form = CatForm(
                                 title = nombre_f,
@@ -514,9 +955,7 @@ def agrega_estructura():
                         etapa_f = etapa_i  # 5
                         tag_url = str(row['tag-url'])
                         orden = int(row['orden'])
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
 
                             agrega_form = CatForm(
                                 title = nombre_f,
@@ -539,9 +978,144 @@ def agrega_estructura():
                         etapa_f = etapa_i  # 5
                         tag_url = str(row['tag-url'])
                         orden = int(row['orden'])
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
+
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+
+                    elif row['tipo_c']== 6 and componente_i.t_base == True and componente_i.t_semipermanentes == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
+
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+
+                    elif row['tipo_c']== 7 and componente_i.t_base == True and componente_i.t_via_senderos == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
+
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+
+                    elif row['tipo_c']== 8 and componente_i.t_base == True and componente_i.t_hospedaje == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
+
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+
+                    elif row['tipo_c']== 9 and componente_i.t_base == True and componente_i.t_actividad == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
+
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+                    elif row['tipo_c']== 10 and componente_i.t_base == True and componente_i.t_aguas == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
+
+                            agrega_form = CatForm(
+                                title = nombre_f,
+                                tipo = tipo_f,
+                                tipo_c = tipoc_f,
+                                componente = componente_f,
+                                fase = fase_f,
+                                etapa =etapa_f,
+                                nurl = tag_url,
+                                orden=orden,
+                                                )
+                            agrega_form.save()
+
+                    elif row['tipo_c']== 11 and componente_i.t_base == True and componente_i.t_plantas == True:  
+                        nombre_f = row['nombre'] #0
+                        tipo_f = str(row['tipo']) #1
+                        tipoc_f = str(row['tipo_c']) #2
+                        componente_f =componente_i  #3
+                        fase_f =regresa_i(row['fase'],l_fases) #4
+                        etapa_f = etapa_i  # 5
+                        tag_url = str(row['tag-url'])
+                        orden = int(row['orden'])
+                        if not CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f).exists():
 
                             agrega_form = CatForm(
                                 title = nombre_f,

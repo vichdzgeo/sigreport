@@ -645,9 +645,11 @@ class InsumosZonificacionCreate(CreateView):
         context['p_componente']=id_form.componente.title
         context['p_fase']=id_form.fase.title
         context['p_etapa']= id_form.etapa.title
+        
         context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
         initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
         context['form']=InsumosZonificacionForm(initial=initial_data)
+        context['form'].fields['insumo'].queryset = InsumosLista.objects.filter(fase=id_form.fase)
         
         return context
 
@@ -1145,7 +1147,7 @@ class DescripcionGeneralFigurasUpdate(UpdateView):
         return reverse_lazy('forms:generalesfiguras-update',args=[self.object.id]) + '?ok'
 
 
-###### FRECUENCIA DE ACTIVIDADES
+###### FRECUENCIA DE ACTIVIDADES DE OBRAS PROVISIONALES
 
 
     
@@ -1210,6 +1212,9 @@ class FrecuenciaActividadesCUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('forms:actividad-update',args=[self.object.id]) + '?ok'
+
+
+####################################---- GENERALES --- ##########################
 
 #### LOCALIZACION
 
@@ -1296,6 +1301,314 @@ class LocalizacionCUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('forms:fig-update',args=[self.object.id]) + '?ok'
+
+
+#### FRECUENCIA DE ACTIVIDADES
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaActividadesListView(ListView):
+    model = FrecuenciaActividades
+    template_name = "formulario/frecuenciaactividades_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=FrecuenciaActividades._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:actividadf-create'
+        context['actualizar']='forms:actividadf-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in FrecuenciaActividades._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in FrecuenciaActividades._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaActividadesCreate(CreateView):
+    
+    model = FrecuenciaActividades
+    form_class = FrecuenciaActividadesForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(FrecuenciaActividadesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=FrecuenciaActividades._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:actividadf-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=FrecuenciaActividadesForm(initial=initial_data)
+        context['form'].fields['actividades'].queryset = ListaActividades.objects.filter(fase=id_form.fase)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:actividadf-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaActividadesUpdate(UpdateView):
+    model = FrecuenciaActividades
+    form_class = FrecuenciaActividadesForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=FrecuenciaActividades._meta.verbose_name
+        context['regresar']='forms:actividadf-list'
+        context['txt_actualizacion']="Actividad actualizada correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:actividadf-update',args=[self.object.id]) + '?ok'
+
+
+
+#### INSUMOS REQUERIDOS Y ALMACENADOS
+@method_decorator(login_required,name='dispatch')
+class InsumosRequeridosAlmacenadosListView(ListView):
+    model = InsumosRequeridosAlmacenados
+    template_name = "formulario/insumos_req_alm_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=InsumosRequeridosAlmacenados._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:insreqalm-create'
+        context['actualizar']='forms:insreqalm-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in InsumosRequeridosAlmacenados._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in InsumosRequeridosAlmacenados._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class InsumosRequeridosAlmacenadosCreate(CreateView):
+    
+    model = InsumosRequeridosAlmacenados
+    form_class = InsumosRequeridosAlmacenadosForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(InsumosRequeridosAlmacenadosCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=InsumosRequeridosAlmacenados._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:insreqalm-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=InsumosRequeridosAlmacenadosForm(initial=initial_data)
+        context['form'].fields['insumo'].queryset = InsumosLista.objects.filter(fase=id_form.fase)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:insreqalm-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class InsumosRequeridosAlmacenadosUpdate(UpdateView):
+    model = InsumosRequeridosAlmacenados
+    form_class = InsumosRequeridosAlmacenadosForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=InsumosRequeridosAlmacenados._meta.verbose_name
+        context['regresar']='forms:insreqalm-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:insreqalm-update',args=[self.object.id]) + '?ok'
+
+###### Uso de sustancias químicas peligrosas
+
+@method_decorator(login_required,name='dispatch')
+class UsoSustanciasQuimicasListView(ListView):
+    model = UsoSustanciasQuimicas
+    template_name = "formulario/uso_sustancias_quim.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=UsoSustanciasQuimicas._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:usosusquim-create'
+        context['actualizar']='forms:usosusquim-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in UsoSustanciasQuimicas._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in UsoSustanciasQuimicas._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class UsoSustanciasQuimicasCreate(CreateView):
+    
+    model = UsoSustanciasQuimicas
+    form_class = UsoSustanciasQuimicasForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(UsoSustanciasQuimicasCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=UsoSustanciasQuimicas._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:usosusquim-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=UsoSustanciasQuimicasForm(initial=initial_data)
+        context['form'].fields['sustancia'].queryset = SustanciasQuimicasP.objects.filter(fase=id_form.fase)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:usosusquim-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class UsoSustanciasQuimicasUpdate(UpdateView):
+    model = UsoSustanciasQuimicas
+    form_class = UsoSustanciasQuimicasForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=UsoSustanciasQuimicas._meta.verbose_name
+        context['regresar']='forms:usosusquim-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:usosusquim-update',args=[self.object.id]) + '?ok'
+
+
+
+###### Personal
+
+@method_decorator(login_required,name='dispatch')
+class PersonalListView(ListView):
+    model = Personal
+    template_name = "formulario/personal_etapa.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=Personal._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:personale-create'
+        context['actualizar']='forms:personale-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in Personal._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in Personal._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class PersonalCreate(CreateView):
+    
+    model = Personal
+    form_class = PersonalForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(PersonalCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=Personal._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:personale-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=PersonalForm(initial=initial_data)
+        context['form'].fields['personal'].queryset = ListaTipoPersonal.objects.filter(fase=id_form.fase)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:personale-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class PersonalUpdate(UpdateView):
+    model = Personal
+    form_class = PersonalForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=Personal._meta.verbose_name
+        context['regresar']='forms:personale-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:personale-update',args=[self.object.id]) + '?ok'
+
 
 
 
@@ -1499,150 +1812,150 @@ def ensamblaficha(request,componente,fase,etapa):
     #output = pypandoc.convert_text('<h1>Primary Heading</h1>','latex', format='html', extra_args=['--atx-headers'])
     #return HttpResponse(elcomponente.title+descripcion)
 
-def agregar_estructura(request):
-    module_dir = os.path.dirname(__file__)  
-    file_path = os.path.join(module_dir, 'estructura_arbol_form2.txt')
-    estructura = pd.read_csv(file_path, delimiter='\t',encoding='utf-8')
-    estructura.sort_values(by='nombre',ascending=False)
-    l_componentes  = Modulo.objects.all()
-    l_etapas = Etapa.objects.all()
-    l_fases = Fase.objects.all()
-    dicc_fases ={}
+# def agregar_estructura(request):
+#     module_dir = os.path.dirname(__file__)  
+#     file_path = os.path.join(module_dir, 'estructura_arbol_form2.txt')
+#     estructura = pd.read_csv(file_path, delimiter='\t',encoding='utf-8')
+#     estructura.sort_values(by='nombre',ascending=False)
+#     l_componentes  = Modulo.objects.all()
+#     l_etapas = Etapa.objects.all()
+#     l_fases = Fase.objects.all()
+#     dicc_fases ={}
 
     
-    for componente_i in l_componentes:
-        for etapa_i in l_etapas:
-            if etapa_i in componente_i.etapas.all():
-                print("si esta")
-                for index, row in estructura.iterrows():
+#     for componente_i in l_componentes:
+#         for etapa_i in l_etapas:
+#             if etapa_i in componente_i.etapas.all():
+#                 print("si esta")
+#                 for index, row in estructura.iterrows():
 
-                    if row['tipo_c']== 1 and componente_i.t_base == True: #and componente_i.t_aprov_edificable == False and componente_i.t_obras == False and componente_i.t_areas_verdes == False and componente_i.t_aprov_lineal == False:
-                        nombre_f = row['nombre'] #0
-                        tipo_f = str(row['tipo']) #1
-                        tipoc_f = str(row['tipo_c']) #2
-                        componente_f =componente_i  #3
-                        fase_f =regresa_i(row['fase'],l_fases) #4
-                        etapa_f = etapa_i  # 5
-                        tag_url = str(row['tag-url'])
-                        orden = int(row['orden'])
+#                     if row['tipo_c']== 1 and componente_i.t_base == True: #and componente_i.t_aprov_edificable == False and componente_i.t_obras == False and componente_i.t_areas_verdes == False and componente_i.t_aprov_lineal == False:
+#                         nombre_f = row['nombre'] #0
+#                         tipo_f = str(row['tipo']) #1
+#                         tipoc_f = str(row['tipo_c']) #2
+#                         componente_f =componente_i  #3
+#                         fase_f =regresa_i(row['fase'],l_fases) #4
+#                         etapa_f = etapa_i  # 5
+#                         tag_url = str(row['tag-url'])
+#                         orden = int(row['orden'])
 
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+#                         existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+#                         print (len(existe_form))
+#                         if len(existe_form)==0:
 
-                            agrega_form = CatForm(
-                                title = nombre_f,
-                                tipo = tipo_f,
-                                tipo_c = tipoc_f,
-                                componente = componente_f,
-                                fase = fase_f,
-                                etapa =etapa_f,
-                                nurl = tag_url,
-                                orden=orden,
-                                                )
-                            agrega_form.save()
+#                             agrega_form = CatForm(
+#                                 title = nombre_f,
+#                                 tipo = tipo_f,
+#                                 tipo_c = tipoc_f,
+#                                 componente = componente_f,
+#                                 fase = fase_f,
+#                                 etapa =etapa_f,
+#                                 nurl = tag_url,
+#                                 orden=orden,
+#                                                 )
+#                             agrega_form.save()
                     
-                    elif row['tipo_c']== 2 and componente_i.t_base == True and componente_i.t_aprov_edificable == True:  
-                        nombre_f = row['nombre'] #0
-                        tipo_f = str(row['tipo']) #1
-                        tipoc_f = str(row['tipo_c']) #2
-                        componente_f =componente_i  #3
-                        fase_f =regresa_i(row['fase'],l_fases) #4
-                        etapa_f = etapa_i  # 5
-                        tag_url = str(row['tag-url'])
-                        orden = int(row['orden'])
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+#                     elif row['tipo_c']== 2 and componente_i.t_base == True and componente_i.t_aprov_edificable == True:  
+#                         nombre_f = row['nombre'] #0
+#                         tipo_f = str(row['tipo']) #1
+#                         tipoc_f = str(row['tipo_c']) #2
+#                         componente_f =componente_i  #3
+#                         fase_f =regresa_i(row['fase'],l_fases) #4
+#                         etapa_f = etapa_i  # 5
+#                         tag_url = str(row['tag-url'])
+#                         orden = int(row['orden'])
+#                         existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+#                         print (len(existe_form))
+#                         if len(existe_form)==0:
 
-                            agrega_form = CatForm(
-                                title = nombre_f,
-                                tipo = tipo_f,
-                                tipo_c = tipoc_f,
-                                componente = componente_f,
-                                fase = fase_f,
-                                etapa =etapa_f,
-                                nurl = tag_url,
-                                orden=orden,
-                                                )
-                            agrega_form.save()
+#                             agrega_form = CatForm(
+#                                 title = nombre_f,
+#                                 tipo = tipo_f,
+#                                 tipo_c = tipoc_f,
+#                                 componente = componente_f,
+#                                 fase = fase_f,
+#                                 etapa =etapa_f,
+#                                 nurl = tag_url,
+#                                 orden=orden,
+#                                                 )
+#                             agrega_form.save()
 
-                    elif row['tipo_c']== 3 and componente_i.t_base == True and componente_i.t_obras == True:  
-                        nombre_f = row['nombre'] #0
-                        tipo_f = str(row['tipo']) #1
-                        tipoc_f = str(row['tipo_c']) #2
-                        componente_f =componente_i  #3
-                        fase_f =regresa_i(row['fase'],l_fases) #4
-                        etapa_f = etapa_i  # 5
-                        tag_url = str(row['tag-url'])
-                        orden = int(row['orden'])
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+#                     elif row['tipo_c']== 3 and componente_i.t_base == True and componente_i.t_obras == True:  
+#                         nombre_f = row['nombre'] #0
+#                         tipo_f = str(row['tipo']) #1
+#                         tipoc_f = str(row['tipo_c']) #2
+#                         componente_f =componente_i  #3
+#                         fase_f =regresa_i(row['fase'],l_fases) #4
+#                         etapa_f = etapa_i  # 5
+#                         tag_url = str(row['tag-url'])
+#                         orden = int(row['orden'])
+#                         existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+#                         print (len(existe_form))
+#                         if len(existe_form)==0:
 
-                            agrega_form = CatForm(
-                                title = nombre_f,
-                                tipo = tipo_f,
-                                tipo_c = tipoc_f,
-                                componente = componente_f,
-                                fase = fase_f,
-                                etapa =etapa_f,
-                                nurl = tag_url,
-                                orden=orden,
-                                                )
-                            agrega_form.save()
+#                             agrega_form = CatForm(
+#                                 title = nombre_f,
+#                                 tipo = tipo_f,
+#                                 tipo_c = tipoc_f,
+#                                 componente = componente_f,
+#                                 fase = fase_f,
+#                                 etapa =etapa_f,
+#                                 nurl = tag_url,
+#                                 orden=orden,
+#                                                 )
+#                             agrega_form.save()
 
-                    elif row['tipo_c']== 4 and componente_i.t_base == True and componente_i.t_areas_verdes == True:  
-                        nombre_f = row['nombre'] #0
-                        tipo_f = str(row['tipo']) #1
-                        tipoc_f = str(row['tipo_c']) #2
-                        componente_f =componente_i  #3
-                        fase_f =regresa_i(row['fase'],l_fases) #4
-                        etapa_f = etapa_i  # 5
-                        tag_url = str(row['tag-url'])
-                        orden = int(row['orden'])
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+#                     elif row['tipo_c']== 4 and componente_i.t_base == True and componente_i.t_areas_verdes == True:  
+#                         nombre_f = row['nombre'] #0
+#                         tipo_f = str(row['tipo']) #1
+#                         tipoc_f = str(row['tipo_c']) #2
+#                         componente_f =componente_i  #3
+#                         fase_f =regresa_i(row['fase'],l_fases) #4
+#                         etapa_f = etapa_i  # 5
+#                         tag_url = str(row['tag-url'])
+#                         orden = int(row['orden'])
+#                         existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+#                         print (len(existe_form))
+#                         if len(existe_form)==0:
 
-                            agrega_form = CatForm(
-                                title = nombre_f,
-                                tipo = tipo_f,
-                                tipo_c = tipoc_f,
-                                componente = componente_f,
-                                fase = fase_f,
-                                etapa =etapa_f,
-                                nurl = tag_url,
-                                orden=orden,
-                                                )
-                            agrega_form.save()
+#                             agrega_form = CatForm(
+#                                 title = nombre_f,
+#                                 tipo = tipo_f,
+#                                 tipo_c = tipoc_f,
+#                                 componente = componente_f,
+#                                 fase = fase_f,
+#                                 etapa =etapa_f,
+#                                 nurl = tag_url,
+#                                 orden=orden,
+#                                                 )
+#                             agrega_form.save()
 
-                    elif row['tipo_c']== 5 and componente_i.t_base == True and componente_i.t_aprov_lineal == True:  
-                        nombre_f = row['nombre'] #0
-                        tipo_f = str(row['tipo']) #1
-                        tipoc_f = str(row['tipo_c']) #2
-                        componente_f =componente_i  #3
-                        fase_f =regresa_i(row['fase'],l_fases) #4
-                        etapa_f = etapa_i  # 5
-                        tag_url = str(row['tag-url'])
-                        orden = int(row['orden'])
-                        existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
-                        print (len(existe_form))
-                        if len(existe_form)==0:
+#                     elif row['tipo_c']== 5 and componente_i.t_base == True and componente_i.t_aprov_lineal == True:  
+#                         nombre_f = row['nombre'] #0
+#                         tipo_f = str(row['tipo']) #1
+#                         tipoc_f = str(row['tipo_c']) #2
+#                         componente_f =componente_i  #3
+#                         fase_f =regresa_i(row['fase'],l_fases) #4
+#                         etapa_f = etapa_i  # 5
+#                         tag_url = str(row['tag-url'])
+#                         orden = int(row['orden'])
+#                         existe_form = CatForm.objects.filter(title=nombre_f,tipo =tipo_f,tipo_c=tipoc_f,componente=componente_f,fase=fase_f,etapa=etapa_f)
+#                         print (len(existe_form))
+#                         if len(existe_form)==0:
 
-                            agrega_form = CatForm(
-                                title = nombre_f,
-                                tipo = tipo_f,
-                                tipo_c = tipoc_f,
-                                componente = componente_f,
-                                fase = fase_f,
-                                etapa =etapa_f,
-                                nurl = tag_url,
-                                orden=orden,
-                                                )
-                            agrega_form.save()
+#                             agrega_form = CatForm(
+#                                 title = nombre_f,
+#                                 tipo = tipo_f,
+#                                 tipo_c = tipoc_f,
+#                                 componente = componente_f,
+#                                 fase = fase_f,
+#                                 etapa =etapa_f,
+#                                 nurl = tag_url,
+#                                 orden=orden,
+#                                                 )
+#                             agrega_form.save()
             
-    return HttpResponse("estructura creada")
+#     return HttpResponse("estructura creada")
 
 # Create your views here.
 

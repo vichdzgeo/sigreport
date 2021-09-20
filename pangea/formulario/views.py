@@ -2988,8 +2988,8 @@ class CatFormUpdate(UpdateView):
         context['p_subtitle']=id_form.componente.title+" - "+id_form.fase.title+" - "+ str(id_form.etapa.title)
  
         if id_form.completo is True:
-            context['txt_actualizacion']="Estado del formualario: completo y validado por: " + id_form.user.username
-            context['estado']="Estado del formualario: completo y validado por: " + id_form.user.username
+            context['txt_actualizacion']="Estado del formualario: completo y validado por: " + str(id_form.user.username)
+            context['estado']="Estado del formualario: completo y validado por: " + str(id_form.user.username)
         else:
             context['txt_actualizacion']="Estado del formualario: pendiente"
         return context

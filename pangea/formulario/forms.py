@@ -27,7 +27,6 @@ class FrecuenciaActividadesForm(forms.ModelForm):
 
         labels ={'actividades':'Seleccionar una actividad',
         'horas':'Ingresar Jornadas/Etapa',}
-
 class InsumosRequeridosAlmacenadosForm(forms.ModelForm):
 
     class Meta:
@@ -43,7 +42,6 @@ class InsumosRequeridosAlmacenadosForm(forms.ModelForm):
         labels ={'insumo':'Seleccionar un insumo',
         'cantidad':'Ingresar la cantidad',
         'max_almacenado':'Seleccionar Máximo almacenado'}
-
 class UsoSustanciasQuimicasForm(forms.ModelForm):
 
     class Meta:
@@ -59,7 +57,6 @@ class UsoSustanciasQuimicasForm(forms.ModelForm):
         labels ={'sustancia':'Seleccionar una sustancia',
         'cantidad':'Ingresar la cantidad',
         'max_almacenado':'Seleccionar Máximo almacenado'}
-
 class PersonalForm(forms.ModelForm):
 
     class Meta:
@@ -81,7 +78,6 @@ class PersonalForm(forms.ModelForm):
 
 ####################################
 
-
 class SeleccionProcesosConstructivosForm(forms.ModelForm):
     class Meta:
         model = SeleccionProcesosConstructivos
@@ -95,7 +91,6 @@ class SeleccionProcesosConstructivosForm(forms.ModelForm):
         labels ={
             'procesos':'Seleccionar procesos constructivos'
         }
-
 class SeleccionSistemasConstructivosForm(forms.ModelForm):
     class Meta:
         model = SeleccionSistemasConstructivos
@@ -109,8 +104,6 @@ class SeleccionSistemasConstructivosForm(forms.ModelForm):
         labels ={
             'sistemas':'Seleccionar sistemas constructivos'
         }
-
-
 class DatosGeneralForm(forms.ModelForm):
     class Meta:
         model = DatosGeneral
@@ -136,7 +129,6 @@ class DatosGeneralForm(forms.ModelForm):
             if DatosGeneral.objects.fiter(componente=componente, fase=fase,etapa=etapa).exits():
                 raise form.ValidationError("Esta descripción general para este componente ya fue registrada")
             return componente,fase,etapa
-
 class FormLocalizacionC(forms.ModelForm):
 
     class Meta:
@@ -149,12 +141,11 @@ class FormLocalizacionC(forms.ModelForm):
             # 'etapa': forms.Select(attrs={'class':'form-control'}),
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),           
         }
-
 class FormCatForm(forms.ModelForm):
 
     class Meta:
         model = CatForm
-        fields = ['title','completo']
+        fields = ['title','completo',]
         #fields = ['title','componente','fase','etapa','completo']
         
         widgets = {
@@ -166,9 +157,9 @@ class FormCatForm(forms.ModelForm):
             }
 
         labels = {
-            'completo':'Marcar como completo y verificado / Desactivar para pendiente'
-        }
+            'completo':'Marcar como completo y verificado / Desactivar para pendiente',
 
+        }
 class FrecuenciaActividadesCForm(forms.ModelForm):
 
     class Meta:
@@ -180,7 +171,6 @@ class FrecuenciaActividadesCForm(forms.ModelForm):
             'actividades': forms.Select(attrs={'class':'form-control'}),
             'horas': forms.NumberInput(attrs={'class':'form-control'}),           
         }
-
 class DescripcionGeneralForm(forms.ModelForm):
     class Meta:
         model = DescripcionGeneral
@@ -194,8 +184,6 @@ class DescripcionGeneralForm(forms.ModelForm):
         labels={
             'content':'Agregar la descripción'
         }
-        
-
 class DescripcionGeneralFigurasForm(forms.ModelForm):
 
     class Meta:
@@ -206,7 +194,6 @@ class DescripcionGeneralFigurasForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class':'form-control-file'}),
             'pie': forms.TextInput(attrs={'class':'form-control'}),         
         }
-
 class SuperficieObrasCForm(forms.ModelForm):
     class Meta:
         model = SuperficieObrasC
@@ -222,7 +209,6 @@ class SuperficieObrasCForm(forms.ModelForm):
             'edificaciones':'Seleccionar obra o edificación provisional temporal',
             'superficie':'Agregar la superficie en m²'
         }
-
 class ConsumoAguaCForm(forms.ModelForm):
     class Meta:
         model = ConsumoAguaC
@@ -238,7 +224,6 @@ class ConsumoAguaCForm(forms.ModelForm):
             'tipo':'Seleccionar el tipo de agua',
             'cantidad':'Agregar la cantidad en m³'
         }
-
 class AguasResidualesCForm(forms.ModelForm):
     class Meta:
         model = AguasResidualesC
@@ -255,8 +240,6 @@ class AguasResidualesCForm(forms.ModelForm):
             'tipo':'Seleccionar el tipo de agua',
             'cantidad':'Agregar la cantidad en m³'
         }
-
-
 class ListadoFloristicoCForm(forms.ModelForm):
     class Meta:
         model = ListadoFloristicoC
@@ -271,7 +254,6 @@ class ListadoFloristicoCForm(forms.ModelForm):
             'flor':'Seleccionar el tipo de especie',
 
         }
-
 class PersonalRequeridoForm(forms.ModelForm):
     class Meta:
         model = PersonalRequerido
@@ -292,8 +274,6 @@ class PersonalRequeridoForm(forms.ModelForm):
             'n_apro':'APRO',
 
         }
-
-
 class InsumosZonificacionForm(forms.ModelForm):
 
     class Meta:
@@ -316,9 +296,6 @@ class InsumosZonificacionForm(forms.ModelForm):
             'n_apro':'APRO',
 
         }
-    
-
-
 class MaquinariaZonificacionForm(forms.ModelForm):
     class Meta:
         model = MaquinariaZonificacion
@@ -362,8 +339,7 @@ class MovimientoTierraZonificacionForm(forms.ModelForm):
             'n_apro':'APRO',
 
 
-        }
-        
+        }    
 class ResiduosSolidosZonificacionForm(forms.ModelForm):
     class Meta:
         model = ResiduosSolidosZonificacion
@@ -399,4 +375,329 @@ class ObrasLinealesLongitudesForm(forms.ModelForm):
         labels={
             'tipo':'Seleccionar obra lineal',
             'longitud':'Agregar longitud en Km'
+        }
+class VehiculosRestrigidosZonificacionForm(forms.ModelForm):
+    class Meta:
+        model = VehiculosRestrigidosZonificacion
+        fields = ['zonificacion','tipov','restriccion']
+     
+        widgets = {
+            'zonificacion': forms.Select(attrs={'class':'form-control'}),
+            'tipov': forms.Select(attrs={'class':'form-control'}),
+            'restriccion':forms.TextInput(attrs={'class':'form-control'}),
+
+            
+        }
+
+        labels={
+            'zonificación':'Seleccionar zonificación',
+            'tipov':'Seleccionar tipo de vehículo',
+            'restriccion':'Ingresar condición / restricción',
+        }
+class UsoMaquinariaForm(forms.ModelForm):
+    class Meta:
+        model = UsoMaquinaria
+        fields = ['maquinaria','horas']
+     
+        widgets = {
+            'maquinaria': forms.Select(attrs={'class':'form-control'}),
+            'horas':forms.NumberInput(attrs={'class':'form-control'}),
+
+            
+        }
+
+        labels={
+            'maquinaria':'Seleccionar maquinaria',
+            'horas':'Ingresar horas',
+        }
+class GeneracionResiduosForm(forms.ModelForm):
+    class Meta:
+        model = GeneracionResiduos
+        fields = ['residuo','cantidad']
+     
+        widgets = {
+            'residuo': forms.Select(attrs={'class':'form-control'}),
+            'cantidad':forms.NumberInput(attrs={'class':'form-control'}),
+
+            
+        }
+
+        labels={
+            'residuo':'Seleccionar residuo',
+            'cantidad':'Ingresar cantidad',
+        }
+class AforoAlmacenamientoVehicularForm(forms.ModelForm):
+    class Meta:
+        model = AforoAlmacenamientoVehicular
+        fields = ['vehiculo','cantidad','porcion_almacenada','frec_operacion']
+     
+        widgets = {
+            'vehiculo': forms.Select(attrs={'class':'form-control'}),
+            'cantidad':forms.NumberInput(attrs={'class':'form-control'}),
+            'porcion_almacenada':forms.Select(attrs={'class':'form-control'}),
+            'frec_operacion':forms.NumberInput(attrs={'class':'form-control'}),
+
+            
+        }
+
+        labels={
+            'vehiculo':'Seleccionar vehículo',
+            'cantidad':'Ingresar cantidad',
+            'porcion_almacenada':'Ingresar porción almacenada',
+            'frec_operacion':'Ingresar Frecuencia de operación (Horas/año)',
+        }
+class ExtraccionAguaForm(forms.ModelForm):
+    class Meta:
+        model = ExtraccionAgua
+        fields = ['pozo','velocidad']
+     
+        widgets = {
+            'pozo': forms.TextInput(attrs={'class':'form-control'}),
+            'velocidad':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'pozo':'Ingresar pozo',
+            'velocidad':'Ingresar velocidad en L/s',
+        }
+class FrecuenciaActComForm(forms.ModelForm):
+    class Meta:
+        model = FrecuenciaActCom
+        fields = ['actividad','cantidad']
+     
+        widgets = {
+            'actividad': forms.Select(attrs={'class':'form-control'}),
+            'cantidad':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'actividad':'Seleccionar actividad',
+            'cantidad':'Ingresar Jornadas/etapa',
+        }
+class AforoVisitantesForm(forms.ModelForm):
+    class Meta:
+        model = AforoVisitantes
+        fields = ['actividad','maximo_etapa','promedio_diario','maximo_diario']
+     
+        widgets = {
+            'actividad': forms.Select(attrs={'class':'form-control'}),
+            'maximo_etapa':forms.NumberInput(attrs={'class':'form-control'}),
+            'promedio_diario':forms.NumberInput(attrs={'class':'form-control'}),
+            'maximo_diario':forms.NumberInput(attrs={'class':'form-control'}),
+
+           
+        }
+        labels={
+            'actividad':'Seleccionar actividad',
+            'maximo_etapa':'Ingresar máximo de visitantes por etapa',
+            'promedio_diario':'Ingresar promedio de visitantes por etapa',
+            'maximo_diario':'Ingresar máximo de visitantes diarios',
+        }
+class OcupacionAlojaForm(forms.ModelForm):
+    class Meta:
+        model = OcupacionAloja
+        fields = ['cobertura','oferta','huespedes_dia','huespedes_etapa']
+     
+        widgets = {
+            'cobertura': forms.Select(attrs={'class':'form-control'}),
+            'oferta':forms.TextInput(attrs={'class':'form-control'}),
+            'huespedes_dia':forms.NumberInput(attrs={'class':'form-control'}),
+            'huespedes_etapa':forms.NumberInput(attrs={'class':'form-control'}),
+
+           
+        }
+        labels={
+            'cobertura':'Seleccionar cobertura',
+            'oferta':'Ingresar oferta de alojamiento (equivalencia en cuarto doble/2 personas)',
+            'huespedes_dia':'Ingresar número de huéspedes diarios',
+            'huespedes_etapa':'Ingresar número de huéspedes por etapa',
+        }
+class AforoTipoVehiMaxDiarioForm(forms.ModelForm):
+    class Meta:
+        model = AforoTipoVehiMaxDiario
+        fields = ['vehiculo','cantidad']
+     
+        widgets = {
+            'vehiculo': forms.Select(attrs={'class':'form-control'}),
+            'cantidad':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'vehiculo':'Seleccionar tipo de vehiculo',
+            'cantidad':'Ingresar cantidad de vehículos diarios',
+
+        }
+class AforoTipoVehiForm(forms.ModelForm):
+    class Meta:
+        model = AforoTipoVehi
+        fields = ['vehiculo','cantidad']
+     
+        widgets = {
+            'vehiculo': forms.Select(attrs={'class':'form-control'}),
+            'cantidad':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'vehiculo':'Seleccionar tipo de vehiculo',
+            'cantidad':'Ingresar horas/etapa',
+
+        }
+class PersonalTransportadoForm(forms.ModelForm):
+    class Meta:
+        model = PersonalTransportado
+        fields = ['minimo','maximo']
+     
+        widgets = {
+            'minimo': forms.NumberInput(attrs={'class':'form-control'}),
+            'maximo':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'minimo':'Ingresar mínimo',
+            'maximo':'Ingresar máximo',
+        }
+class ManejoSustanciasEspecialesForm(forms.ModelForm):
+    class Meta:
+        model = ManejoSustanciasEspeciales
+        fields = ['instalacion','area','actividad_especial','manejo_sustancias']
+     
+        widgets = {
+            'instalacion': forms.Select(attrs={'class':'form-control'}),
+            'area': forms.Select(attrs={'class':'form-control'}),
+            'actividad_especial': forms.Select(attrs={'class':'form-control'}),
+            'manejo_sustancias':forms.TextInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'instalacion':'Seleccionar instalación especial',
+            'area':'Seleccionar área de manejo',
+            'actividad_especial':'Seleccionar tipo de actividades',
+            'manejo_sustancias':'Ingresar manejo de sustancias',
+        }
+
+class CapacidadAlmSustanciasEspecialesForm(forms.ModelForm):
+    class Meta:
+        model = CapacidadAlmSustanciasEspeciales
+        fields = ['instalacion','sustancia','capacidad_alm','recargas','recargas_totales']
+     
+        widgets = {
+            'instalacion': forms.Select(attrs={'class':'form-control'}),
+            'sustancia': forms.Select(attrs={'class':'form-control'}),
+            'capacidad_alm': forms.NumberInput(attrs={'class':'form-control'}),
+            'recargas':forms.NumberInput(attrs={'class':'form-control'}),
+            'recargas_totales':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'instalacion':'Seleccionar instalación especial',
+            'sustancia':'Seleccionar sustancia',
+            'capacidad_alm':'Ingresar capacidad de almacenamiento',
+            'recargas':'Ingresar número de recargas al año',
+            'recargas_totales':'Ingresar total de recargas en la etapa',
+        }
+class CapacidadAlmResiduosEspecialesForm(forms.ModelForm):
+    class Meta:
+        model = CapacidadAlmResiduosEspeciales
+        fields = ['instalacion','residuo','capacidad_veh','viajes_anual','viajes_totales']
+     
+        widgets = {
+            'instalacion': forms.Select(attrs={'class':'form-control'}),
+            'residuo': forms.Select(attrs={'class':'form-control'}),
+            'capacidad_veh': forms.NumberInput(attrs={'class':'form-control'}),
+            'viajes_anual':forms.NumberInput(attrs={'class':'form-control'}),
+            'viajes_totales':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'instalacion':'Seleccionar instalación especial',
+            'residuo':'Seleccionar residuo',
+            'capacidad_veh':'Ingresar capacidad de almacenamiento',
+            'viajes_anual':'Ingresar número de viajes al año',
+            'viajes_totales':'Ingresar total de viajes en la etapa',
+        }
+class FrecuenciaIngresoSusEspecialesForm(forms.ModelForm):
+    class Meta:
+        model = FrecuenciaIngresoSusEspeciales
+        fields = ['instalacion','sustancia','capacidad_veh','viajes_anual','viajes_totales']
+     
+        widgets = {
+            'instalacion': forms.Select(attrs={'class':'form-control'}),
+            'sustancia': forms.Select(attrs={'class':'form-control'}),
+            'capacidad_veh': forms.NumberInput(attrs={'class':'form-control'}),
+            'viajes_anual':forms.NumberInput(attrs={'class':'form-control'}),
+            'viajes_totales':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'instalacion':'Seleccionar instalación especial',
+            'sustancia':'Seleccionar sustancia',
+            'capacidad_veh':'Ingresar capacidad de almacenamiento',
+            'viajes_anual':'Ingresar número de viajes al año',
+            'viajes_totales':'Ingresar total de viajes en la etapa',
+        }
+
+class FrecuenciaIngresoResEspecialesForm(forms.ModelForm):
+    class Meta:
+        model = FrecuenciaIngresoResEspeciales
+        fields = ['instalacion','residuo','capacidad_veh','viajes_anual','viajes_totales']
+     
+        widgets = {
+            'instalacion': forms.Select(attrs={'class':'form-control'}),
+            'residuo': forms.Select(attrs={'class':'form-control'}),
+            'capacidad_veh': forms.NumberInput(attrs={'class':'form-control'}),
+            'viajes_anual':forms.NumberInput(attrs={'class':'form-control'}),
+            'viajes_totales':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'instalacion':'Seleccionar instalación especial',
+            'residuo':'Seleccionar residuo',
+            'capacidad_veh':'Ingresar capacidad de almacenamiento',
+            'viajes_anual':'Ingresar número de viajes al año',
+            'viajes_totales':'Ingresar total de viajes en la etapa',
+        }
+class MaquinariaViajesEspForm(forms.ModelForm):
+    class Meta:
+        model = MaquinariaViajesEsp
+        fields = ['instalacion','maquinaria','unidades','viajes','gasolina','diesel','aceites','anticongelante','liq_frenos','lubricantes']
+     
+        widgets = {
+            'instalacion': forms.Select(attrs={'class':'form-control'}),
+            'maquinaria': forms.Select(attrs={'class':'form-control'}),
+            'unidades':forms.NumberInput(attrs={'class':'form-control'}),
+            'viajes':forms.NumberInput(attrs={'class':'form-control'}),
+            'gasolina':forms.NumberInput(attrs={'class':'form-control'}),
+            'diesel':forms.NumberInput(attrs={'class':'form-control'}),
+            'aceites':forms.NumberInput(attrs={'class':'form-control'}),
+            'anticongelante':forms.NumberInput(attrs={'class':'form-control'}),
+            'liq_frenos':forms.NumberInput(attrs={'class':'form-control'}),
+            'lubricantes':forms.NumberInput(attrs={'class':'form-control'}),
+
+           
+        }
+        labels={
+            'instalacion':'Seleccionar instalación especial',
+            'maquinaria':'Seleccionar maquinaria',
+            'unidades':'Ingresar número de unidades',
+            'viajes':'Ingresar número de viajes por unidad',
+            'gasolina':'Ingresar cantidad de gasolina (L)',
+            'diesel':'Ingresar cantidad de diesel (L)',
+            'aceites':'Ingresar cantidad de aceites (L)',
+            'anticongelante':'Ingresar cantidad de anticongelante (L)',
+            'liq_frenos':'Ingresar cantidad de líquido de frenos (L)',
+            'lubricantes':'Ingresar cantidad de lubricantes (L)',
+        }
+class TratamientoAguasResidualesForm(forms.ModelForm):
+    class Meta:
+        model = TratamientoAguasResiduales
+        fields = ['ptar','cantidad']
+     
+        widgets = {
+            'ptar': forms.Select(attrs={'class':'form-control'}),
+            'cantidad':forms.NumberInput(attrs={'class':'form-control'}),
+           
+        }
+        labels={
+            'ptar':'seleccionar PTAR',
+            'cantidad':'Ingresar cantidad en L/s',
         }

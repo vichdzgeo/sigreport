@@ -25,7 +25,78 @@ formulario_patterns = ([
     path('personale-create/<int:pk>/', PersonalCreate.as_view(),name='personale-create'),
     path('personale-update/<int:pk>/', PersonalUpdate.as_view(),name='personale-update'),
 
+    path('vehreszon-list/<int:pk>/',  VehiculosRestrigidosZonificacionListView.as_view(), name='vehreszon-list'),
+    path('vehreszon-create/<int:pk>/', VehiculosRestrigidosZonificacionCreate.as_view(),name='vehreszon-create'),
+    path('vehreszon-update/<int:pk>/', VehiculosRestrigidosZonificacionUpdate.as_view(),name='vehreszon-update'),
 
+    path('usomaquina-list/<int:pk>/',  UsoMaquinariaListView.as_view(), name='usomaquina-list'),
+    path('usomaquina-create/<int:pk>/', UsoMaquinariaCreate.as_view(),name='usomaquina-create'),
+    path('usomaquina-update/<int:pk>/', UsoMaquinariaUpdate.as_view(),name='usomaquina-update'),
+
+    path('genres-list/<int:pk>/',  GeneracionResiduosListView.as_view(), name='genres-list'),
+    path('genres-create/<int:pk>/', GeneracionResiduosCreate.as_view(),name='genres-create'),
+    path('genres-update/<int:pk>/', GeneracionResiduosUpdate.as_view(),name='genres-update'),
+
+    path('afoalmveh-list/<int:pk>/',  AforoAlmacenamientoVehicularListView.as_view(), name='afoalmveh-list'),
+    path('afoalmveh-create/<int:pk>/', AforoAlmacenamientoVehicularCreate.as_view(),name='afoalmveh-create'),
+    path('afoalmveh-update/<int:pk>/', AforoAlmacenamientoVehicularUpdate.as_view(),name='afoalmveh-update'),
+
+    path('extagua-list/<int:pk>/',  ExtraccionAguaListView.as_view(), name='extagua-list'),
+    path('extagua-create/<int:pk>/', ExtraccionAguaCreate.as_view(),name='extagua-create'),
+    path('extagua-update/<int:pk>/', ExtraccionAguaUpdate.as_view(),name='extagua-update'),
+
+    path('freactcom-list/<int:pk>/',  FrecuenciaActComListView.as_view(), name='freactcom-list'),
+    path('freactcom-create/<int:pk>/', FrecuenciaActComCreate.as_view(),name='freactcom-create'),
+    path('freactcom-update/<int:pk>/', FrecuenciaActComUpdate.as_view(),name='freactcom-update'),
+
+    path('afovis-list/<int:pk>/',  AforoVisitantesListView.as_view(), name='afovis-list'),
+    path('afovis-create/<int:pk>/', AforoVisitantesCreate.as_view(),name='afovis-create'),
+    path('afovis-update/<int:pk>/', AforoVisitantesUpdate.as_view(),name='afovis-update'),
+
+    path('afovehmaxdia-list/<int:pk>/',  AforoTipoVehiMaxDiarioListView.as_view(), name='afovehmaxdia-list'),
+    path('afovehmaxdia-create/<int:pk>/', AforoTipoVehiMaxDiarioCreate.as_view(),name='afovehmaxdia-create'),
+    path('afovehmaxdia-update/<int:pk>/', AforoTipoVehiMaxDiarioUpdate.as_view(),name='afovehmaxdia-update'),
+
+    path('afovehtot-list/<int:pk>/',  AforoTipoVehiListView.as_view(), name='afovehtot-list'),
+    path('afovehtot-create/<int:pk>/', AforoTipoVehiCreate.as_view(),name='afovehtot-create'),
+    path('afovehtot-update/<int:pk>/', AforoTipoVehiUpdate.as_view(),name='afovehtot-update'),
+
+    path('pertra-list/<int:pk>/',  PersonalTransportadoListView.as_view(), name='pertra-list'),
+    path('pertra-create/<int:pk>/', PersonalTransportadoCreate.as_view(),name='pertra-create'),
+    path('pertra-update/<int:pk>/', PersonalTransportadoUpdate.as_view(),name='pertra-update'),
+
+    path('ocualo-list/<int:pk>/',  OcupacionAlojaListView.as_view(), name='ocualo-list'),
+    path('ocualo-create/<int:pk>/', OcupacionAlojaCreate.as_view(),name='ocualo-create'),
+    path('ocualo-update/<int:pk>/', OcupacionAlojaUpdate.as_view(),name='ocualo-update'),
+
+    path('mansusesp-list/<int:pk>/',  ManejoSustanciasEspecialesListView.as_view(), name='mansusesp-list'),
+    path('mansusesp-create/<int:pk>/', ManejoSustanciasEspecialesCreate.as_view(),name='mansusesp-create'),
+    path('mansusesp-update/<int:pk>/', ManejoSustanciasEspecialesUpdate.as_view(),name='mansusesp-update'),
+
+    path('capalmsusesp-list/<int:pk>/',  CapacidadAlmSustanciasEspecialesListView.as_view(), name='capalmsusesp-list'),
+    path('capalmsusesp-create/<int:pk>/', CapacidadAlmSustanciasEspecialesCreate.as_view(),name='capalmsusesp-create'),
+    path('capalmsusesp-update/<int:pk>/', CapacidadAlmSustanciasEspecialesUpdate.as_view(),name='capalmsusesp-update'),
+
+    path('capalmresesp-list/<int:pk>/',  CapacidadAlmResiduosEspecialesListView.as_view(), name='capalmresesp-list'),
+    path('capalmresesp-create/<int:pk>/', CapacidadAlmResiduosEspecialesCreate.as_view(),name='capalmresesp-create'),
+    path('capalmresesp-update/<int:pk>/', CapacidadAlmResiduosEspecialesUpdate.as_view(),name='capalmresesp-update'),
+
+    path('freingsusesp-list/<int:pk>/',  FrecuenciaIngresoSusEspecialesListView.as_view(), name='freingsusesp-list'),
+    path('freingsusesp-create/<int:pk>/', FrecuenciaIngresoSusEspecialesCreate.as_view(),name='freingsusesp-create'),
+    path('freingsusesp-update/<int:pk>/', FrecuenciaIngresoSusEspecialesUpdate.as_view(),name='freingsusesp-update'),
+
+    path('freingresesp-list/<int:pk>/',  FrecuenciaIngresoResEspecialesListView.as_view(), name='freingresesp-list'),
+    path('freingresesp-create/<int:pk>/', FrecuenciaIngresoResEspecialesCreate.as_view(),name='freingresesp-create'),
+    path('freingresesp-update/<int:pk>/', FrecuenciaIngresoResEspecialesUpdate.as_view(),name='freingresesp-update'),
+
+    path('maqviaesp-list/<int:pk>/',  MaquinariaViajesEspListView.as_view(), name='maqviaesp-list'),
+    path('maqviaesp-create/<int:pk>/', MaquinariaViajesEspCreate.as_view(),name='maqviaesp-create'),
+    path('maqviaesp-update/<int:pk>/', MaquinariaViajesEspUpdate.as_view(),name='maqviaesp-update'),
+
+    path('traagures-list/<int:pk>/',  TratamientoAguasResidualesListView.as_view(), name='traagures-list'),
+    path('traagures-create/<int:pk>/', TratamientoAguasResidualesCreate.as_view(),name='traagures-create'),
+    path('traagures-update/<int:pk>/', TratamientoAguasResidualesUpdate.as_view(),name='traagures-update'),
+    
     path('completo/<int:pk>/', CatFormUpdate.as_view(),name='completo'),
     path('actividades-list/<int:pk>/',  FrecuenciaActividadesCListView.as_view(), name='actividades-list'),
     path('actividades/<int:pk>/', FrecuenciaActividadesCCreate.as_view(),name='actividades'),

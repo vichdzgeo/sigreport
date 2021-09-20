@@ -97,7 +97,7 @@ class EtapaUpdate(UpdateView):
     
     def get_success_url(self):
 
-        return reverse_lazy('catalogos:etapa-list')
+        return reverse_lazy('catalogos:etapas')
 
 
 

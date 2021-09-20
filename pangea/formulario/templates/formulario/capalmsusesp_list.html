@@ -7,41 +7,37 @@
   
   <div class="container mb-4">
     <h2 class="mt-3">{{p_title}}</h2>
-    <p class="mt-3">{{p_componente}} - {{p_etapa}}</p>
+    <p class="mt-3">{{p_componente}} - {{p_fase}} - {{p_etapa}}</p>
     <div class="agregar mb-4 text-right">
       {% if not request.user.is_staff %}
         <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
-        {% if not validado %}
-          <a class='ml-2' href="{% url 'forms:datosgenerales' id_f %}">Agregar</a>
-        {%endif%}
+        <a class='ml-2' href="{% url crear id_f %}">Agregar</a>
       {% else %}
         <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
-        {% if not validado %}
-          <a class='ml-2' href="{% url 'forms:datosgenerales' id_f %}">Agregar</a>
-        {%endif%}
+        <a class='ml-2' href="{% url crear id_f %}">Agregar</a>
         <a class='ml-2' href="{% url 'forms:completo' id_f %}">Estado</a>
       {% endif %}
     </div>
-
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
+    <br>    
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col">Superficie aprovechable total (ha)</th>
-          <th scope="col">Superficie edificable (ha)</th>
-          <th scope="col">Superficie a construir no edificable (ha)</th>
-          <th scope="col">Niveles máximos construidos</th>
-          <th scope="col">Abreviaturas de las zonificaciones</th>
+        <tr>
+          {% for campo in campos%}
+            <th scope="col" class = "text-center">{{campo}}</th>
+          {%endfor%}
         </tr>
       </thead>
-      <tbody>
-      {% for i in datosgeneral_list %}
+      <tbody id="myTable">
+      {% for i in object_list %}
         {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
           <tr>
-            <th scope="row"><a href="{% url 'forms:datosgenerales-update' i.id %}">{{ i.sup_aprov_total }} </a></th>
-            <td>{{i.sup_edi}}</td>
-            <td>{{i.sup_const_no_edi}}</td>
-            <td>{{i.nivel_max}}</td>
-            <td>{{i.zonificacion}}</td>
+            <th scope="row"><a href="{% url actualizar i.id %}">{{i.instalacion}} </a></th>
+            <td class = "text-center">{{i.sustancia}}</td>
+            <td class = "text-center">{{i.capacidad_alm}}</td>
+            <td class = "text-center">{{i.recargas}}</td>
+            <td class = "text-center">{{i.recargas_totales}}</td>
         {% endif %}
       {% endfor %}
       </tbody>

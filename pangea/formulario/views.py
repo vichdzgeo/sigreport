@@ -17,7 +17,6 @@ import os
 from django.http import HttpResponse
 from django.shortcuts import redirect
 import pypandoc
-
 import jinja2
 import codecs
 import re
@@ -924,6 +923,7 @@ class DatosGeneralCreate(CreateView):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['validado']=id_form.completo
 
         context['p_title']=DatosGeneral._meta.verbose_name
         context['p_componente']=id_form.componente.title
@@ -1532,7 +1532,6 @@ class UsoSustanciasQuimicasUpdate(UpdateView):
         return reverse_lazy('forms:usosusquim-update',args=[self.object.id]) + '?ok'
 
 
-
 ###### Personal
 
 @method_decorator(login_required,name='dispatch')
@@ -1610,7 +1609,1359 @@ class PersonalUpdate(UpdateView):
         return reverse_lazy('forms:personale-update',args=[self.object.id]) + '?ok'
 
 
+### Tipo de vehículos por zonificación
+@method_decorator(login_required,name='dispatch')
+class VehiculosRestrigidosZonificacionListView(ListView):
+    model = VehiculosRestrigidosZonificacion
+    template_name = "formulario/vehreszon_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=VehiculosRestrigidosZonificacion._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:vehreszon-create'
+        context['actualizar']='forms:vehreszon-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in VehiculosRestrigidosZonificacion._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in VehiculosRestrigidosZonificacion._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
 
+@method_decorator(login_required,name='dispatch')
+class VehiculosRestrigidosZonificacionCreate(CreateView):
+    
+    model = VehiculosRestrigidosZonificacion
+    form_class = VehiculosRestrigidosZonificacionForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(VehiculosRestrigidosZonificacionCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=VehiculosRestrigidosZonificacion._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:vehreszon-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=VehiculosRestrigidosZonificacionForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:vehreszon-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class VehiculosRestrigidosZonificacionUpdate(UpdateView):
+    model = VehiculosRestrigidosZonificacion
+    form_class = VehiculosRestrigidosZonificacionForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=VehiculosRestrigidosZonificacion._meta.verbose_name
+        context['regresar']='forms:vehreszon-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:vehreszon-update',args=[self.object.id]) + '?ok'
+
+
+### Uso de maquinaria
+@method_decorator(login_required,name='dispatch')
+class UsoMaquinariaListView(ListView):
+    model = UsoMaquinaria
+    template_name = "formulario/usomaquina_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=UsoMaquinaria._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:usomaquina-create'
+        context['actualizar']='forms:usomaquina-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in UsoMaquinaria._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in UsoMaquinaria._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class UsoMaquinariaCreate(CreateView):
+    
+    model = UsoMaquinaria
+    form_class = UsoMaquinariaForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(UsoMaquinariaCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=UsoMaquinaria._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:usomaquina-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=UsoMaquinariaForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:usomaquina-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class UsoMaquinariaUpdate(UpdateView):
+    model = UsoMaquinaria
+    form_class = UsoMaquinariaForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=UsoMaquinaria._meta.verbose_name
+        context['regresar']='forms:usomaquina-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:usomaquina-update',args=[self.object.id]) + '?ok'
+
+### GENERACION DE RESIDUOS SOLIDOS
+@method_decorator(login_required,name='dispatch')
+class GeneracionResiduosListView(ListView):
+    model = GeneracionResiduos
+    template_name = "formulario/genres_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=GeneracionResiduos._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:genres-create'
+        context['actualizar']='forms:genres-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in GeneracionResiduos._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in GeneracionResiduos._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class GeneracionResiduosCreate(CreateView):
+    
+    model = GeneracionResiduos
+    form_class = GeneracionResiduosForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(GeneracionResiduosCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=GeneracionResiduos._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:genres-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=GeneracionResiduosForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:genres-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class GeneracionResiduosUpdate(UpdateView):
+    model = GeneracionResiduos
+    form_class = GeneracionResiduosForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=GeneracionResiduos._meta.verbose_name
+        context['regresar']='forms:genres-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:genres-update',args=[self.object.id]) + '?ok'
+
+
+### AFORO Y ALMACENAMIENTO VEHICULAR PARA ESTA FASE
+@method_decorator(login_required,name='dispatch')
+class AforoAlmacenamientoVehicularListView(ListView):
+    model = AforoAlmacenamientoVehicular
+    template_name = "formulario/afoalmveh_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=AforoAlmacenamientoVehicular._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:afoalmveh-create'
+        context['actualizar']='forms:afoalmveh-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in AforoAlmacenamientoVehicular._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in AforoAlmacenamientoVehicular._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class AforoAlmacenamientoVehicularCreate(CreateView):
+    
+    model = AforoAlmacenamientoVehicular
+    form_class = AforoAlmacenamientoVehicularForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(AforoAlmacenamientoVehicularCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=AforoAlmacenamientoVehicular._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:afoalmveh-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=AforoAlmacenamientoVehicularForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:afoalmveh-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class AforoAlmacenamientoVehicularUpdate(UpdateView):
+    model = AforoAlmacenamientoVehicular
+    form_class = AforoAlmacenamientoVehicularForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=AforoAlmacenamientoVehicular._meta.verbose_name
+        context['regresar']='forms:afoalmveh-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:afoalmveh-update',args=[self.object.id]) + '?ok'
+
+### EXTRACCIÓN AGUA
+@method_decorator(login_required,name='dispatch')
+class ExtraccionAguaListView(ListView):
+    model = ExtraccionAgua
+    template_name = "formulario/extagua_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=ExtraccionAgua._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:extagua-create'
+        context['actualizar']='forms:extagua-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in ExtraccionAgua._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ExtraccionAgua._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ExtraccionAguaCreate(CreateView):
+    
+    model = ExtraccionAgua
+    form_class = ExtraccionAguaForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(ExtraccionAguaCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=ExtraccionAgua._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:extagua-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=ExtraccionAguaForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:extagua-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class ExtraccionAguaUpdate(UpdateView):
+    model = ExtraccionAgua
+    form_class = ExtraccionAguaForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ExtraccionAgua._meta.verbose_name
+        context['regresar']='forms:extagua-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:extagua-update',args=[self.object.id]) + '?ok'
+
+### Frecuencia de actividades comerciales o de servicio
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaActComListView(ListView):
+    model = FrecuenciaActCom
+    template_name = "formulario/freactcom_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=FrecuenciaActCom._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:freactcom-create'
+        context['actualizar']='forms:freactcom-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in FrecuenciaActCom._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in FrecuenciaActCom._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaActComCreate(CreateView):
+    
+    model = FrecuenciaActCom
+    form_class = FrecuenciaActComForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(FrecuenciaActComCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=FrecuenciaActCom._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:freactcom-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=FrecuenciaActComForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:freactcom-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaActComUpdate(UpdateView):
+    model = FrecuenciaActCom
+    form_class = FrecuenciaActComForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=FrecuenciaActCom._meta.verbose_name
+        context['regresar']='forms:freactcom-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:freactcom-update',args=[self.object.id]) + '?ok'
+
+
+### AFORO VISITANTES
+@method_decorator(login_required,name='dispatch')
+class AforoVisitantesListView(ListView):
+    model = AforoVisitantes
+    template_name = "formulario/afovis_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=AforoVisitantes._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:afovis-create'
+        context['actualizar']='forms:afovis-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in AforoVisitantes._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in AforoVisitantes._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class AforoVisitantesCreate(CreateView):
+    
+    model = AforoVisitantes
+    form_class = AforoVisitantesForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(AforoVisitantesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=AforoVisitantes._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:afovis-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=AforoVisitantesForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:afovis-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class AforoVisitantesUpdate(UpdateView):
+    model = AforoVisitantes
+    form_class = AforoVisitantesForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=AforoVisitantes._meta.verbose_name
+        context['regresar']='forms:afovis-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:afovis-update',args=[self.object.id]) + '?ok'
+
+
+### AFORO MAXIMO VEHICULAR
+@method_decorator(login_required,name='dispatch')
+class AforoTipoVehiMaxDiarioListView(ListView):
+    model = AforoTipoVehiMaxDiario
+    template_name = "formulario/afovehmaxdia_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=AforoTipoVehiMaxDiario._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:afovehmaxdia-create'
+        context['actualizar']='forms:afovehmaxdia-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in AforoTipoVehiMaxDiario._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in AforoTipoVehiMaxDiario._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class AforoTipoVehiMaxDiarioCreate(CreateView):
+    
+    model = AforoTipoVehiMaxDiario
+    form_class = AforoTipoVehiMaxDiarioForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(AforoTipoVehiMaxDiarioCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=AforoTipoVehiMaxDiario._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:afovehmaxdia-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=AforoTipoVehiMaxDiarioForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:afovehmaxdia-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class AforoTipoVehiMaxDiarioUpdate(UpdateView):
+    model = AforoTipoVehiMaxDiario
+    form_class = AforoTipoVehiMaxDiarioForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=AforoTipoVehiMaxDiario._meta.verbose_name
+        context['regresar']='forms:afovehmaxdia-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:afovehmaxdia-update',args=[self.object.id]) + '?ok'
+
+
+### AFORO  VEHICULAR TOTAL
+@method_decorator(login_required,name='dispatch')
+class AforoTipoVehiListView(ListView):
+    model = AforoTipoVehi
+    template_name = "formulario/afovehtot_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=AforoTipoVehi._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:afovehtot-create'
+        context['actualizar']='forms:afovehtot-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in AforoTipoVehi._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in AforoTipoVehi._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class AforoTipoVehiCreate(CreateView):
+    
+    model = AforoTipoVehi
+    form_class = AforoTipoVehiForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(AforoTipoVehiCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=AforoTipoVehi._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:afovehtot-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=AforoTipoVehiForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:afovehtot-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class AforoTipoVehiUpdate(UpdateView):
+    model = AforoTipoVehi
+    form_class = AforoTipoVehiForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=AforoTipoVehi._meta.verbose_name
+        context['regresar']='forms:afovehtot-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:afovehtot-update',args=[self.object.id]) + '?ok'
+
+### PERSONAL TRANSPORTADO 
+@method_decorator(login_required,name='dispatch')
+class PersonalTransportadoListView(ListView):
+    model = PersonalTransportado
+    template_name = "formulario/pertra_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=PersonalTransportado._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:pertra-create'
+        context['actualizar']='forms:pertra-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in PersonalTransportado._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in PersonalTransportado._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class PersonalTransportadoCreate(CreateView):
+    
+    model = PersonalTransportado
+    form_class = PersonalTransportadoForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(PersonalTransportadoCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=PersonalTransportado._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:pertra-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=PersonalTransportadoForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:pertra-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class PersonalTransportadoUpdate(UpdateView):
+    model = PersonalTransportado
+    form_class = PersonalTransportadoForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=PersonalTransportado._meta.verbose_name
+        context['regresar']='forms:pertra-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:pertra-update',args=[self.object.id]) + '?ok'
+
+
+### Ocupacion estimada de alojamiento
+@method_decorator(login_required,name='dispatch')
+class OcupacionAlojaListView(ListView):
+    model = OcupacionAloja
+    template_name = "formulario/ocualo_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=OcupacionAloja._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:ocualo-create'
+        context['actualizar']='forms:ocualo-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in OcupacionAloja._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in OcupacionAloja._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class OcupacionAlojaCreate(CreateView):
+    
+    model = OcupacionAloja
+    form_class = OcupacionAlojaForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(OcupacionAlojaCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=OcupacionAloja._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:ocualo-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=OcupacionAlojaForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:ocualo-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class OcupacionAlojaUpdate(UpdateView):
+    model = OcupacionAloja
+    form_class = OcupacionAlojaForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=OcupacionAloja._meta.verbose_name
+        context['regresar']='forms:ocualo-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:ocualo-update',args=[self.object.id]) + '?ok'
+
+
+### MANEJO DE SUSTANCIAS ESPECIALES
+@method_decorator(login_required,name='dispatch')
+class ManejoSustanciasEspecialesListView(ListView):
+    model = ManejoSustanciasEspeciales
+    template_name = "formulario/mansusesp_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=ManejoSustanciasEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:mansusesp-create'
+        context['actualizar']='forms:mansusesp-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in ManejoSustanciasEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in ManejoSustanciasEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ManejoSustanciasEspecialesCreate(CreateView):
+    
+    model = ManejoSustanciasEspeciales
+    form_class = ManejoSustanciasEspecialesForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(ManejoSustanciasEspecialesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=ManejoSustanciasEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:mansusesp-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=ManejoSustanciasEspecialesForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:mansusesp-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class ManejoSustanciasEspecialesUpdate(UpdateView):
+    model = ManejoSustanciasEspeciales
+    form_class = ManejoSustanciasEspecialesForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=ManejoSustanciasEspeciales._meta.verbose_name
+        context['regresar']='forms:mansusesp-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:mansusesp-update',args=[self.object.id]) + '?ok'
+
+#### CAPACIDAD DE ALMACENAMIENTO DE SUSTANCIAS
+
+@method_decorator(login_required,name='dispatch')
+class CapacidadAlmSustanciasEspecialesListView(ListView):
+    model = CapacidadAlmSustanciasEspeciales
+    template_name = "formulario/capalmsusesp_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=CapacidadAlmSustanciasEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:capalmsusesp-create'
+        context['actualizar']='forms:capalmsusesp-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in CapacidadAlmSustanciasEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in CapacidadAlmSustanciasEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class CapacidadAlmSustanciasEspecialesCreate(CreateView):
+    
+    model = CapacidadAlmSustanciasEspeciales
+    form_class = CapacidadAlmSustanciasEspecialesForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(CapacidadAlmSustanciasEspecialesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=CapacidadAlmSustanciasEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:capalmsusesp-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=CapacidadAlmSustanciasEspecialesForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:capalmsusesp-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class CapacidadAlmSustanciasEspecialesUpdate(UpdateView):
+    model = CapacidadAlmSustanciasEspeciales
+    form_class = CapacidadAlmSustanciasEspecialesForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=CapacidadAlmSustanciasEspeciales._meta.verbose_name
+        context['regresar']='forms:capalmsusesp-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:capalmsusesp-update',args=[self.object.id]) + '?ok'
+
+
+#### CAPACIDAD DE ALMACENAMIENTO DE RESIDUOS
+
+@method_decorator(login_required,name='dispatch')
+class CapacidadAlmResiduosEspecialesListView(ListView):
+    model = CapacidadAlmResiduosEspeciales
+    template_name = "formulario/capalmresesp_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=CapacidadAlmResiduosEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:capalmresesp-create'
+        context['actualizar']='forms:capalmresesp-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in CapacidadAlmResiduosEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in CapacidadAlmResiduosEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class CapacidadAlmResiduosEspecialesCreate(CreateView):
+    
+    model = CapacidadAlmResiduosEspeciales
+    form_class = CapacidadAlmResiduosEspecialesForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(CapacidadAlmResiduosEspecialesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=CapacidadAlmResiduosEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:capalmresesp-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=CapacidadAlmResiduosEspecialesForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:capalmresesp-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class CapacidadAlmResiduosEspecialesUpdate(UpdateView):
+    model = CapacidadAlmResiduosEspeciales
+    form_class = CapacidadAlmResiduosEspecialesForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=CapacidadAlmResiduosEspeciales._meta.verbose_name
+        context['regresar']='forms:capalmresesp-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:capalmresesp-update',args=[self.object.id]) + '?ok'
+
+
+#### FRECUENCIA DE INGRESO DE SUSTANCIAS EN INSTALACIONES ESPECIALES
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaIngresoSusEspecialesListView(ListView):
+    model = FrecuenciaIngresoSusEspeciales
+    template_name = "formulario/freingsusesp_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=FrecuenciaIngresoSusEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:freingsusesp-create'
+        context['actualizar']='forms:freingsusesp-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in FrecuenciaIngresoSusEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in FrecuenciaIngresoSusEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaIngresoSusEspecialesCreate(CreateView):
+    
+    model = FrecuenciaIngresoSusEspeciales
+    form_class = FrecuenciaIngresoSusEspecialesForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(FrecuenciaIngresoSusEspecialesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=FrecuenciaIngresoSusEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:freingsusesp-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=FrecuenciaIngresoSusEspecialesForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:freingsusesp-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaIngresoSusEspecialesUpdate(UpdateView):
+    model = FrecuenciaIngresoSusEspeciales
+    form_class = FrecuenciaIngresoSusEspecialesForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=FrecuenciaIngresoSusEspeciales._meta.verbose_name
+        context['regresar']='forms:freingsusesp-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:freingsusesp-update',args=[self.object.id]) + '?ok'
+
+
+#### FRECUENCIA DE INGRESO DE RESIDUOS EN INSTALACIONES ESPECIALES
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaIngresoResEspecialesListView(ListView):
+    model = FrecuenciaIngresoResEspeciales
+    template_name = "formulario/freingresesp_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=FrecuenciaIngresoResEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:freingresesp-create'
+        context['actualizar']='forms:freingresesp-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in FrecuenciaIngresoResEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in FrecuenciaIngresoResEspeciales._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaIngresoResEspecialesCreate(CreateView):
+    
+    model = FrecuenciaIngresoResEspeciales
+    form_class = FrecuenciaIngresoResEspecialesForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(FrecuenciaIngresoResEspecialesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=FrecuenciaIngresoResEspeciales._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:freingresesp-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=FrecuenciaIngresoResEspecialesForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:freingresesp-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class FrecuenciaIngresoResEspecialesUpdate(UpdateView):
+    model = FrecuenciaIngresoResEspeciales
+    form_class = FrecuenciaIngresoResEspecialesForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=FrecuenciaIngresoResEspeciales._meta.verbose_name
+        context['regresar']='forms:freingresesp-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:freingresesp-update',args=[self.object.id]) + '?ok'
+
+
+#### MAQUINARIA Y VIAJES PARA EL SUMINISTRO DE SUSTANCIAS
+
+@method_decorator(login_required,name='dispatch')
+class MaquinariaViajesEspListView(ListView):
+    model = MaquinariaViajesEsp
+    template_name = "formulario/maqviaesp_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=MaquinariaViajesEsp._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:maqviaesp-create'
+        context['actualizar']='forms:maqviaesp-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in MaquinariaViajesEsp._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in MaquinariaViajesEsp._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class MaquinariaViajesEspCreate(CreateView):
+    
+    model = MaquinariaViajesEsp
+    form_class = MaquinariaViajesEspForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(MaquinariaViajesEspCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=MaquinariaViajesEsp._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:maqviaesp-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=MaquinariaViajesEspForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:maqviaesp-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class MaquinariaViajesEspUpdate(UpdateView):
+    model = MaquinariaViajesEsp
+    form_class = MaquinariaViajesEspForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=MaquinariaViajesEsp._meta.verbose_name
+        context['regresar']='forms:maqviaesp-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:maqviaesp-update',args=[self.object.id]) + '?ok'
+
+
+#### Tratamiento de aguas residuales
+
+@method_decorator(login_required,name='dispatch')
+class TratamientoAguasResidualesListView(ListView):
+    model = TratamientoAguasResiduales
+    template_name = "formulario/traagures_list.html"
+    paginate_by = 100
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=TratamientoAguasResiduales._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        context['crear']='forms:traagures-create'
+        context['actualizar']='forms:traagures-update'
+        campos_exc = ['id','created','updated','componente','fase','etapa']
+        context['campos']=[field.verbose_name for field in TratamientoAguasResiduales._meta.concrete_fields if field.name not in campos_exc]
+        context['col']=[field.name for field in TratamientoAguasResiduales._meta.concrete_fields if field.name not in campos_exc]
+        context['n_campos']=len(context['col'])
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class TratamientoAguasResidualesCreate(CreateView):
+    
+    model = TratamientoAguasResiduales
+    form_class = TratamientoAguasResidualesForm
+    template_name = "formulario/template_form.html"
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(TratamientoAguasResidualesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=TratamientoAguasResiduales._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:traagures-list'
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=TratamientoAguasResidualesForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        return  reverse_lazy('forms:traagures-create',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class TratamientoAguasResidualesUpdate(UpdateView):
+    model = TratamientoAguasResiduales
+    form_class = TratamientoAguasResidualesForm
+    template_name = "formulario/template_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['p_title']=TratamientoAguasResiduales._meta.verbose_name
+        context['regresar']='forms:traagures-list'
+        context['txt_actualizacion']="Registro actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:traagures-update',args=[self.object.id]) + '?ok'
+
+#########################################################
+##### CONFIRMACIÓN DE FORMULARIOS Y ARMADO DE FICHAS ####
+#########################################################
 
 ## Confirmación de formularios
 class CatFormUpdate(UpdateView):
@@ -1618,15 +2969,27 @@ class CatFormUpdate(UpdateView):
     form_class = FormCatForm
     template_name_suffix = '_update_form'
     
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        usuario = self.request.user
+        form.instance.user = usuario
+
+   
+        return super(CatFormUpdate, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0]
+
         
         context['p_title']="Formulario completo"
         context['p_subtitle']=id_form.componente.title+" - "+id_form.fase.title+" - "+ str(id_form.etapa.title)
+ 
         if id_form.completo is True:
-            context['txt_actualizacion']="Estado del formualario: completo y validado"
+            context['txt_actualizacion']="Estado del formualario: completo y validado por: " + id_form.user.username
+            context['estado']="Estado del formualario: completo y validado por: " + id_form.user.username
         else:
             context['txt_actualizacion']="Estado del formualario: pendiente"
         return context
@@ -1639,6 +3002,8 @@ class EstructuraView(TemplateView):
     template_name = "formulario/fichas.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        usuario = self.request.user.username
+        context['login_usuario']=usuario
         context['componentes'] = Modulo.objects.all()
         context['fases'] = Fase.objects.all().order_by('title')
         context['etapas'] = Etapa.objects.all().order_by('id').reverse()

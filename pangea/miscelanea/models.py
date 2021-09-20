@@ -127,7 +127,7 @@ class ListaZonificacion(models.Model):
 class InsumosLista(models.Model):
     title = models.TextField(max_length=300,verbose_name = "Tipo")
     unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE,default="")
-    fase = models.ForeignKey(Fase,on_delete=models.PROTECT,default=regresa("Construcción",Fase))
+    fase = models.ForeignKey(Fase,on_delete=models.CASCADE,default=regresa("Construcción",Fase))
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 
@@ -165,7 +165,7 @@ class ListaTipoPersonal(models.Model):
     def __str__(self):
         return self.tipo
 class ListaTipoResiduosSolidos(models.Model):
-    tipo = models.CharField(max_length=100,verbose_name = "Tipo")
+    tipo = models.CharField(max_length=240,verbose_name = "Tipo")
     unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE,default="")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
@@ -226,7 +226,7 @@ class ResiduosPeligrosos(models.Model):
         verbose_name_plural = "Lista de residuos peligrosos por instalación especial"
         ordering = ["residuo"]
     def __str__(self):
-        return self.residuo
+        return self.residuo +' ('+self.unidad.title+')'
 class ListaPTAR(models.Model):
     
     planta = models.CharField(max_length=1500,verbose_name = "Planta de tratamiento")

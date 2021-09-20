@@ -45,7 +45,9 @@
                 {{ form.as_p }}
             </table>
             <div class = "text-center">
-              <input type="submit" class = "btn btn-primary btn-block"value="Actualizar" />
+              {% if not avance.completo %}
+                <input type="submit" class = "btn btn-primary btn-block"value="Actualizar" />
+              {% endif %}
             </div>
           </form>
       </div>

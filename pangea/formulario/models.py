@@ -150,7 +150,7 @@ class Personal(models.Model):
         return str(self.personal)
 
 
-### Residuos sólidos por zonificación####  PENDIENTE
+### Residuos sólidos por zonificación####  LISTO
 class GeneracionResiduos(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
@@ -166,9 +166,8 @@ class GeneracionResiduos(models.Model):
         ordering = ['created']
 
     def __str__(self):
-        return self.residuo
-
-#### MAQUINARIA POR ETAPA   PENDIENTE
+        return self.residuo.title
+#### MAQUINARIA POR ETAPA   listo
         
 class UsoMaquinaria(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
@@ -193,20 +192,22 @@ class VehiculosRestrigidosZonificacion(models.Model):
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     tipov = models.ForeignKey(ListaTipoVehiculo,on_delete=models.CASCADE,verbose_name="Tipo de vehículo")
     restriccion = models.CharField(max_length=300,verbose_name="Condición")
-    cobertura = models.ForeignKey(ListaTiposCobertura,on_delete=models.CASCADE, default='')
+    #cobertura = models.ForeignKey(ListaTiposCobertura,on_delete=models.CASCADE, default='')
+    zonificacion = models.ForeignKey(ListaZonificacion,on_delete=models.CASCADE, default='',verbose_name="Zonificación")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
     class Meta:
-        verbose_name = "Selección de vehículos restringidos por zonificación o tipo de cobertura"
-        verbose_name_plural = "Selección de vehículos restringidos por zonificación o tipo de cobertura"
+        verbose_name = "Selección de vehículos restringidos por zonificación"
+        verbose_name_plural = "Selección de vehículos restringidos por zonificación"
         ordering = ['created']
 
     def __str__(self):
         return self.restriccion
 
-## Aforo vehicular   PENDIENTE
+## Aforo vehicular   LISTO
 class AforoAlmacenamientoVehicular(models.Model):
     OPT_ALM = (
+        ('n/a', 'n/a'),
         ('0%', '0%'),
         ('10%', '10%'),
         ('20%', '20%'),
@@ -236,12 +237,14 @@ class AforoAlmacenamientoVehicular(models.Model):
 
     def __str__(self):
         return str(self.vehiculo)
-class ExtracciónAgua(models.Model):
+
+## EXTRACCIÓN AGUA
+class ExtraccionAgua(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     pozo = models.CharField(max_length=300,verbose_name="Pozo")
-    velocidad = models.IntegerField(verbose_name = "L/s",default=0)
+    velocidad = models.IntegerField(verbose_name = "Velocidad L/s",default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
@@ -318,6 +321,12 @@ class CatForm(models.Model):
         ("3", "Incluye obras provisionales temporales"),
         ("4", "Incluye áreas verdes ornamentales"),
         ("5", "Incluye aprovechamiento lineal"),
+        ("6", "Incluye obras provisionales semipermanentes"),
+        ("7", "Incluye vialidades y senderos"),
+        ("8", "Incluye actividades de alojamiento a visitantes (solo aplica para operación)"),
+        ("9", "Incluye actividades de servicios, comerciales, recreativas o culturales (solo aplica en operación)"),
+        ("10", "Incluye plantas de tratamiento y manejo de aguas residuales (solo aplica en mantenimiento)"),
+        ("11", "Incluye planta potabilizadora (solo aplica en mantenimiento)"),
 
         )
 
@@ -333,11 +342,12 @@ class CatForm(models.Model):
     completo = models.BooleanField(default=False,verbose_name='completo')
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
+    user = models.ForeignKey(User,verbose_name="Usuario",on_delete=models.PROTECT,default=None,null=True,blank=True)
     class Meta:
         verbose_name = "Formularios y catálogos"
         verbose_name_plural = "Formularios y catálogos"
         ordering = ["-created"]
-    
+       
     def __str__(self):
         return str(self.title)
 ## Frecuencia de actividades comerciales o de servicio
@@ -347,7 +357,7 @@ class FrecuenciaActCom(models.Model):
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     actividad = models.ForeignKey(ListaAct_scrc, on_delete=models.CASCADE,default="",verbose_name="Actividad comercial o de servicio")
-    cantidad = models.IntegerField(verbose_name = "Jornadas/fase",default=0)
+    cantidad = models.IntegerField(verbose_name = "Jornadas/etapa",default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
@@ -364,10 +374,10 @@ class OcupacionAloja(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
-    cobertura = models.ForeignKey(ListaTiposCobertura,on_delete=models.CASCADE, default='')
-    oferta =models.CharField(max_length=500,verbose_name="Oferta de alojamiento (equivalencia en cuarto doble/2 personas)")
+    cobertura = models.ForeignKey(ListaTiposCobertura,on_delete=models.CASCADE, default='', verbose_name="Cobertura")
+    oferta =models.CharField(max_length=500,verbose_name="Oferta de alojamiento")# (equivalencia en cuarto doble/2 personas)")
     huespedes_dia = models.IntegerField(verbose_name = "Número de huéspedes diarios",default=0)
-    huespedes_etapa = models.IntegerField(verbose_name = "Numero de huéspedes por etapa",default=0)
+    huespedes_etapa = models.IntegerField(verbose_name = "Número de huéspedes por etapa",default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
@@ -385,10 +395,10 @@ class AforoVisitantes(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
-    actividad = models.ForeignKey(ListActVisitantes,on_delete=models.CASCADE, default='')
+    actividad = models.ForeignKey(ListActVisitantes,on_delete=models.CASCADE, default='',verbose_name="Actividad")
     maximo_etapa = models.IntegerField(verbose_name = "Máximo de visitantes por etapa",default=0)
-    promedio_diario = models.IntegerField(verbose_name = "Promedio de visitantes diarioS",default=0)
-    maximo_diario = models.IntegerField(verbose_name = "Máximo de visitantes diarioS",default=0)
+    promedio_diario = models.IntegerField(verbose_name = "Promedio de visitantes diarios",default=0)
+    maximo_diario = models.IntegerField(verbose_name = "Máximo de visitantes diarios",default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
@@ -409,7 +419,7 @@ class AforoTipoVehiMaxDiario(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
-    vehiculo = models.ForeignKey(ListaTipoVehiculo, on_delete=models.CASCADE,default="",verbose_name="Vehículo")
+    vehiculo = models.ForeignKey(ListaTipoVehiculo, on_delete=models.CASCADE,default="",verbose_name="Tipo de vehículo")
     cantidad = models.IntegerField(verbose_name = "Cantidad de vehículos diariamente",default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
@@ -423,14 +433,14 @@ class AforoTipoVehiMaxDiario(models.Model):
         return str(self.vehiculo)
 
 
-#### AFORO DIARIO VEHICULAR
+#### AFORO  VEHICULAR total
 class AforoTipoVehi(models.Model):
 
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     vehiculo = models.ForeignKey(ListaTipoVehiculo, on_delete=models.CASCADE,default="",verbose_name="Vehículo")
-    cantidad = models.IntegerField(verbose_name = "Horas",default=0)
+    cantidad = models.IntegerField(verbose_name = "Horas/etapa",default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
@@ -453,13 +463,14 @@ class PersonalTransportado(models.Model):
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
     class Meta:
-        verbose_name = "Personal transportado mínimo-máximo diario por fase"
-        verbose_name_plural = "Personal transportado mínimo-máximo diario por fase"
+        verbose_name = "Personal transportado mínimo-máximo diario"
+        verbose_name_plural = "Personal transportado mínimo-máximo"
         ordering = ['created']
 
     def __str__(self):
         return str(self.maximo)
 
+## MANEJO DE SUSTANCIAS ESPECIALES
 class ManejoSustanciasEspeciales(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
@@ -478,7 +489,7 @@ class ManejoSustanciasEspeciales(models.Model):
 
     def __str__(self):
         return str(self.area)
-
+## CAPACIDAD DE ALMACENAMIENTO DE SUSTANCIAS 
 class CapacidadAlmSustanciasEspeciales(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
@@ -486,7 +497,7 @@ class CapacidadAlmSustanciasEspeciales(models.Model):
     instalacion = models.ForeignKey(ListInsEsp, on_delete=models.CASCADE,verbose_name="Instalación especial")
     sustancia = models.ForeignKey(SustanciasQuimicasP, on_delete=models.CASCADE,verbose_name="Sustancia química peligrosa")
     capacidad_alm = models.IntegerField(verbose_name="Capacidad de almacenamiento",default=0)
-    recargas = models.IntegerField(verbose_name="Número derecargas al año",default=0)
+    recargas = models.IntegerField(verbose_name="Número de recargas al año",default=0)
     recargas_totales = models.IntegerField(verbose_name="Total de recargas en la etapa",default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
@@ -525,7 +536,7 @@ class FrecuenciaIngresoSusEspeciales(models.Model):
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
     instalacion = models.ForeignKey(ListInsEsp, on_delete=models.CASCADE,verbose_name="Instalación especial")
-    sustancia = models.ForeignKey(SustanciasQuimicasP, on_delete=models.CASCADE,verbose_name="Sustancia química peligrosa")
+    sustancia = models.ForeignKey(SustanciasQuimicasP, on_delete=models.CASCADE,verbose_name="Sustancia química peligrosa",default='')
     capacidad_veh = models.IntegerField(verbose_name="Capacidad de almacenamiento",default=0)
     viajes_anual = models.IntegerField(verbose_name="Número de viajes al año",default=0)
     viajes_totales = models.IntegerField(verbose_name="Total de viajes en la etapa",default=0)
@@ -559,7 +570,7 @@ class FrecuenciaIngresoResEspeciales(models.Model):
 
     def __str__(self):
         return str(self.residuo)
-
+### MAQUINARIA Y VIAJES PARA EL SUMINISTRO DE SUSTANCIAS
 class MaquinariaViajesEsp(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
@@ -572,12 +583,41 @@ class MaquinariaViajesEsp(models.Model):
     diesel = models.IntegerField(verbose_name="Diésel (L)",default=0)
     aceites = models.IntegerField(verbose_name="Aceites (L)",default=0)
     anticongelante = models.IntegerField(verbose_name="Anticongelante (L)",default=0)
-    aceites = models.IntegerField(verbose_name="Anticongelante (L)",default=0)
     liq_frenos = models.IntegerField(verbose_name="Líquido de frenos (L)")
     lubricantes = models.IntegerField(verbose_name="Lubricantes (L)")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
     
+    class Meta:
+        verbose_name = "Maquinaria y viajes para el suministro de sustancias"
+        verbose_name_plural = "Maquinaria y viajes para el suministro de sustancias"
+        ordering = ["-created"]
+
+
+    def __str__(self):
+        return str(self.maquinaria)
+
+
+
+
+## Tratamiento de aguas residuales
+class TratamientoAguasResiduales(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    ptar = models.ForeignKey(ListaPTAR,on_delete=models.CASCADE,verbose_name="PTAR")
+    cantidad = models.IntegerField(verbose_name = "L/s",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Tratamiento de aguas residuales por PTAR"
+        verbose_name_plural = "Tratamiento de aguas residuales por PTAR"
+        ordering = ['created']
+
+    def __str__(self):
+        return str(self.ptar)
+
 # ###  INICIA FORMULARIOS PARA CONSTRUCCIÓN
 
 class DatosGeneral(models.Model):
@@ -1148,7 +1188,13 @@ def models_modulo_changed(sender,**kwargs):
     i_obras =  kwargs.get('instance',True).t_obras #3
     i_areas_verdes = kwargs.get('instance',True).t_areas_verdes #4
     i_aprov_lineal =  kwargs.get('instance',True).t_aprov_lineal #5
-    
+    i_semipermanentes =  kwargs.get('instance',True).t_semipermanentes #6
+    i_via_senderos =  kwargs.get('instance',True).t_via_senderos #7
+    i_hospedaje =  kwargs.get('instance',True).t_hospedaje #8
+    i_actividad =  kwargs.get('instance',True).t_actividad #9
+    i_aguas =  kwargs.get('instance',True).t_aguas #10
+    i_plantas =  kwargs.get('instance',True).t_plantas #11
+
     lista_false =[]
     if i_aprov_edificable is False:
         lista_false.append("2")    
@@ -1158,7 +1204,20 @@ def models_modulo_changed(sender,**kwargs):
         lista_false.append("4")  
     if i_aprov_lineal is False:
         lista_false.append("5")
-      
+    if i_semipermanentes is False:
+        lista_false.append("6")
+    if i_via_senderos is False:
+        lista_false.append("7")
+    if i_hospedaje is False:
+        lista_false.append("8")
+    if i_actividad is False:
+        lista_false.append("9")
+    if i_aguas is False:
+        lista_false.append("10")
+    if i_plantas is False:
+        lista_false.append("11")
+
+          
     CatForm.objects.filter(componente=i_componente,tipo_c__in=lista_false).delete()
     agrega_estructura()
 post_save.connect(models_modulo_changed,sender=Modulo)

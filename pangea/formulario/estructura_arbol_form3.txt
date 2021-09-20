@@ -19,7 +19,7 @@ Generación de aguas residuales	5	1	Construcción	aguaresidual-list	17
 Selección de sistemas constructivos	7	1	Construcción	selecsistemas	18
 Listado florístico	5	4	Construcción	flor-list	19
 Longitud de obras lineales	5	5	Construcción	obraslineales-list	20
-Selección de vehículos restringidos por zonificación o tipo de cobertura	5	4	Construcción	pendiente	21
+Selección de vehículos restringidos por zonificación o tipo de cobertura	5	4	Construcción	vehreszon-list	21
 Imagen de localización 	1	1	Operación	localizacion	22
 Descripción general del componente	7	1	Operación	datosgenerales	23
 Frecuencia de actividades por componente por etapa	5	1	Operación	actividadf-list	24
@@ -28,21 +28,23 @@ Uso de sustancias químicas peligrosas 	5	1	Operación	usosusquim-list	26
 Personal	5	1	Operación	personale-list	27
 Consumo de agua	5	1	Operación	consumoagua-list	28
 Generación de aguas residuales	5	1	Operación	aguaresidual-list	29
-Generación de residuos sólidos	5	1	Operación	pendiente	30
-Uso de maquinaria	5	1	Operación	pendiente	31
-Selección de vehículos restringidos por zonificación o tipo de cobertura	5	1	Operación	pendiente	32
-Aforo y almacenamiento vehicular en este componente para esta etapa	5	1	Operación	pendiente	33
-"Frecuencia de actividades de servicios, comerciales, recreativas o culturales "	5	9	Operación	pendiente	34
-Ocupación estimada en componentes con alojamiento	5	8	Operación	pendiente	35
-Aforo máximo de visitantes por actividad 	5	9	Operación	pendiente	36
-Aforo vehicular máximo diario por tipo de vehículo	5	7	Operación	pendiente	37
-Aforo vehicular total por tipo de vehículo	5	7	Operación	pendiente	38
-Personal transportado mínimo-máximo diario por fase	5	7	Operación	pendiente	39
-Manejo de sustancias químicas peligrosas en instalaciones especiales	5	6	Operación	pendiente	40
-Capacidad de almacenamiento de sustancias químicas peligrosas en instalaciones especiales	5	6	Operación	pendiente	41
-Capacidad de almacenamiento de residuos peligrosos en instalaciones especiales	5	6	Operación	pendiente	42
-Frecuencia de ingreso de sustancias peligrosas  en instalaciones especiales	5	6	Operación	pendiente	43
+Generación de residuos sólidos	5	1	Operación	genres-list	30
+Uso de maquinaria	5	1	Operación	usomaquina-list	31
+Selección de vehículos restringidos por zonificación o tipo de cobertura	5	1	Operación	vehreszon-list	32
+Aforo y almacenamiento vehicular en este componente para esta etapa	5	1	Operación	afoalmveh-list	33
+"Frecuencia de actividades de servicios, comerciales, recreativas o culturales"	5	9	Operación	freactcom-list	34
+Ocupación estimada en componentes con alojamiento	5	8	Operación	ocualo-list	35
+Aforo máximo de visitantes por actividad 	5	9	Operación	afovis-list	36
+Aforo vehicular máximo diario por tipo de vehículo	5	7	Operación	afovehmaxdia-list	37
+Aforo vehicular total por tipo de vehículo	5	7	Operación	afovehtot-list	38
+Personal transportado mínimo-máximo diario	5	7	Operación	pertra-list	39
+Manejo de sustancias químicas peligrosas en instalaciones especiales	5	6	Operación	mansusesp-list	40
+Capacidad de almacenamiento de sustancias químicas peligrosas en instalaciones especiales	5	6	Operación	capalmsusesp-list	41
+Capacidad de almacenamiento de residuos peligrosos en instalaciones especiales	5	6	Operación	capalmresesp-list	42
+Frecuencia de ingreso de sustancias peligrosas  en instalaciones especiales	5	6	Operación	freingsusesp-list	43
 Frecuencia de egreso de sustancias peligrosas en instalaciones especiales	5	6	Operación	pendiente	44
-Maquinaria y viajes para el suministro de sustancias 	5	6	Operación	pendiente	45
-Tratamiento de aguas residuales por PTAR	5	10	Operación	pendiente	46
-Velocidad de extracción de agua	5	5	Operación	pendiente	47
+Frecuencia de ingreso de residuos peligrosos en instalaciones especiales	5	6	Operación	freingresesp-list	45
+Frecuencia de egreso de residuos peligrosos en instalaciones especiales	5	6	Operación	pendiente	46
+Maquinaria y viajes para el suministro de sustancias 	5	6	Operación	maqviaesp-list	47
+Tratamiento de aguas residuales por PTAR	5	10	Operación	traagures-list	48
+Velocidad de extracción de agua	5	5	Operación	extagua-list	49

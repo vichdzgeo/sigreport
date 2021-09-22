@@ -117,6 +117,13 @@ formulario_patterns = ([
     path('generales-detail/<int:pk>/',  DescripcionGeneralDetailView.as_view(), name='generales-detail'),
     path('generales-update/<int:pk>/',  DescripcionGeneralUpdate.as_view(),name='generales-update'),
 
+    
+    path('desorbtem-create/<int:pk>/', DescripcionObrasTemporalesCreate.as_view(),name='desorbtem-create'),
+    path('desorbtem-update/<int:pk>/',  DescripcionObrasTemporalesUpdate.as_view(),name='desorbtem-update'),
+
+    path('desopemanobrtem-create/<int:pk>/', DescripcionOpeManObrasTemporalesCreate.as_view(),name='desopemanobrtem-create'),
+    path('desopemanobrtem-update/<int:pk>/',  DescripcionOpeManObrasTemporalesUpdate.as_view(),name='desopemanobrtem-update'),
+
     path('generalesfiguras/<int:pk>/', DescripcionGeneralFigurasCreate.as_view(),name='generalesfiguras'),
     path('generalesfigurasu/<int:pk>/', DescripcionGeneralFigurasCreate.as_view(),name='generalesfigurasu'),
     path('generalesfiguras-list/<int:pk>/',  DescripcionGeneralFigurasListView.as_view(), name='generalesfiguras-list'),

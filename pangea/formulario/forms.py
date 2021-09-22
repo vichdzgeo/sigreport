@@ -184,6 +184,30 @@ class DescripcionGeneralForm(forms.ModelForm):
         labels={
             'content':'Agregar la descripción'
         }
+class DescripcionObrasTemporalesForm(forms.ModelForm):
+    class Meta:
+        model = DescripcionObrasTemporales
+        fields = ['content']
+     
+        widgets = {
+           'content': forms.TextInput(attrs={'class':'form-control',}),        
+        }
+
+        labels={
+            'content':'Agregar la descripción'
+        }
+class DescripcionOpeManObrasTemporalesForm(forms.ModelForm):
+    class Meta:
+        model = DescripcionOpeManObrasTemporales
+        fields = ['content']
+     
+        widgets = {
+           'content': forms.TextInput(attrs={'class':'form-control',}),        
+        }
+
+        labels={
+            'content':'Agregar la descripción'
+        }
 class DescripcionGeneralFigurasForm(forms.ModelForm):
 
     class Meta:

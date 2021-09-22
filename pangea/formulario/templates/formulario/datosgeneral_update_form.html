@@ -40,16 +40,16 @@
         {% if 'ok' in request.GET %}
           <div class="alert alert-success text-center" role="alert">Registro actualizado correctamente</div>
         {% endif %}
+        {% if not avance.completo %}
           <form action="" method="post">{% csrf_token %}
             <table>
                 {{ form.as_p }}
             </table>
             <div class = "text-center">
-              {% if not avance.completo %}
-                <input type="submit" class = "btn btn-primary btn-block"value="Actualizar" />
-              {% endif %}
+              <input type="submit" class = "btn btn-primary btn-block"value="Actualizar" />
             </div>
           </form>
+        {% endif %}
       </div>
     </div>
   </div>

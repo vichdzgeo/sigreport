@@ -4,6 +4,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
+from django.contrib.auth.models import User
 from django.views.generic.list import ListView
 from django.views.generic import TemplateView
 from cap2.models import Modulo,Fase,Etapa
@@ -29,6 +30,16 @@ def regresa(key,modelo):
         if i.title == key:
             return i.id
         
+
+def regresa_username(key,modelo):
+    objetos = modelo.objects.all()
+
+    for i in objetos:
+        if i.id == int(key):
+            return i.username
+        else:
+            return " "
+    
 
 
 def regresa_instancia_id(key,modelo):
@@ -950,6 +961,7 @@ class DatosGeneralUpdate(UpdateView):
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         context['id_f']=this_id
         elemento = DatosGeneral.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=DatosGeneral._meta.verbose_name
         context['i']=elemento   
         context['p_componente']=elemento.componente
         context['p_fase']= elemento.fase
@@ -1016,7 +1028,7 @@ class DescripcionGeneralCreate(CreateView):
     def get(self, *args, **kwargs):
         this_id =  int(str(self.request.get_full_path()).split("/")[-2])
         id_form = CatForm.objects.filter(id=this_id)[0]
-        if DescripcionGeneral.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id):
+        if DescripcionGeneral.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id).exists():
             id_form_fig = DescripcionGeneral.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id)
             return redirect('forms:generales-update',id_form_fig[0].id)
         else:
@@ -2959,6 +2971,154 @@ class TratamientoAguasResidualesUpdate(UpdateView):
     def get_success_url(self):
         return reverse_lazy('forms:traagures-update',args=[self.object.id]) + '?ok'
 
+## Descripción de las obras provisionales temporales de este componente
+
+@method_decorator(login_required,name='dispatch')
+class DescripcionObrasTemporalesCreate(CreateView):
+    
+    model = DescripcionObrasTemporales
+    form_class = DescripcionObrasTemporalesForm
+    template_name = "formulario/template_text_form.html"
+    
+    def get(self, *args, **kwargs):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        if DescripcionObrasTemporales.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id):
+            id_form_fig = DescripcionObrasTemporales.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id)
+            return redirect('forms:desopemanobrtem-update',id_form_fig[0].id)
+        else:
+            return super().get(*args, **kwargs)
+
+
+
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(DescripcionObrasTemporalesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['validado']=id_form.completo
+        context['id_f']=this_id
+        context['p_title']=DescripcionObrasTemporales._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:fichas'
+        context['txt_exitoso']='Agregado correctamente.'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=DescripcionObrasTemporalesForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        
+        return  reverse_lazy('forms:fichas')
+
+
+@method_decorator(login_required,name='dispatch')
+class DescripcionObrasTemporalesUpdate(UpdateView):
+    model = DescripcionObrasTemporales
+    form_class = DescripcionObrasTemporalesForm
+    template_name = "formulario/template_text_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        elemento = DescripcionObrasTemporales.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_componente']=elemento.componente.title
+        context['p_fase']=elemento.fase.title
+        context['p_etapa']= elemento.etapa
+        context['f_id']= this_id
+        context['p_title']=DescripcionObrasTemporales._meta.verbose_name
+        context['regresar']='forms:fichas'
+        context['avance'] = CatForm.objects.filter(title=context['p_title'],
+                                            etapa=elemento.etapa,
+                                            componente=elemento.componente)[0]
+        context['txt_actualizacion']="Actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:desopemanobrtem-update',args=[self.object.id]) + '?ok'
+
+
+## Descripción de la operación y mantenimiento de las obras provisionales temporales de este componente
+
+@method_decorator(login_required,name='dispatch')
+class DescripcionOpeManObrasTemporalesCreate(CreateView):
+    
+    model = DescripcionOpeManObrasTemporales
+    form_class = DescripcionOpeManObrasTemporalesForm
+    template_name = "formulario/template_text_form.html"
+    
+    def get(self, *args, **kwargs):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        if DescripcionOpeManObrasTemporales.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id):
+            id_form_fig = DescripcionOpeManObrasTemporales.objects.filter(componente=id_form.componente.id,fase=id_form.fase.id,etapa=id_form.etapa.id)
+            return redirect('forms:desopemanobrtem-update',id_form_fig[0].id)
+        else:
+            return super().get(*args, **kwargs)
+
+
+
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(DescripcionOpeManObrasTemporalesCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['validado']=id_form.completo
+        context['id_f']=this_id
+        context['p_title']=DescripcionOpeManObrasTemporales._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['regresar']='forms:fichas'
+        context['txt_exitoso']='Agregado correctamente.'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=DescripcionOpeManObrasTemporalesForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        
+        return  reverse_lazy('forms:fichas')
+
+
+@method_decorator(login_required,name='dispatch')
+class DescripcionOpeManObrasTemporalesUpdate(UpdateView):
+    model = DescripcionOpeManObrasTemporales
+    form_class = DescripcionOpeManObrasTemporalesForm
+    template_name = "formulario/template_text_update_form.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        elemento = DescripcionOpeManObrasTemporales.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_componente']=elemento.componente.title
+        context['p_fase']=elemento.fase.title
+        context['p_etapa']= elemento.etapa
+        context['f_id']= this_id
+        context['p_title']=DescripcionOpeManObrasTemporales._meta.verbose_name
+        context['regresar']='forms:fichas'
+        context['avance'] = CatForm.objects.filter(title=context['p_title'],
+                                            etapa=elemento.etapa,
+                                            componente=elemento.componente)[0]
+        context['txt_actualizacion']="Actualizado correctamente"
+        return context
+    def get_success_url(self):
+        return reverse_lazy('forms:desopemanobrtem-update',args=[self.object.id]) + '?ok'
+
+
 #########################################################
 ##### CONFIRMACIÓN DE FORMULARIOS Y ARMADO DE FICHAS ####
 #########################################################
@@ -2974,7 +3134,6 @@ class CatFormUpdate(UpdateView):
         id_form = CatForm.objects.filter(id=this_id)[0]
         usuario = self.request.user
         form.instance.user = usuario
-
    
         return super(CatFormUpdate, self).form_valid(form)
 
@@ -2988,8 +3147,8 @@ class CatFormUpdate(UpdateView):
         context['p_subtitle']=id_form.componente.title+" - "+id_form.fase.title+" - "+ str(id_form.etapa.title)
  
         if id_form.completo is True:
-            context['txt_actualizacion']="Estado del formualario: completo y validado por: " + str(id_form.user.username)
-            context['estado']="Estado del formualario: completo y validado por: " + str(id_form.user.username)
+            context['txt_actualizacion']="Estado del formualario: completo y validado por: " +str(id_form.user)
+            context['estado']="Estado del formualario: completo y validado por: " + str(id_form.user)
         else:
             context['txt_actualizacion']="Estado del formualario: pendiente"
         return context

@@ -749,6 +749,43 @@ class DescripcionGeneral(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+##Descripción de las obras provisionales temporales
+class DescripcionObrasTemporales(models.Model):
+    
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    content = RichTextField(verbose_name="Descripción de las obras provisionales temporales del componente para esta etapa")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Descripción de las obras provisionales temporales"
+        verbose_name_plural = "Descripción de las obras provisionales temporales"
+        ordering = ['componente', 'etapa']
+
+    def __str__(self):
+        return str(self.id)
+
+##Descripción de la operación y mantenimiento para las obras provisionales temporales
+class DescripcionOpeManObrasTemporales(models.Model):
+    
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    content = RichTextField(verbose_name="Descripción de la operación y mantenimiento de las obras provisionales temporales del componente para esta etapa")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Descripción de la operación y mantenimiento de las obras provisionales temporales"
+        verbose_name_plural = "Descripción de la operación y mantenimiento de las obras provisionales temporales"
+        ordering = ['componente', 'etapa']
+
+    def __str__(self):
+        return str(self.id)
+
 class DescripcionGeneralFiguras(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')

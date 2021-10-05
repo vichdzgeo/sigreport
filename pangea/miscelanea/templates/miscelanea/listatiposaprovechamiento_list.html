@@ -11,13 +11,15 @@
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col" class="text-center">Tipos de aprovechamiento</th>
+          <th scope="col" class="text-center">Proceso constructivo</th>
+          <th scope="col" class="text-center">Subtipo</th>
         </tr>
       </thead>
       <tbody>
       {% for i in listatiposaprovechamiento_list %}
           <tr>
-            <th scope="row"><a href="{% url 'catalogos:aprovechamiento-update' i.id %}">{{i.title}} - {{i.subtipo}} </a></th>
+            <th scope="row"><a href="{% url 'catalogos:aprovechamiento-update' i.id %}">{{i.title}}</a></th>
+            <th scope="row" class="text-center">{{i.subtipo}}</th>
           </tr>
       {% endfor %}
       </tbody>

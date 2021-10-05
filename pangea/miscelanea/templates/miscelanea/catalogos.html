@@ -26,7 +26,6 @@
         <h3 class= "mt-3">Catálogos generales por fase</h3>
             <div class="list-group">
                 <a href="{% url 'catalogos:insumos' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de insumos<span class="badge badge-light">{{num_insumos}}</a>
-                <a href="{% url 'catalogos:aprovechamiento' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de aprovechamiento <span class="badge badge-light">{{num_aprovechamiento}}</a>
                 <a href="{% url 'catalogos:quimicas' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de sustancias químicas peligrosas requeridas y almacenadas<span class="badge badge-light">{{num_quimicas}}</a>
                 <a href="{% url 'catalogos:flores' %}" class="list-group-item list-group-item-action border-0 text-primary">Listado florístico <span class="badge badge-light">{{num_flores}}</a>
                 <a href="{% url 'catalogos:personal' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de personal <span class="badge badge-light">{{num_personal}}</a>
@@ -37,9 +36,9 @@
         {% if "Construcción" in fases %}
             <h3 class= "mt-3">Catálogos de fase: Construcción</h3>
             <div class="list-group">
-                <a href="{% url 'catalogos:consedi' %}" class="list-group-item list-group-item-action border-0 text-info">Lista de tipos de construcción-edificación<span class="badge badge-light">{{num_consedi}}</a>
                 <a href="{% url 'catalogos:obraslineales' %}" class="list-group-item list-group-item-action border-0 text-info">Lista de obras lineales<span class="badge badge-light">{{num_obraslineales}}</a>
                 <a href="{% url 'catalogos:descproceso' %}" class="list-group-item list-group-item-action border-0 text-info">Descripción de procesos constructivos<span class="badge badge-light">{{num_procesos}}</a>
+                <a href="{% url 'catalogos:aprovechamiento' %}" class="list-group-item list-group-item-action border-0 text-primary">Lista de tipos de procesos constructivos <span class="badge badge-light">{{num_aprovechamiento}}</a>
                 <a href="{% url 'catalogos:descsistema' %}" class="list-group-item list-group-item-action border-0 text-info">Descripción de sistemas constructivos<span class="badge badge-light">{{num_descsistemas}}</a>
                 <a href="{% url 'catalogos:edificaciones' %}" class="list-group-item list-group-item-action border-0 text-info">Lista de obras provisionales <span class="badge badge-light">{{num_edificios}}</a>
                 <a href="{% url 'catalogos:actividades' %}" class="list-group-item list-group-item-action border-0 text-info">Lista de actividades provisionales <span class="badge badge-light">{{num_actividades}}</a>

@@ -384,20 +384,22 @@ class ListaProcesoConstructivo(models.Model):
     def __str__(self):
         return self.proceso
 class ListaTiposAprovechamiento(models.Model):
+    ### A PARTIR DEL 4 DE OCTUBRE SE CAMBIA A LISTA DE TIPOS DE PROCESOS CONSTRUCTIVOS
+    
     SUBTIPOS = (
 
         ("Edificable","Edificable"),
         ("No edificable", "No edificable"),
     )
 
-    title = models.CharField(max_length=100,verbose_name = "Tipo de aprovechamiento")
-    subtipo = models.CharField(max_length=15,choices=SUBTIPOS,default="Edificable",verbose_name='Seleccionar el subtipo')
+    title = models.ForeignKey(ProcConstructivo,on_delete=models.CASCADE,verbose_name = "Tipo de proceso constructivo")
+    subtipo = models.CharField(max_length=20,choices=SUBTIPOS,default="Edificable",verbose_name='Seleccionar el subtipo')
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")
 
     class Meta:
-        verbose_name = "Lista de tipos de aprovechamiento"
-        verbose_name_plural = "Lista de tipos de aprovechamiento"
+        verbose_name = "Lista de tipos de procesos constructivos"
+        verbose_name_plural = "Lista de tipos de procesos constructivos"
         ordering = ["title"]
     
     def __str__(self):
@@ -416,6 +418,7 @@ class MovimientoTierra(models.Model):
     def __str__(self):
         return self.tipo
 class ListaTiposConsEdif(models.Model):
+    ### DESCARTADO A PARTIR DEL 4 DE OCTUBRE 
     tipo = models.CharField(max_length=100,verbose_name = "Tipo de cobertura")
     created = models.DateTimeField(auto_now_add = True,verbose_name = "Fecha de creación")
     updated = models.DateTimeField(auto_now = True,verbose_name = "Fecha de edición")

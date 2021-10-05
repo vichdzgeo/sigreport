@@ -2,51 +2,47 @@ nombre	tipo	tipo_c	fase	tag-url	orden
 Imagen de localización y tipos de aprovechamiento	1	1	Construcción	localizacion	1
 Datos generales del componente	5	1	Construcción	datosgenerales	2
 Descripción general del componente	7	1	Construcción	generales	3
-Tipos de aprovechamiento por tipo de cobertura y zonificación	6	1	Construcción	pendiente	4
-Tipos de construcción-edificación por tipo de cobertura	6	2	Construcción	pendiente	5
-Procesos constructivos por tipo de cobertura	6	1	Construcción	pendiente	6
-Selección de procesos constructivos	7	1	Construcción	selecprocesos	7
-Superficie de obras o edificaciones provisionales temporales	5	3	Construcción	obrastemporales-list	8
-Frecuencia de actividades de obras provisionales	5	3	Construcción	actividades-list	9
-Descripción de las obras provisionales temporales	5	3	Construcción	desorbtem-create	10
-Descripción de la operación y mantenimiento de las obras provisionales temporales	5	3	Construcción	desopemanobrtem-create	11
-Insumos requeridos por zonificación	5	1	Construcción	insumo-list	12
-Uso de sustancias químicas peligrosas por cobertura y zonificación	6	1	Construcción	pendiente	13
-Maquinaria por zonificación	6	1	Construcción	maquinaria-list	14
-"Desmonte, despalme, excavación y relleno por tipo de zonificación"	6	1	Construcción	mtierra-list	15
-Personal requerido por zonificación	6	1	Construcción	personal-list	16
-Generación de residuos sólidos por zonificación	6	1	Construcción	pendiente	17
-Consumo de agua	5	1	Construcción	consumoagua-list	18
-Generación de aguas residuales	5	1	Construcción	aguaresidual-list	19
-Selección de sistemas constructivos	7	1	Construcción	selecsistemas	20
-Listado florístico	5	4	Construcción	flor-list	21
-Longitud de obras lineales	5	5	Construcción	obraslineales-list	22
-Selección de vehículos restringidos por zonificación o tipo de cobertura	5	4	Construcción	vehreszon-list	23
-Imagen de localización 	1	1	Operación	localizacion	24
-Descripción general del componente	7	1	Operación	datosgenerales	25
-Frecuencia de actividades por componente por etapa	5	1	Operación	actividadf-list	26
-Insumos requeridos y almacenados	5	1	Operación	insreqalm-list	27
-Uso de sustancias químicas peligrosas 	5	1	Operación	usosusquim-list	28
-Personal	5	1	Operación	personale-list	29
-Consumo de agua	5	1	Operación	consumoagua-list	30
-Generación de aguas residuales	5	1	Operación	aguaresidual-list	31
-Generación de residuos sólidos	5	1	Operación	genres-list	32
-Uso de maquinaria	5	1	Operación	usomaquina-list	33
-Selección de vehículos restringidos por zonificación o tipo de cobertura	5	1	Operación	vehreszon-list	34
-Aforo y almacenamiento vehicular en este componente para esta etapa	5	1	Operación	afoalmveh-list	35
-"Frecuencia de actividades de servicios, comerciales, recreativas o culturales"	5	9	Operación	freactcom-list	36
-Ocupación estimada en componentes con alojamiento	5	8	Operación	ocualo-list	37
-Aforo máximo de visitantes por actividad 	5	9	Operación	afovis-list	38
-Aforo vehicular máximo diario por tipo de vehículo	5	7	Operación	afovehmaxdia-list	39
-Aforo vehicular total por tipo de vehículo	5	7	Operación	afovehtot-list	40
-Personal transportado mínimo-máximo diario	5	7	Operación	pertra-list	41
-Manejo de sustancias químicas peligrosas en instalaciones especiales	5	6	Operación	mansusesp-list	42
-Capacidad de almacenamiento de sustancias químicas peligrosas en instalaciones especiales	5	6	Operación	capalmsusesp-list	43
-Capacidad de almacenamiento de residuos peligrosos en instalaciones especiales	5	6	Operación	capalmresesp-list	44
-Frecuencia de ingreso de sustancias peligrosas  en instalaciones especiales	5	6	Operación	freingsusesp-list	45
-Frecuencia de egreso de sustancias peligrosas en instalaciones especiales	5	6	Operación	pendiente	46
-Frecuencia de ingreso de residuos peligrosos en instalaciones especiales	5	6	Operación	freingresesp-list	47
-Frecuencia de egreso de residuos peligrosos en instalaciones especiales	5	6	Operación	pendiente	48
-Maquinaria y viajes para el suministro de sustancias 	5	6	Operación	maqviaesp-list	49
-Tratamiento de aguas residuales por PTAR	5	10	Operación	traagures-list	50
-Velocidad de extracción de agua	5	5	Operación	extagua-list	51
+Procesos constructivos por tipo de cobertura	6	1	Construcción	pendiente	4
+Selección de procesos constructivos	7	1	Construcción	selecprocesos	5
+Superficie de obras o edificaciones provisionales temporales	5	3	Construcción	obrastemporales-list	6
+Frecuencia de actividades de obras provisionales	5	3	Construcción	actividades-list	7
+Insumos requeridos por zonificación	5	1	Construcción	insumo-list	8
+Uso de sustancias químicas peligrosas por cobertura y zonificación	6	1	Construcción	pendiente	9
+Maquinaria por zonificación	6	1	Construcción	maquinaria-list	10
+"Desmonte, despalme, excavación y relleno por tipo de zonificación"	6	1	Construcción	mtierra-list	11
+Personal requerido por zonificación	6	1	Construcción	personal-list	12
+Generación de residuos sólidos por zonificación	6	1	Construcción	pendiente	13
+Consumo de agua	5	1	Construcción	consumoagua-list	14
+Generación de aguas residuales	5	1	Construcción	aguaresidual-list	15
+Selección de sistemas constructivos	7	1	Construcción	selecsistemas	16
+Listado florístico	5	4	Construcción	flor-list	17
+Longitud de obras lineales	5	5	Construcción	obraslineales-list	18
+Selección de vehículos restringidos por zonificación o tipo de cobertura	5	4	Construcción	vehreszon-list	19
+Imagen de localización 	1	1	Operación	localizacion	20
+Descripción general del componente	7	1	Operación	datosgenerales	21
+Frecuencia de actividades por componente por etapa	5	1	Operación	actividadf-list	22
+Insumos requeridos y almacenados	5	1	Operación	insreqalm-list	23
+Uso de sustancias químicas peligrosas 	5	1	Operación	usosusquim-list	24
+Personal	5	1	Operación	personale-list	25
+Consumo de agua	5	1	Operación	consumoagua-list	26
+Generación de aguas residuales	5	1	Operación	aguaresidual-list	27
+Generación de residuos sólidos	5	1	Operación	genres-list	28
+Uso de maquinaria	5	1	Operación	usomaquina-list	29
+Selección de vehículos restringidos por zonificación o tipo de cobertura	5	1	Operación	vehreszon-list	30
+Aforo y almacenamiento vehicular en este componente para esta etapa	5	1	Operación	afoalmveh-list	31
+"Frecuencia de actividades de servicios, comerciales, recreativas o culturales "	5	9	Operación	freactcom-list	32
+Ocupación estimada en componentes con alojamiento	5	8	Operación	pendiente	33
+Aforo máximo de visitantes por actividad 	5	9	Operación	afovis-list	34
+Aforo vehicular máximo diario por tipo de vehículo	5	7	Operación	afovehmaxdia-list	35
+Aforo vehicular total por tipo de vehículo	5	7	Operación	afovehtot-list	36
+Personal transportado mínimo-máximo diario por fase	5	7	Operación	pertra-list	37
+Manejo de sustancias químicas peligrosas en instalaciones especiales	5	6	Operación	mansusesp-list	38
+Capacidad de almacenamiento de sustancias químicas peligrosas en instalaciones especiales	5	6	Operación	capalmsusesp-list	39
+Capacidad de almacenamiento de residuos peligrosos en instalaciones especiales	5	6	Operación	capalmresesp-list	40
+Frecuencia de ingreso de sustancias peligrosas  en instalaciones especiales	5	6	Operación	freingsusesp-list	41
+Frecuencia de egreso de sustancias peligrosas en instalaciones especiales	5	6	Operación	pendiente	42
+Frecuencia de ingreso de residuos peligrosos  en instalaciones especiales	5	6	Operación	freingresesp-list	43
+Frecuencia de egreso de residuos peligrosos en instalaciones especiales	5	6	Operación	pendiente	44
+Maquinaria y viajes para el suministro de sustancias 	5	6	Operación	maqviaesp-list	45
+Tratamiento de aguas residuales por PTAR	5	10	Operación	traagures-list	46
+Velocidad de extracción de agua	5	5	Operación	extagua-list	47

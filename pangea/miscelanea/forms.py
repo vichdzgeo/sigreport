@@ -553,11 +553,11 @@ class ListaTiposAprovechamientoForm(forms.ModelForm):
         model = ListaTiposAprovechamiento
         fields = ['title','subtipo']
         widgets = {
-            'title':forms.TextInput(attrs={'class': 'form-control',}),
+            'title':forms.Select(attrs={'class': 'form-control',}),
             'subtipo':forms.Select(attrs={'class': 'form-control',}),
         }
 
-        labels = {'title':'Ingresar el tipo de aprovechamiento',
+        labels = {'title':'Seleccionar proceso constructivo',
         }
 
         

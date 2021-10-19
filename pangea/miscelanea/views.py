@@ -48,7 +48,7 @@ class CatalogosPageView(TemplateView):
         context['num_tierra']=len(MovimientoTierra.objects.all())
         context['num_consedi']=len(ListaTiposConsEdif.objects.all())
         context['num_obraslineales']=len(ObrasLineales.objects.all())
-
+        context['num_act_fase']=len(ListaActividades.objects.all())
         context['num_actcom']=len(ListaAct_scrc.objects.all())
         context['num_actvis']=len(ListActVisitantes.objects.all())
         context['num_areasmanejo']=len(ListaAreasManejoPeligrosas.objects.all())
@@ -1439,7 +1439,7 @@ class ListActVisitantesUpdate(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar planta"
+        context['p_title']="Actualizar actividad"
         context['regresar']='catalogos:actvisita'
         context['txt_actualizacion']="Actividad actualizada correctamente"
         return context
@@ -1535,7 +1535,7 @@ class ListaActInsEspUpdate(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['p_title']="Actualizar área de manejo"
+        context['p_title']="Actualizar actividad"
         context['regresar']='catalogos:actespeciales'
         context['txt_actualizacion']="Actividad actualizada correctamente"
         return context

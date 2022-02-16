@@ -162,4 +162,12 @@ formulario_patterns = ([
     path('rsolidos/<int:pk>/', ResiduosSolidosZonificacionCreate.as_view(),name='rsolidos'),
     path('rsolidos-update/<int:pk>/', ResiduosSolidosZonificacionUpdate.as_view(),name='rsolidos-update'),
 
+    path('pconsz-list/<int:pk>/',  ProcesosConstructivosZonificacionListView.as_view(), name='pconsz-list'),
+    path('pconsz/<int:pk>/', ProcesosConstructivosZonificacionCreate.as_view(),name='pconsz'),
+    path('pconsz-update/<int:pk>/', ProcesosConstructivosZonificacionUpdate.as_view(),name='pconsz-update'),
+
+    path('usosusz-list/<int:pk>/',  UsoSustanciasZonificacionListView.as_view(), name='usosusz-list'),
+    path('usosusz/<int:pk>/', UsoSustanciasZonificacionCreate.as_view(),name='usosusz'),
+    path('usosusz-update/<int:pk>/', UsoSustanciasZonificacionUpdate.as_view(),name='usosusz-update'),
+
 ],'forms')

@@ -26,9 +26,7 @@ class CatalogosPageView(TemplateView):
         context['num_insespeciales']=len(ListInsEsp.objects.all())
         context['num_resespeciales']=len(ResiduosPeligrosos.objects.all())
         context['num_plantas_trata']=len(ListaPTAR.objects.all())
-
         context['num_macquina']=len(Maquina.objects.all())
-
         context['num_unidades']=len(Unidad.objects.all())
         context['num_edificios']=len(EdificacionProvisional.objects.all())
         context['num_actividades']=len(ActividadProvisional.objects.all())

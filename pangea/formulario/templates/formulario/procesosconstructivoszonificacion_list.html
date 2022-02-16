@@ -11,16 +11,16 @@
     <div class="agregar mb-4 text-right">
       {% if not request.user.is_staff %}
         <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
-        <a class='ml-2' href="{% url 'forms:rsolidos' id_f %}">Agregar</a>
+        <a class='ml-2' href="{% url 'forms:pconsz' id_f %}">Agregar</a>
       {% else %}
       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
         <a class='mr-2'href="{% url 'forms:fichas' %}">Regresar</a>
-        <a class='ml-2' href="{% url 'forms:rsolidos' id_f %}">Agregar</a>
+        <a class='ml-2' href="{% url 'forms:pconsz' id_f %}">Agregar</a>
         <a class='ml-2' href="{% url 'forms:completo' id_f %}">Estado</a>
       </div>
         {% comment %} <button type="button" class="btn btn-outline-info" href="{% url 'forms:fichas' %}">Regresar</button>
         
-        <a class='ml-2' href="{% url 'forms:rsolidos' id_f %}">Agregar</a>
+        <a class='ml-2' href="{% url 'forms:pconsz' id_f %}">Agregar</a>
         <a class='ml-2' href="{% url 'forms:completo' id_f %}">Estado</a> {% endcomment %}
       {% endif %}
     </div>    
@@ -28,17 +28,17 @@
     <table class="table  table-striped mt-5">
       <thead>
         <tr>
-          <th scope="col" class = "text-center">Tipo</th>
+          <th scope="col" class = "text-center">Proceso</th>
           <th scope="col" class = "text-center">PROT</th>
           <th scope="col" class = "text-center">REST</th>
           <th scope="col" class = "text-center">APRO</th>
         </tr>
       </thead>
       <tbody>
-      {% for i in residuossolidoszonificacion_list %}
+      {% for i in procesosconstructivoszonificacion_list %}
         {% if i.componente == p_componente and i.fase == p_fase and i.etapa == p_etapa %}
           <tr>
-            <th scope="row" class = "text-center"><a href="{% url 'forms:rsolidos-update' i.id %}">{{ i.residuo.tipo }} </a></th>
+            <th scope="row" class = "text-center"><a href="{% url 'forms:pconsz-update' i.id %}">{{ i.proceso }} </a></th>
             <td class = "text-center">{{i.n_prot}}</td>
             <td class = "text-center">{{i.n_rest}}</td>
             <td class = "text-center">{{i.n_apro}}</td>

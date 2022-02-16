@@ -2,16 +2,16 @@ nombre	tipo	tipo_c	fase	tag-url	orden
 Imagen de localización y tipos de aprovechamiento	1	1	Construcción	localizacion	1
 Datos generales del componente	5	1	Construcción	datosgenerales	2
 Descripción general del componente	7	1	Construcción	generales	3
-Procesos constructivos por tipo de cobertura	6	1	Construcción	pendiente	4
+Procesos constructivos por zonificación	6	1	Construcción	pconsz-list	4
 Selección de procesos constructivos	7	1	Construcción	selecprocesos	5
 Superficie de obras o edificaciones provisionales temporales	5	3	Construcción	obrastemporales-list	6
 Frecuencia de actividades de obras provisionales	5	3	Construcción	actividades-list	7
 Insumos requeridos por zonificación	5	1	Construcción	insumo-list	8
-Uso de sustancias químicas peligrosas por cobertura y zonificación	6	1	Construcción	pendiente	9
+Uso de sustancias químicas peligrosas por zonificación	6	1	Construcción	usosusz-list	9
 Maquinaria por zonificación	6	1	Construcción	maquinaria-list	10
 "Desmonte, despalme, excavación y relleno por tipo de zonificación"	6	1	Construcción	mtierra-list	11
 Personal requerido por zonificación	6	1	Construcción	personal-list	12
-Generación de residuos sólidos por zonificación	6	1	Construcción	pendiente	13
+Generación de residuos sólidos por zonificación	6	1	Construcción	rsolidos	13
 Consumo de agua	5	1	Construcción	consumoagua-list	14
 Generación de aguas residuales	5	1	Construcción	aguaresidual-list	15
 Selección de sistemas constructivos	7	1	Construcción	selecsistemas	16

@@ -881,11 +881,157 @@ class ResiduosSolidosZonificacionUpdate(UpdateView):
     
     def get_success_url(self):
         elemento = ResiduosSolidosZonificacion.objects.filter(id =self.object.id)[0]
-        CatForm.objects.filter(componente=elemento.componente,etapa=elemento.etapa,title="Desmonte, despalme, excavación y relleno por tipo de zonificación").update(completo = False)
+        CatForm.objects.filter(componente=elemento.componente,etapa=elemento.etapa,title="Generación de residuos sólidos por zonificación").update(completo = False)
 
         return reverse_lazy('forms:rsolidos-update',args=[self.object.id]) + '?ok'
 
 
+
+
+################################################ Procesos constructivos por zonificación #############################################
+
+@method_decorator(login_required,name='dispatch')
+class ProcesosConstructivosZonificacionListView(ListView):
+    model = ProcesosConstructivosZonificacion
+    template_name = "formulario/procesosconstructivos_list.html"
+    paginate_by = 20
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=ProcesosConstructivosZonificacion._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class ProcesosConstructivosZonificacionCreate(CreateView):
+    
+    model = ProcesosConstructivosZonificacion
+    form_class = ProcesosConstructivosZonificacionForm
+
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(ProcesosConstructivosZonificacionCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=ProcesosConstructivosZonificacion._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=ProcesosConstructivosZonificacionForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        CatForm.objects.filter(id=this_id).update(completo = False)
+        return  reverse_lazy('forms:pconsz',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class ProcesosConstructivosZonificacionUpdate(UpdateView):
+    model = ProcesosConstructivosZonificacion
+    form_class = ProcesosConstructivosZonificacionForm
+    template_name_suffix = '_update_form'
+
+    
+    def get_success_url(self):
+        elemento = ProcesosConstructivosZonificacion.objects.filter(id =self.object.id)[0]
+        CatForm.objects.filter(componente=elemento.componente,etapa=elemento.etapa,title="Procesos constructivos por zonificación").update(completo = False)
+
+        return reverse_lazy('forms:rsolidos-update',args=[self.object.id]) + '?ok'
+
+################################################ Uso de sustancias quimicas peligrosas por zonificación #############################################
+
+@method_decorator(login_required,name='dispatch')
+class UsoSustanciasZonificacionListView(ListView):
+    model = UsoSustanciasZonificacion
+    template_name = "formulario/usosustanciaszonificacion_list.html"
+    paginate_by = 20
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        context['id_f']=this_id
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['p_title']=UsoSustanciasZonificacion._meta.verbose_name
+        context['p_componente']=id_form.componente
+        context['p_fase']=id_form.fase
+        context['p_etapa']= id_form.etapa
+        
+        return context
+
+@method_decorator(login_required,name='dispatch')
+class UsoSustanciasZonificacionCreate(CreateView):
+    
+    model = UsoSustanciasZonificacion
+    form_class = UsoSustanciasZonificacionForm
+
+    
+    def form_valid(self, form):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        form.instance.etapa = id_form.etapa
+        form.instance.fase = id_form.fase
+        form.instance.componente = id_form.componente
+   
+        return super(UsoSustanciasZonificacionCreate, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0] #NO MODIFICAR
+        context['id_f']=this_id
+        context['p_title']=UsoSustanciasZonificacion._meta.verbose_name
+        context['p_componente']=id_form.componente.title
+        context['p_fase']=id_form.fase.title
+        context['p_etapa']= id_form.etapa.title
+        context['txt_exitoso']='Agregado correctamente. Puedes agregar otro registro si lo requieres'
+        initial_data = {'componente':id_form.componente.id,'fase':id_form.fase.id,"etapa":id_form.etapa.id}
+        context['form']=UsoSustanciasZonificacionForm(initial=initial_data)
+        return context
+
+    def get_success_url(self):
+        this_id =  int(str(self.request.get_full_path()).split("/")[-2])
+        id_form = CatForm.objects.filter(id=this_id)[0]
+        CatForm.objects.filter(id=this_id).update(completo = False)
+        return  reverse_lazy('forms:usosusz-list',args=[this_id]) + '?ok'
+
+
+@method_decorator(login_required,name='dispatch')
+class UsoSustanciasZonificacionUpdate(UpdateView):
+    model = UsoSustanciasZonificacion
+    form_class = UsoSustanciasZonificacionForm
+    template_name_suffix = '_update_form'
+
+    
+    def get_success_url(self):
+        elemento = UsoSustanciasZonificacion.objects.filter(id =self.object.id)[0]
+        CatForm.objects.filter(componente=elemento.componente,etapa=elemento.etapa,title=UsoSustanciasZonificacion._meta.verbose_name).update(completo = False)
+
+        return reverse_lazy('forms:usosusz-update',args=[self.object.id]) + '?ok'
+
+
+
+
+
+
+###################
 
 ### Datos generales general 
 @method_decorator(login_required,name='dispatch')

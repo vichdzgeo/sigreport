@@ -379,13 +379,58 @@ class ResiduosSolidosZonificacionForm(forms.ModelForm):
         }
 
         labels={
-            'tipo':'Seleccionar tipo',
+
             'n_prot':'PROT',
             'n_rest':'REST',
             'n_apro':'APRO',
 
 
         }
+class ProcesosConstructivosZonificacionForm(forms.ModelForm):
+    class Meta:
+        model = ProcesosConstructivosZonificacion
+        fields = ['proceso','n_prot','n_rest','n_apro']
+     
+        widgets = {
+
+            'proceso': forms.Select(attrs={'class':'form-control'}),
+            'n_prot': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_rest': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_apro': forms.NumberInput(attrs={'class':'form-control'}),
+            
+        }
+
+        labels={
+
+            'n_prot':'PROT',
+            'n_rest':'REST',
+            'n_apro':'APRO',
+
+        }
+
+class UsoSustanciasZonificacionForm(forms.ModelForm):
+    class Meta:
+        model = UsoSustanciasZonificacion
+        fields = ['sustancia','n_prot','n_rest','n_apro']
+     
+        widgets = {
+
+            'sustancia': forms.Select(attrs={'class':'form-control'}),
+            'n_prot': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_rest': forms.NumberInput(attrs={'class':'form-control'}),
+            'n_apro': forms.NumberInput(attrs={'class':'form-control'}),
+            
+        }
+
+        labels={
+
+            'n_prot':'PROT',
+            'n_rest':'REST',
+            'n_apro':'APRO',
+
+        }
+
+
 class ObrasLinealesLongitudesForm(forms.ModelForm):
     class Meta:
         model = ObrasLinealesLongitudes

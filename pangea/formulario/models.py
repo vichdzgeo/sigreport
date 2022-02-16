@@ -49,8 +49,6 @@ class FrecuenciaActividades(models.Model):
     
     def __str__(self):
         return str(self.actividades)
-
-
 class InsumosRequeridosAlmacenados(models.Model):
     OPT_ALM = (
         ('0%', '0%'),
@@ -82,8 +80,6 @@ class InsumosRequeridosAlmacenados(models.Model):
     
     def __str__(self):
         return str(self.insumo)
-
-
 class UsoSustanciasQuimicas(models.Model):
     OPT_ALM = (
         ('0%', '0%'),
@@ -115,7 +111,6 @@ class UsoSustanciasQuimicas(models.Model):
     
     def __str__(self):
         return str(self.sustancia)
-
 ## Personal por etapa
 class Personal(models.Model):
     OPT_ALM = (
@@ -148,8 +143,6 @@ class Personal(models.Model):
 
     def __str__(self):
         return str(self.personal)
-
-
 ### Residuos sólidos por zonificación####  LISTO
 class GeneracionResiduos(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
@@ -168,7 +161,6 @@ class GeneracionResiduos(models.Model):
     def __str__(self):
         return self.residuo.title
 #### MAQUINARIA POR ETAPA   listo
-        
 class UsoMaquinaria(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
@@ -203,7 +195,6 @@ class VehiculosRestrigidosZonificacion(models.Model):
 
     def __str__(self):
         return self.restriccion
-
 ## Aforo vehicular   LISTO
 class AforoAlmacenamientoVehicular(models.Model):
     OPT_ALM = (
@@ -237,7 +228,6 @@ class AforoAlmacenamientoVehicular(models.Model):
 
     def __str__(self):
         return str(self.vehiculo)
-
 ## EXTRACCIÓN AGUA
 class ExtraccionAgua(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
@@ -370,7 +360,6 @@ class FrecuenciaActCom(models.Model):
         return str(self.personal)
 ## Ocupacion estimada de alojamiento
 class OcupacionAloja(models.Model):
-
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
@@ -388,10 +377,8 @@ class OcupacionAloja(models.Model):
 
     def __str__(self):
         return str(self.personal)
-
 ### AFORO VISITANTES
 class AforoVisitantes(models.Model):
-
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
     etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
@@ -409,10 +396,6 @@ class AforoVisitantes(models.Model):
 
     def __str__(self):
         return str(self.actividad)
-
-
-
-
 #### AFORO MAXIMO VEHICULAR
 class AforoTipoVehiMaxDiario(models.Model):
 
@@ -431,8 +414,6 @@ class AforoTipoVehiMaxDiario(models.Model):
 
     def __str__(self):
         return str(self.vehiculo)
-
-
 #### AFORO  VEHICULAR total
 class AforoTipoVehi(models.Model):
 
@@ -469,7 +450,6 @@ class PersonalTransportado(models.Model):
 
     def __str__(self):
         return str(self.maximo)
-
 ## MANEJO DE SUSTANCIAS ESPECIALES
 class ManejoSustanciasEspeciales(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
@@ -529,7 +509,6 @@ class CapacidadAlmResiduosEspeciales(models.Model):
 
     def __str__(self):
         return str(self.residuo)
-
 #### FRECUENCIA DE INGRESO DE SUSTANCIAS EN INSTALACIONES ESPECIALES
 class FrecuenciaIngresoSusEspeciales(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
@@ -596,10 +575,6 @@ class MaquinariaViajesEsp(models.Model):
 
     def __str__(self):
         return str(self.maquinaria)
-
-
-
-
 ## Tratamiento de aguas residuales
 class TratamientoAguasResiduales(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
@@ -617,9 +592,7 @@ class TratamientoAguasResiduales(models.Model):
 
     def __str__(self):
         return str(self.ptar)
-
 # ###  INICIA FORMULARIOS PARA CONSTRUCCIÓN
-
 class DatosGeneral(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')#regresa("Construcción",Fase))
@@ -657,7 +630,6 @@ class ImagenLocalizacionC(models.Model):
 
     def __str__(self):
         return str(self.id)
-
 class SuperficieObrasC(models.Model):
 
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
@@ -675,7 +647,6 @@ class SuperficieObrasC(models.Model):
     
     def __str__(self):
         return str(self.edificaciones)
-
 class FrecuenciaActividadesC(models.Model):
 
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
@@ -693,7 +664,6 @@ class FrecuenciaActividadesC(models.Model):
     
     def __str__(self):
         return str(self.actividades)
-
 class ConsumoAguaC(models.Model):
 
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
@@ -712,7 +682,6 @@ class ConsumoAguaC(models.Model):
     
     def __str__(self):
         return str(self.tipo)
-
 class AguasResidualesC(models.Model):
 
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default=None, null=True,blank=True)
@@ -731,7 +700,6 @@ class AguasResidualesC(models.Model):
     
     def __str__(self):
         return str(self.tipo)
-
 class DescripcionGeneral(models.Model):
     
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
@@ -749,7 +717,6 @@ class DescripcionGeneral(models.Model):
 
     def __str__(self):
         return str(self.id)
-
 ##Descripción de las obras provisionales temporales
 class DescripcionObrasTemporales(models.Model):
     
@@ -767,7 +734,6 @@ class DescripcionObrasTemporales(models.Model):
 
     def __str__(self):
         return str(self.id)
-
 ##Descripción de la operación y mantenimiento para las obras provisionales temporales
 class DescripcionOpeManObrasTemporales(models.Model):
     
@@ -785,7 +751,6 @@ class DescripcionOpeManObrasTemporales(models.Model):
 
     def __str__(self):
         return str(self.id)
-
 class DescripcionGeneralFiguras(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
@@ -818,7 +783,6 @@ class ListadoFloristicoC(models.Model):
 
     def __str__(self):
         return self.flor
-
 class PersonalRequerido(models.Model):
     componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
     fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
@@ -837,7 +801,6 @@ class PersonalRequerido(models.Model):
 
     def __str__(self):
         return str(self.id)
-
 #MaquinariaZonificacion
         
 class MaquinariaZonificacion(models.Model):
@@ -933,6 +896,48 @@ class ResiduosSolidosZonificacion(models.Model):
 
     def __str__(self):
         return self.residuo
+
+## Procesos constructivos por tipo de cobertura
+class ProcesosConstructivosZonificacion(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    proceso = models.ForeignKey(ProcConstructivo, on_delete=models.CASCADE,default='')
+    n_prot = models.IntegerField(verbose_name="PROT",default=0)
+    n_rest = models.IntegerField(verbose_name="REST",default=0)
+    n_apro = models.IntegerField(verbose_name="APRO",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Procesos constructivos por zonificación"
+        verbose_name_plural = "Procesos constructivos por zonificación"
+        ordering = ['created']
+
+    def __str__(self):
+        return self.proceso
+
+## Uso de sustancias quimicas peligrosas por zonificación 
+
+class UsoSustanciasZonificacion(models.Model):
+    componente = models.ForeignKey(Modulo, on_delete=models.CASCADE,default="")
+    fase = models.ForeignKey(Fase, on_delete=models.CASCADE,default='')
+    etapa = models.ForeignKey(Etapa, on_delete=models.CASCADE,default="")
+    sustancia = models.ForeignKey(SustanciasQuimicasP, on_delete=models.CASCADE,default="")#,verbose_name="Insumo")
+    n_prot = models.IntegerField(verbose_name="PROT",default=0)
+    n_rest = models.IntegerField(verbose_name="REST",default=0)
+    n_apro = models.IntegerField(verbose_name="APRO",default=0)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name = "Uso de sustancias químicas peligrosas por zonificación"
+        verbose_name_plural = "Uso de sustancias químicas peligrosas por zonificación"
+        ordering = ['created']
+
+    def __str__(self):
+        return self.sustancia
+
 
 def agrega_estructura():
     module_dir = os.path.dirname(__file__)  

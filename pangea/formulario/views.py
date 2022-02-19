@@ -3309,18 +3309,48 @@ class EstructuraView(TemplateView):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user.username
         context['login_usuario']=usuario
+        #context['componentes'] = Modulo.objects.all()
+        estructura = []
+        componentes = Modulo.objects.all()#list(set([x.componente for x in CatForm.objects.all()]))
+        etapas_l = []
+        dicc_form = {}
+        for componente in componentes:
+            etapas_l.append(componente.etapas.all())
+            estructura.append(CatForm.objects.filter(componente=componente).order_by('title'))
+               
+        
+
         context['componentes'] = Modulo.objects.all()
-        context['fases'] = Fase.objects.all().order_by('title')
-        context['etapas'] = Etapa.objects.all().order_by('id').reverse()
-        context['avances'] = CatForm.objects.all().order_by('title')
+        context['etapas'] = etapas_l
+        context['avances'] = zip(componentes,etapas_l,estructura) #CatForm.objects.all().order_by('title') #pd.DataFrame(list(CatForm.objects.all().values())) #
         context['completados'] = len(CatForm.objects.filter(completo=True))
         context['totales'] = len(CatForm.objects.values_list('title',))
+        #context['formularios']=CatForm.objects.all()
         if context['totales']!=0:
             context['porcentaje'] = str(round((context['completados']/ context['totales'])*100,0))
         else:
             context['porcentaje'] = 0
-        return context
+        return context 
 
+# @method_decorator(login_required,name='dispatch')
+# class EstructuraView(TemplateView):
+#     template_name = "formulario/fichas.html"
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         usuario = self.request.user.username
+#         context['login_usuario']=usuario
+#         #context['componentes'] = Modulo.objects.all()
+#         context['componentes'] = list(set([x.componente for x in CatForm.objects.all()]))
+#         context['fases'] = Fase.objects.all().order_by('title')
+#         context['etapas'] = Etapa.objects.all().order_by('id').reverse()
+#         context['avances'] = CatForm.objects.all().order_by('title') #pd.DataFrame(list(CatForm.objects.all().values())) #
+#         context['completados'] = len(CatForm.objects.filter(completo=True))
+#         context['totales'] = len(CatForm.objects.values_list('title',))
+#         if context['totales']!=0:
+#             context['porcentaje'] = str(round((context['completados']/ context['totales'])*100,0))
+#         else:
+#             context['porcentaje'] = 0
+#         return context
 
 
 def regresa(key,objetos):

@@ -949,11 +949,11 @@ def agrega_estructura():
     l_fases = Fase.objects.all()
 
     for componente_i in l_componentes:
-        print(componente_i.title,componente_i.etapas.all())
+        #print(componente_i.title,componente_i.etapas.all())
         for etapa_i in l_etapas:
-            print("for etapa",componente_i.title,etapa_i)
+            #print("for etapa",componente_i.title,etapa_i)
             if etapa_i in componente_i.etapas.all():
-                print("si esta")
+                #print("si esta")
                 for index, row in estructura.iterrows():
 
                     if row['tipo_c']== 1 and componente_i.t_base == True: #and componente_i.t_aprov_edificable == False and componente_i.t_obras == False and componente_i.t_areas_verdes == False and componente_i.t_aprov_lineal == False:

@@ -1,6 +1,7 @@
 {% extends "cap2/base_mx.html" %}
 {% block userlogin %}{{login_usuario}} {% endblock %}
 {% block content %}
+
 <main role="main">
     <div class="container">
         <div class="row mt-3 mb-5">
@@ -10,12 +11,13 @@
         <div class="col-lg-8 mx-auto">
             <h3>{{completados}}  de {{totales}}</h3>
         </div>
+
         <div class="progress col-lg-8 mx-auto mb-5">
             <div class="progress-bar" role="progressbar" style="width: {{porcentaje}}%;" aria-valuenow="{{porcentaje}}" aria-valuemin="0" aria-valuemax="100">{{porcentaje}}%</div>
         </div>
         <div class="col-md-9 mx-auto">
             <div id="accordion">
-                {% for componente in componentes|dictsort:"title"  %}
+                {% for componente, etapas, formularios in avances %}
                     <div class="card border-0">
                         <div class="card-header bg-white border-0" id="headingOne_{{componente|slugify}}">
                             <h5 class="mb-0">
@@ -27,7 +29,42 @@
 
                         <div id="collapseOne_{{componente|slugify}}"class="collapse" aria-labelledby="headingOne_{{componente|slugify}}" data-parent="#accordion">
                             <div class="card-body">
-                                {%for fase in fases %}  <!-- INICIA FOR DE FASES-->
+                                {%for etapa in etapas  %}
+                                    <h3>{{etapa}}</h3>
+                                    {%for formulario in formularios %}
+                                        {% if formulario.etapa == etapa and formulario.fase == etapa.fase%}
+                                            {% if not formulario.completo %}
+                                                <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="id_{{formulario|slugify}}" disabled>
+                                                <label class="form-check-label" for="id_{{formulario|slugify}}">
+                                                    {% if formulario.nurl == "pendiente" %}
+                                                        <a>{{formulario}}</a>
+                                                    {%else%}
+                                                        {% with 'forms:'|add:formulario.nurl as name %}     
+                                                            <a href="{% url name formulario.id %}">{{formulario}}</a>                                                            
+                                                        {% endwith %}
+                                                    {% endif%}
+                                                </label>
+                                                </div>
+                                            {% else %}
+                                                <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="id_c_{{formulario|slugify}}" checked>
+                                                <label class="form-check-label" for="id_c_{{formulario|slugify}}">
+                                                    {% if formulario.nurl == "pendiente" %}
+                                                        <a>{{avance}}</a>
+                                                    {%else%}
+                                                        {% with 'forms:'|add:formulario.nurl as name %}     
+                                                            <a href="{% url name formulario.id %}">{{formulario}}</a>                                                            
+                                                        {% endwith %}
+                                                    {% endif%}
+                                                </label>
+                                                </div>
+                                            {% endif %} <!-- Termina if de avance completo -->
+                                        {% endif%}
+                                    {% endfor %}
+                                {% endfor %}
+                                
+                                {% comment %} {%for fase in fases %}  <!-- INICIA FOR DE FASES-->
                                     {%for etapa in etapas|dictsort:"title"  %}  <!-- INICIA FOR DE ETAPAS-->
                                         {% for etapa_c in componente.etapas.all %} 
                                             {% if etapa_c == etapa and fase == etapa_c.fase %}
@@ -68,7 +105,7 @@
                                         {% endif %} <!-- Termina if de si la etapa froma parte del componente -->
                                         {% endfor %}   <!-- TERMMINA FOR DE ETAPAS del componente-->
                                     {% endfor %}   <!-- TERMMINA FOR DE ETAPAS-->
-                                {% endfor %}   <!-- TERMMINA FOR DE FASES-->
+                                {% endfor %}   <!-- TERMMINA FOR DE FASES--> {% endcomment %}
                             </div>  <!-- cierre de div de card body -->
                         </div> <!-- cierre de div de contenido  colabsable -->
                     </div>
